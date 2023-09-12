@@ -38,4 +38,4 @@ def generator(länge, klein, groß, num, sym):
     except:
         pass
 
-print(generator(12, True, True, None, None))
+generator(12, True, True, None, None)
