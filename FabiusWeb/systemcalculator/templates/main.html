@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+</head>
+<body class="theme-dark">
+    <div class="container-page-nofooter container-page-nonavi">
+        <header class="container-titlebar" id="head">
+            <div>
+                <!-- flex wrapper -->
+                <div>
+                    <div>
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <i class="nf nf-mdi-arrow_left_thick"></i>
+                    </div>
+                </div>
+                <div class="pad-sides margin-r-5x">
+                    &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                </div>
+                <div>
+                    <h1>Übersicht</h1>
+                </div>
+                <div>
+                    <div id="pageclock"></div>
+                    <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                </div>
+            </div>
+        </header>
+        <div class="container-content">
+            <nav class="breadcrumb">
+                <div>
+                    <span><a href="http://127.0.0.1:700/">home</a>
+                </div>
+            </nav>
+            <main class="content-full">
+
+                <section class="container-content" style="height: 800px">
+                    <div class="content-quarter-left-top border-r-protagonist border-b-protagonist">
+                        <div class="flex-center-center">
+                          <a class="biglink-border" href="/systemcalculator/">Zahlensysteme</a>
+                        </div>
+                      </div>
+                      <div class="content-quarter-right-top border-b-protagonist">
+                        <div class="flex-center-center">
+                          <a class="biglink-border" href="/pwgen/">Passwort Generator</a>
+                        </div>  
+                      </div>
+                      <div class="content-quarter-left-bottom border-r-protagonist">
+                        <div class="flex-center-center">
+                          <a class="biglink-border" href="">kommt noch</a>
+                        </div>
+                      </div>
+                      <div class="content-quarter-right-bottom">
+                        <div class="flex-center-center">
+                          <a class="biglink-border" href="">kommt noch</a>
+                        </div>
+                      </div>   
+                    </section>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

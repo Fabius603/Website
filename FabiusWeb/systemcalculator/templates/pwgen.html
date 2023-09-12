@@ -1,0 +1,199 @@
+
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+    </head>
+    <body class="theme-dark">
+        <div class="container-page-nofooter container-page-nonavi">
+            <header class="container-titlebar" id="head">
+                <div>
+                    <!-- flex wrapper -->
+                    <div>
+                        <div>
+                            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                        </div>
+                        <div>
+                            <i class="nf nf-mdi-arrow_left_thick"></i>
+                        </div>
+                    </div>
+                    <div class="pad-sides margin-r-5x">
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <h1>Fabius</h1>
+                    </div>
+                    <div>
+                        <div id="pageclock"></div>
+                        <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                    </div>
+                </div>
+            </header>
+            <div class="container-content">
+                <nav class="breadcrumb">
+                    <div>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/systemcalc">passwortgenerator</a></span>
+                    </div>
+                </nav>
+                <main class="content-full">
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Passwort Generator</h1>
+                    <form class="full-width flex-left pad-sides" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">
+                                <label for="zzw">Länge des neuen Passworts:</label>
+                            </div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                <input class="input-long" style="width:100%" name="stärke" id="stärke" placeholder="Länge..." oninput="this.value = this.value.replace(/[^0-9]/g, ''); newColor()"/>
+                            </div>
+                        </div>
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">
+                                <label for="zzw">Im Passwort enthalten:</label>
+                            </div>
+                            <div class="pad-all-half" style="flex:70%">
+                                <div class="checkbox-standard">
+                                    <label>Kleinbuchstaben
+                                    <input type="checkbox" id="klein" name="klein" value="true" oninput="newColor()">
+                                    <span></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-standard">
+                                    <label>Großbuchtsaben
+                                    <input type="checkbox" id="groß" name="groß" value="true" oninput="newColor()">
+                                    <span></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-standard">
+                                    <label>Zahlen
+                                    <input type="checkbox" id="zahlen" name="zahlen" value="true" oninput="newColor()">
+                                    <span></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-standard">
+                                    <label>Symbole
+                                    <input type="checkbox" id="symbole" name="symbole" value="true" oninput="newColor()">
+                                    <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">
+                                <label>Stärke:</label>
+                            </div>
+                            <div class="pad-all-half" style="flex:70%">
+                                <p id="farbstärke" style='background-color:#EE0000; color:#EE0000'>t</p>
+                            </div>
+                            <div class="pad-all-half" style="flex:70%">
+                                <label id="stärketext" style="margin-left:31%">Werte Eingeben!</label>
+                            </div>
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">                            
+                            </div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                <input type="submit" value="Passwort erstellen">
+                            </div>
+                        </div>
+                        {% if passwort != None %}
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%"> 
+                                <label>Neues Passwort:</label>
+                            </div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                <label id="pw">{{ passwort }}</label>
+                            </div>
+                            <div class="pad-all-half" style="flex:30%"></div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                <button style="background-color:grey; color:white" onClick="copietoClipboard()">Passwort Kopieren</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </main>
+            </div>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            function copietoClipboard() {
+                pw = document.getElementById("pw").innerHTML;
+                navigator.clipboard.writeText(pw);
+            }
+
+            function newColor() {
+                länge = document.getElementById("stärke").value
+                if(länge <= 0) {
+                    var str = -10
+                }
+                else if(länge <= 3) {
+                    var str = -3
+                }
+                else if(länge <= 7) {
+                    var str = -1
+                }
+                else if(länge <= 13) {
+                    var str = 0
+                }
+                else if(länge <= 18) {
+                    var str = 1
+                }
+                else if(länge <= 23) {
+                    var str = 2
+                }
+                else if(länge >= 23) {
+                    var str = 3
+                }
+                stärke1 = document.getElementById("klein");
+                stärke2 = document.getElementById("groß");
+                stärke3 = document.getElementById("zahlen");
+                stärke4 = document.getElementById("symbole");
+                const trufal = [stärke1.checked, stärke2.checked, stärke3.checked, stärke4.checked];
+                trufal_true = trufal.filter(value => value == true);
+                length = trufal_true.length
+                if(trufal_true.length == 0)
+                    length = -10
+                trufal_length = length + str + 1;
+                if(trufal_length <= 0||trufal_length == 1) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#EE0000';
+                    document.getElementById("farbstärke").style.color = '#EE0000';
+                    document.getElementById("stärketext").innerHTML = "sehr schwach";
+                }
+                if(trufal_length == 2) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#FF7F00';
+                    document.getElementById("farbstärke").style.color = '#FF7F00';
+                    document.getElementById("stärketext").innerHTML = "schwach";
+                }
+                if(trufal_length == 3||trufal_length == 4) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#FFB90F';
+                    document.getElementById("farbstärke").style.color = '#FFB90F';
+                    document.getElementById("stärketext").innerHTML = "mittel"
+                }
+                if(trufal_length == 5||trufal_length == 6) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#DDEE66';
+                    document.getElementById("farbstärke").style.color = '#DDEE66';
+                    document.getElementById("stärketext").innerHTML = "stark"
+                }
+                if(trufal_length == 7) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#6B8E23';
+                    document.getElementById("farbstärke").style.color = '#6B8E23';
+                    document.getElementById("stärketext").innerHTML = "sehr stark"
+                }
+                if(trufal_length >= 8) {
+                    document.getElementById("farbstärke").style.backgroundColor = '#D02090';
+                    document.getElementById("farbstärke").style.color = '#D02090';
+                    document.getElementById("stärketext").innerHTML = "unknackbar"
+                }
+            }
+        </script>
+    </body>
+</html>

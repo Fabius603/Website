@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+    </head>
+    <body class="theme-dark">
+        <div class="container-page-nofooter container-page-nonavi">
+            <header class="container-titlebar" id="head">
+                <div>
+                    <!-- flex wrapper -->
+                    <div>
+                        <div>
+                            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                        </div>
+                        <div>
+                            <i class="nf nf-mdi-arrow_left_thick"></i>
+                        </div>
+                    </div>
+                    <div class="pad-sides margin-r-5x">
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <h1>Fabius</h1>
+                    </div>
+                    <div>
+                        <div id="pageclock"></div>
+                        <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                    </div>
+                </div>
+            </header>
+            <div class="container-content">
+                <nav class="breadcrumb">
+                    <div>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/systemcalc">numbersystem</a></span>
+                    </div>
+                </nav>
+                <main class="content-full">
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Zahlensystemrechner</h1>
+                    <form class="full-width flex-left pad-sides" method="POST" action="">
+                        {% csrf_token %}
+                            <!-- Von -->
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                <div class="pad-all-half" style="flex:30%">
+                                    <label for="zzw">Von:</label>
+                                </div>
+                                <div class="pad-all-half" style="flex:70%">
+                                    <div class="container-dropdown margin-b">
+                                    
+                                        <div class="content-select-softborder">
+                                        <select name="zahlensystemevon" id="zahlensystemevon">
+                                            <option disabled selected>Momentanes Zahlensystem auswählen</option>
+                                            <option value="Binärsystem" id="binid">Binärsystem</option>
+                                            <option value="Dezimalsystem" id="dezid">Dezimalsystem</option>
+                                            <option value="Hexadezimalsystem" id="hexid">Hexadezimalsystem</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Zu -->
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                <div class="pad-all-half" style="flex:30%">
+                                    <label for="zzw">Zu:</label>
+                                </div>
+                                <div class="pad-all-half" style="flex:70%">
+                                    <div class="container-dropdown margin-b">
+                                    
+                                        <div class="content-select-softborder">
+                                        <select name="zahlensystemezu" id="zahlensystemezu">
+                                            <option disabled selected>Zu berechnendes Zahlensystem</option>
+                                            <option value="Binärsystem" name="bin">Binärsystem</option>
+                                            <option value="Dezimalsystem" name="dez">Dezimalsystem</option>
+                                            <option value="Hexadezimalsystem" name="hex">Hexadezimalsystem</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Eingabefeld Nummer -->
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                <div class="pad-all-half" style="flex:30%">
+                                    <label for="zzw">Nummer welche Umgerechnet werden soll:</label>
+                                </div>
+                                <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                    <input class="input-long" style="width:100%" name="number" id="number" placeholder="Nummer..." oninput="this.value = this.value.replace(eingabe(), '')"/>
+                                </div>
+                            </div>
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                <div class="pad-all-half" style="flex:30%">                            
+                                </div>      
+                                <!-- Submitfeld -->                  
+                                <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                    
+                                    <input type="reset" value="Zurücksetzen" onclick="window.location.href='http://127.0.0.1:700/systemcalculator/';">
+                                    &nbsp
+                                    <input type="submit" value="Berechnen">                  
+                                </div>                        
+                            </div> 
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                <div class="pad-all-half" style="flex:30%">
+                                    <label>Ergebnis:</label>
+                                </div>
+                                <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                    <label id="ergebnis">{{ ergebnis }}</label>
+                                </div>
+                            </div>
+                            <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                                {% for x in verlauf %}
+                                <div class="pad-all-half" style="display:block-flex; flex:70%; margin-left: 30%">
+                                    <label id="{{ x }}">{{ x }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </main>
+                </div>
+            </div>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            function eingabe() {
+                value = document.getElementById("zahlensystemevon").options[document.getElementById("zahlensystemevon").selectedIndex].value;
+                if(value == "Binärsystem") {
+                    var wichtig = new RegExp('[^0-1]', 'g');
+                    return wichtig
+                }
+                else if(value == "Dezimalsystem") {
+                    var wichtig = new RegExp('[^0-9]', 'g');
+                    return wichtig
+                }   
+                else if(value == "Hexadezimalsystem") {
+                    var wichtig = new RegExp('[^0-9A-fa-f]', 'g');
+                    return wichtig
+                }
+                else
+                    alert("Fehler");
+                    var wichtig = new RegExp('[^]', 'g');
+                    return wichtig
+            }
+        </script>
+    </body>
+</html>
