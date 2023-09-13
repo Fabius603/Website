@@ -1,0 +1,150 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <link rel="stylesheet" type="text/css" media="all" href="css/reset.css" />
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+        <style>
+            #myCanvas {
+                border: 1px solid #c90404;
+                background-color: #1dbe1d;
+                margin: 0 auto
+            }
+        </style>
+    </head>
+    <body class="theme-dark">
+        <div class="container-page-nofooter container-page-nonavi">
+            <header class="container-titlebar" id="head">
+                <div>
+                    <!-- flex wrapper -->
+                    <div>
+                        <div>
+                            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                        </div>
+                        <div>
+                            <i class="nf nf-mdi-arrow_left_thick"></i>
+                        </div>
+                    </div>
+                    <div class="pad-sides margin-r-5x">
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <h1>Fabius</h1>
+                    </div>
+                    <div>
+                        <div id="pageclock"></div>
+                        <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                    </div>
+                </div>
+            </header>
+            <div class="container-content">
+                <nav class="breadcrumb">
+                    <div>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/interactive">interactive</a></span>
+                    </div>
+                </nav>
+                <main class="content-full">
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Interactive Page</h1>
+                    <form class="full-width flex-left pad-sides" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:50%">
+                                <label>Player 1</label>
+                            </div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:50%">
+                                <label>Player 2</label>
+                            </div>
+                        </div>
+                        <canvas id="myCanvas" width="820" height="620"></canvas>
+                    </form>
+                </main>
+            </div>
+        </div>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+        $(function(){
+            var canvas = document.getElementById("myCanvas");
+            var context = canvas.getContext("2d");
+            var $canvas=$("#canvas");
+            var canvasOffset=$canvas.offset();
+            var offsetX=canvasOffset.left;
+            var offsetY=canvasOffset.top;
+            var scrollX=$canvas.scrollLeft();
+            var scrollY=$canvas.scrollTop();
+            
+            context.fillStyle = "skyblue";
+            context.strokeStyle = "green";
+            context.lineWidth = 2;
+
+            function createshapes() {
+                var shapes = [];
+                for(var i = 0; i < 10; i++){
+                    var viereck = {
+                        points: [{x:(i*10),y:10},{x:((i*10)+10),y:10},{x:(i*10),y:20},{x:((i*10)+10),y:20}],
+                        message: "Ich bin Viereck Nr. " + i,
+                    }
+                    shapes.push(viereck)
+                }
+            return shapes
+            }
+
+            function define(shape) {
+                var points = shape.points;
+                context.beginPath();
+                context.moveTo(points[0].x, points[0].y);
+                for(var i = 1; i < points.length; i++) {
+                    context.lineTo(points[i].x,points[i].y);
+                }
+            }
+            
+            function draw(shape) {
+                define(shape)
+                context.fill();
+                context.stroke();
+            }
+
+            for(var i = 0; i < createshapes().length; i++) {
+                draw(createshapes()[i]);
+            }
+
+            // called when user clicks the mouse
+
+            function handleMouseDown(e){
+                e.preventDefault();
+
+                // get the mouse position
+                var mouseX=parseInt(e.clientX-offsetX);
+                var mouseY=parseInt(e.clientY-offsetY);
+
+                // iterate each shape in the shapes array
+                for(var i=0;i<shapes.length;i++){
+                    var shape=shapes[i];
+                    // define the current shape
+                    define(shape);
+                    // test if the mouse is in the current shape
+                    if(context.isPointInPath(mouseX,mouseY)){
+                        // if inside, display the shape's message
+                        alert(shape.message);
+                    }
+                }
+
+            }
+
+            // listen for mousedown events
+            $("#myCanvas").mousedown(function(e){handleMouseDown(e);});
+        });    
+        </script>
+    </body>
+</html>

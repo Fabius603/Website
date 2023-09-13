@@ -32,6 +32,15 @@ def pwgen(request):
         return HttpResponse(template.render(request=request))
 
     
+def testing(request):
+    template = loader.get_template('testing.html')
+    return HttpResponse(template.render(request=request))   
+
+def interactive(request):
+    template = loader.get_template('interactive.html')
+    return HttpResponse(template.render(request=request))
+
+
 def main(request):
     template = loader.get_template('main.html')
     context["ergebnis"] = ""
