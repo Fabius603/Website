@@ -27,50 +27,18 @@ $(function(){
     ctx.strokeStyle="lightgray";
     ctx.lineWidth=2;
 
-    // create a triangle and parallelogram object
 
-    var triangle={
-        points:[{x:25,y:100},{x:50,y:50},{x:75,y:100}],
-        message:"I am a triangle"
-    }
-
-    var parallelogram={
-        points:[{x:150,y:50},{x:250,y:50},{x:200,y:100},{x:100,y:100}],
-        message:"I am a parallelogram"
-    }
-
-    // save the triangle and parallelogram in a shapes[] array
-
-    var shapes=[];
-    shapes.push(triangle);
-    shapes.push(parallelogram);
-
-    // function to draw (but not fill/stroke) a shape
-    // (needed because isPointInPath only tests the last defined path)
-
-    function define(shape){
-        var points=shape.points;
+    function draw() {
         ctx.beginPath();
-        ctx.moveTo(points[0].x,points[0].y);
-        for(var i=1;i<points.length;i++){
-            ctx.lineTo(points[i].x,points[i].y);
+        for(var i = 1; i < 10; i++) {
+            for(var a = 1; a < 10; a++) {
+                ctx.rect(30*i, 30*a, 30, 30)
+                ctx.stroke();
+            }
         }
     }
 
-    // function to display a shape on the canvas (define + fill + stroke)
-
-    function draw(shape){
-        define(shape);
-        ctx.fill();
-        ctx.stroke();
-    }
-
-    // display the triangle and parallelogram
-    draw(triangle);
-    draw(parallelogram);
-
-
-    // called when user clicks the mouse
+    draw()
 
     function handleMouseDown(e){
       e.preventDefault();
