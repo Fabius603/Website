@@ -84,7 +84,7 @@
             var scrollY=$canvas.scrollTop();
             var kästchen = {};
             var nea = true;
-            var iunda = [];
+            var lastiunda = [];
             var feldinfo = [];
             var neighbour = {};
             context.strokeStyle = "white";
@@ -109,69 +109,70 @@
                 feldinfo = kästchen[i, a];
                 context.strokeStyle = "red"
                 context.beginPath();
+                console.log(lastiunda[0]-1)
+                console.log(lastiunda[1])
                 if(feldinfo[0] == 1) {
-                    if(iunda[1]-1 == a && iunda[0] == i) {
+                    if(lastiunda[1]-1 == a&&lastiunda[0] == i) {
                         context.moveTo((30*i)+30, (30*(a+1)));
                         context.lineTo((30*i), (30*(a+1)));
                         kästchen[i, a][2] = false
-                        kästchen[iunda[0], iunda[1]][0] = false
+                        kästchen[lastiunda[0], lastiunda[1]][0] = false
                         nea = true;
                     }
                 }
                 if(feldinfo[1] == 1) {
-                    if(iunda[0]+1 == i && iunda[1] == a) {
+                    if(lastiunda[0]+1 == i&&lastiunda[1] == a) {
                         context.moveTo((30*(i-1))+30, (30*a));
                         context.lineTo((30*(i-1))+30, (30*a)+30);
                         kästchen[i, a][3] = false
-                        kästchen[iunda[0], iunda[1]][1] = false
+                        kästchen[lastiunda[0], lastiunda[1]][1] = false
                         nea = true;
                     }
                 }
                 if(feldinfo[2] == 1) {
-                    if(iunda[1]+1 == a && iunda[0] == i) {
+                    if(lastiunda[1]+1 == a&&lastiunda[0] == i) {
                         context.moveTo((30*i), (30*(a-1))+30);
                         context.lineTo((30*i)+30, (30*(a-1))+30);
                         kästchen[i, a][0] = false
-                        kästchen[iunda[0], iunda[1]][2] = false
+                        kästchen[lastiunda[0], lastiunda[1]][2] = false
                         nea = true;
                     }
                 }
                 if(feldinfo[3] == 1) {
-                    if(iunda[0]-1 == i && iunda[1] == a) {
+                    if(lastiunda[0]-1 == i&&lastiunda[1] == a) {
                         context.moveTo((30*(i+1)), (30*a));
                         context.lineTo((30*(i+1)), (30*a)+30);
                         kästchen[i, a][1] = false
-                        kästchen[iunda[0], iunda[1]][3] = false
+                        kästchen[lastiunda[0], lastiunda[1]][3] = false
                         nea = true;
                     }
                 }
                 if(feldinfo == [false, false, false, false]) {
                     nea = true
                 }
-                
                 context.stroke();
             }
 
             function selecthilfsblock(i, a, neighbour) {
                 context.beginPath();
                 context.fillStyle = "rgba(86, 199, 228, 0.555)";
+                console.log(kästchen[i, a])
                 for(var x = 0; x < 4; x++) {
                     if(neighbour[x] != false) {
-                        if(kästchen[i, a][x] != false){
+                        if(kästchen[i, a][x] != false) {
                             context.rect((neighbour[x][1]*30), (neighbour[x][0]*30), 30, 30);
                         }
                     }
                 }
                 context.fill();
                 nea = false;
-                iunda = [i, a]
             }
 
 
             function barrier(i, a, farbe) {
                 context.strokeStyle = farbe;
                 context.beginPath();
-                feldinfo = kästchen[i,a];
+                feldinfo = kästchen[i, a];
                 neighbour = {
                     0: [],
                     1: [],
@@ -183,8 +184,8 @@
                     context.moveTo((30*i), (30*a));
                     context.lineTo((30*i)+30, (30*a));
                     if(a != 0) {
-                        neighbour[0].push(a-1)
-                        neighbour[0].push(i)
+                        neighbour[0].push(a-1);
+                        neighbour[0].push(i);
                     }  else {neighbour[0].push(false)}
                 }  else {neighbour[0].push(false)}
                 //topright - bottomright
@@ -192,8 +193,8 @@
                     context.moveTo((30*i)+30, (30*a));
                     context.lineTo((30*i)+30, (30*a)+30);
                     if(i != 26) {
-                        neighbour[1].push(a)
-                        neighbour[1].push(i+1)
+                        neighbour[1].push(a);
+                        neighbour[1].push(i+1);
                     }  else {neighbour[1].push(false)}
                 }  else {neighbour[1].push(false)}
                 //bottomleft - bottomright
@@ -201,8 +202,8 @@
                     context.moveTo((30*i), (30*a)+30);
                     context.lineTo((30*i)+30, (30*a)+30);
                     if(a != 19) {
-                        neighbour[2].push(a+1)
-                        neighbour[2].push(i)
+                        neighbour[2].push(a+1);
+                        neighbour[2].push(i);
                     }  else {neighbour[2].push(false)}
                 }  else {neighbour[2].push(false)}
                 //topleft - bottomleft
@@ -210,12 +211,12 @@
                     context.moveTo((30*i), (30*a));
                     context.lineTo((30*i), (30*a)+30);
                     if(i != 0) {
-                        neighbour[3].push(a)
-                        neighbour[3].push(i-1)
+                        neighbour[3].push(a);
+                        neighbour[3].push(i-1);
                     }  else {neighbour[3].push(false)}
                 }  else {neighbour[3].push(false)}
                 context.stroke();
-
+                console.log(neighbour)
                 selecthilfsblock(i, a, neighbour)
             }
 
@@ -226,6 +227,7 @@
                 if(nea == false) {
                     place(i, a)
                 }  else {
+                    lastiunda = [i, a]
                     barrier(i, a, "black")
                 }
             }
