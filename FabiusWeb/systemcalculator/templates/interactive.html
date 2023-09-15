@@ -60,10 +60,10 @@
                         {% csrf_token %}
                         <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
                             <div class="pad-all-half" style="flex:50%">
-                                <label>Player 1</label>
+                                <label id="p1" style="color: red; font-Size:25px; font-weight: 8;">Player 1</label>
                             </div>
                             <div class="pad-all-half" style="display:inline-flex; flex:50%">
-                                <label>Player 2</label>
+                                <label id="p2" style="color: white; font-Size:18px; font-weight: 6;">Player 2</label>
                             </div>
                         </div>
                         <canvas id="canvas" width="810" height="600"></canvas>
@@ -82,20 +82,64 @@
             var offsetY=canvasOffset.top;
             var scrollX=$canvas.scrollLeft();
             var scrollY=$canvas.scrollTop();
-            var kästchen = {};
+            var kästchen = [];
             var nea = true;
             var lastiunda = [];
             var feldinfo = [];
             var neighbour = {};
-            context.strokeStyle = "white";
+            context.strokeStyle = "#616161";
             context.lineWidth = 2;
+            var kästcheninfos = Array.from(Array(27), () => new Array(20));
+            var amZug = "Player 1";
+            var p1points = 0;
+            var p2points = 0;
+
+
+
+            function turn() {
+                if(amZug == "Player 1"){
+                    amZug = "Player 2";
+                    p2 = document.getElementById("p2")
+                    p2.style.color = "red";
+                    p2.style.fontSize = "25px"
+                    p2.style.fontWeight = "8"
+                    p1 = document.getElementById("p1")
+                    p1.style.color = "white";
+                    p1.style.fontSize = "18px"
+                    p1.style.fontWeight = "6"
+                } else {
+                    amZug = "Player 1";
+                    p1 = document.getElementById("p1")
+                    p1.style.color = "red";
+                    p1.style.fontSize = "25px"
+                    p1.style.fontWeight = "8"
+                    p2 = document.getElementById("p2")
+                    p2.style.color = "white";
+                    p2.style.fontSize = "18px"
+                    p2.style.fontWeight = "6"
+                }
+            }
             
+
+            function points(borders) {
+                console.log(borders)
+                console.log(p1points)
+                console.log(p2points)
+                if(borders == [false, false, false, false]) {
+                    if(amZug == "Player 1") {
+                        p1points == p1points + 1
+                    } else {
+                        p2points == p2points + 1
+                    }
+                }
+                turn();
+            }
 
             function draw() {
                 context.beginPath();
                 for(var i = 0; i < 27; i++) {
                     for(var a = 0; a < 20; a++) {
-                        kästchen[i, a] = [1,1,1,1];
+                        kästcheninfos[i][a] = [1,1,1,1];
                         context.rect(30*i, 30*a, 30, 30);
                         context.stroke();
                     }
@@ -106,63 +150,63 @@
 
 
             function place(i, a) {
-                feldinfo = kästchen[i, a];
+                feldinfo = kästcheninfos[i][a];
                 context.strokeStyle = "red"
                 context.beginPath();
-                console.log(lastiunda[0])
-                console.log(i)
-                console.log(lastiunda[1])
-                console.log(a)
                 if(feldinfo[0] == 1) {
                     if(lastiunda[1]-1 == a && lastiunda[0] == i) {
                         context.moveTo((30*i)+30, (30*(a+1)));
                         context.lineTo((30*i), (30*(a+1)));
-                        kästchen[i, a][2] = false
-                        kästchen[lastiunda[0], lastiunda[1]][0] = false
-                        nea = true;
+                        kästcheninfos[i][a][2] = false
+                        kästcheninfos[lastiunda[0]][lastiunda[1]][0] = false
                     }
                 }
                 if(feldinfo[1] == 1) {
                     if(lastiunda[0]+1 == i && lastiunda[1] == a) {
                         context.moveTo((30*(i-1))+30, (30*a));
                         context.lineTo((30*(i-1))+30, (30*a)+30);
-                        kästchen[i, a][1] = false
-                        kästchen[lastiunda[0], lastiunda[1]][3] = false
-                        nea = true;
+                        kästcheninfos[i][a][3] = false
+                        kästcheninfos[lastiunda[0]][lastiunda[1]][1] = false
                     }
                 }
                 if(feldinfo[2] == 1) {
                     if(lastiunda[1]+1 == a && lastiunda[0] == i) {
                         context.moveTo((30*i), (30*(a-1))+30);
                         context.lineTo((30*i)+30, (30*(a-1))+30);
-                        kästchen[i, a][0] = false
-                        kästchen[lastiunda[0], lastiunda[1]][2] = false
-                        nea = true;
+                        kästcheninfos[i][a][0] = false
+                        kästcheninfos[lastiunda[0]][lastiunda[1]][2] = false
                     }
                 }
                 if(feldinfo[3] == 1) {
                     if(lastiunda[0]-1 == i && lastiunda[1] == a) {
                         context.moveTo((30*(i+1)), (30*a));
                         context.lineTo((30*(i+1)), (30*a)+30);
-                        kästchen[i, a][3] = false
-                        kästchen[lastiunda[0], lastiunda[1]][1] = false
-                        nea = true;
+                        kästcheninfos[i][a][1] = false
+                        kästcheninfos[lastiunda[0]][lastiunda[1]][3] = false
                     }
                 }
-                if(feldinfo == [false, false, false, false]) {
-                    nea = true
-                }
+                nea = true
                 context.stroke();
+                removehilfsblock(lastiunda[0], lastiunda[1], "grey");
+                barrier(lastiunda[0], lastiunda[1], "#616161", "remove");
+                points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
+            }
+            function removehilfsblock(i, a, color) {
+                context.beginPath();
+                context.fillStyle = color;
+                for(var x = 0; x < 4; x++) {
+                    context.rect(((neighbour[x][1]*30)+5), ((neighbour[x][0]*30)+5), 20, 20);
+                }
+                context.fill();
             }
 
-            function selecthilfsblock(i, a, neighbour) {
+            function selecthilfsblock(i, a, neighbour, color) {
                 context.beginPath();
-                context.fillStyle = "rgba(86, 199, 228, 0.555)";
-                console.log(kästchen[i, a])
+                context.fillStyle = color;
                 for(var x = 0; x < 4; x++) {
                     if(neighbour[x] != false) {
-                        if(kästchen[i, a][x] != false) {
-                            context.rect((neighbour[x][1]*30), (neighbour[x][0]*30), 30, 30);
+                        if(kästcheninfos[i][a][x] != false) {
+                            context.rect(((neighbour[x][1]*30)+5), ((neighbour[x][0]*30)+5), 20, 20);
                         }
                     }
                 }
@@ -171,10 +215,11 @@
             }
 
 
-            function barrier(i, a, farbe) {
+            function barrier(i, a, farbe, add_remove) {
                 context.strokeStyle = farbe;
                 context.beginPath();
-                feldinfo = kästchen[i, a];
+                feldinfo = kästcheninfos[i][a];
+                console.log(kästcheninfos[i][a])
                 neighbour = {
                     0: [],
                     1: [],
@@ -218,18 +263,22 @@
                     }  else {neighbour[3].push(false)}
                 }  else {neighbour[3].push(false)}
                 context.stroke();
-                selecthilfsblock(i, a, neighbour)
+                if(add_remove == "add"){
+                    selecthilfsblock(i, a, neighbour, "rgba(86, 199, 228, 0.555)")
+                }
             }
 
 
             function check(xwert, ywert) {
                 i = Math.floor(xwert/30)
                 a = Math.floor(ywert/30)
-                if(nea == false) {
+                console.log(kästcheninfos[i][a])
+                if(nea == false && kästcheninfos[i][a] != [false, false, false, false]) {
+                    nea = false;
                     place(i, a)
                 }  else {
                     lastiunda = [i, a]
-                    barrier(i, a, "black")
+                    barrier(i, a, "black", "add")
                 }
             }
 

@@ -10,61 +10,15 @@
 </style>
 
 <script>
-$(function(){
-
-    // canvas variables
-    var canvas=document.getElementById("canvas");
-    var ctx=canvas.getContext("2d");
-    var $canvas=$("#canvas");
-    var canvasOffset=$canvas.offset();
-    var offsetX=canvasOffset.left;
-    var offsetY=canvasOffset.top;
-    var scrollX=$canvas.scrollLeft();
-    var scrollY=$canvas.scrollTop();
-
-    // set styles
-    ctx.fillStyle="skyblue";
-    ctx.strokeStyle="lightgray";
-    ctx.lineWidth=2;
-
-
-    function draw() {
-        ctx.beginPath();
-        for(var i = 1; i < 10; i++) {
-            for(var a = 1; a < 10; a++) {
-                ctx.rect(30*i, 30*a, 30, 30)
-                ctx.stroke();
-            }
-        }
+var kästcheninfos = Array.from(Array(27), () => new Array(20));
+for(var i = 0; i < 27; i++) {
+    for(var a = 0; a < 20; a++) {
+        kästcheninfos[i][a] = [1,1,1,1];
+        
     }
-
-    draw()
-
-    function handleMouseDown(e){
-      e.preventDefault();
-
-      // get the mouse position
-      var mouseX=parseInt(e.clientX-offsetX);
-      var mouseY=parseInt(e.clientY-offsetY);
-
-      // iterate each shape in the shapes array
-      for(var i=0;i<shapes.length;i++){
-          var shape=shapes[i];
-          // define the current shape
-          define(shape);
-          // test if the mouse is in the current shape
-          if(ctx.isPointInPath(mouseX,mouseY)){
-              // if inside, display the shape's message
-              alert(shape.message);
-          }
-      }
-
-    }
-
-    // listen for mousedown events
-    $("#canvas").mousedown(function(e){handleMouseDown(e);});
-
-}); // end $(function(){});
+}
+feldinfo = kästcheninfos[2][7]
+console.log(feldinfo[2])    
 </script>
 
 </head>
