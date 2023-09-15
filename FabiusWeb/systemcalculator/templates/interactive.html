@@ -109,10 +109,12 @@
                 feldinfo = kästchen[i, a];
                 context.strokeStyle = "red"
                 context.beginPath();
-                console.log(lastiunda[0]-1)
+                console.log(lastiunda[0])
+                console.log(i)
                 console.log(lastiunda[1])
+                console.log(a)
                 if(feldinfo[0] == 1) {
-                    if(lastiunda[1]-1 == a&&lastiunda[0] == i) {
+                    if(lastiunda[1]-1 == a && lastiunda[0] == i) {
                         context.moveTo((30*i)+30, (30*(a+1)));
                         context.lineTo((30*i), (30*(a+1)));
                         kästchen[i, a][2] = false
@@ -121,16 +123,16 @@
                     }
                 }
                 if(feldinfo[1] == 1) {
-                    if(lastiunda[0]+1 == i&&lastiunda[1] == a) {
+                    if(lastiunda[0]+1 == i && lastiunda[1] == a) {
                         context.moveTo((30*(i-1))+30, (30*a));
                         context.lineTo((30*(i-1))+30, (30*a)+30);
-                        kästchen[i, a][3] = false
-                        kästchen[lastiunda[0], lastiunda[1]][1] = false
+                        kästchen[i, a][1] = false
+                        kästchen[lastiunda[0], lastiunda[1]][3] = false
                         nea = true;
                     }
                 }
                 if(feldinfo[2] == 1) {
-                    if(lastiunda[1]+1 == a&&lastiunda[0] == i) {
+                    if(lastiunda[1]+1 == a && lastiunda[0] == i) {
                         context.moveTo((30*i), (30*(a-1))+30);
                         context.lineTo((30*i)+30, (30*(a-1))+30);
                         kästchen[i, a][0] = false
@@ -139,11 +141,11 @@
                     }
                 }
                 if(feldinfo[3] == 1) {
-                    if(lastiunda[0]-1 == i&&lastiunda[1] == a) {
+                    if(lastiunda[0]-1 == i && lastiunda[1] == a) {
                         context.moveTo((30*(i+1)), (30*a));
                         context.lineTo((30*(i+1)), (30*a)+30);
-                        kästchen[i, a][1] = false
-                        kästchen[lastiunda[0], lastiunda[1]][3] = false
+                        kästchen[i, a][3] = false
+                        kästchen[lastiunda[0], lastiunda[1]][1] = false
                         nea = true;
                     }
                 }
@@ -216,7 +218,6 @@
                     }  else {neighbour[3].push(false)}
                 }  else {neighbour[3].push(false)}
                 context.stroke();
-                console.log(neighbour)
                 selecthilfsblock(i, a, neighbour)
             }
 
