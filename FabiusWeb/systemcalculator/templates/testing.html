@@ -10,15 +10,13 @@
 </style>
 
 <script>
-var kästcheninfos = Array.from(Array(27), () => new Array(20));
-for(var i = 0; i < 27; i++) {
-    for(var a = 0; a < 20; a++) {
-        kästcheninfos[i][a] = [1,1,1,1];
-        
-    }
+var x = [false,false,false,false]
+
+console.log(x.find(checkfor1))
+
+function checkfor1(x) {
+    return x > 0
 }
-feldinfo = kästcheninfos[2][7]
-console.log(feldinfo[2])    
 </script>
 
 </head>
