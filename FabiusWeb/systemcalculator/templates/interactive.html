@@ -30,6 +30,17 @@
                 margin-right: auto;
                 margin-left: auto;
             }
+            #borderumplayer {
+                position: relative;
+                min-width: 9em;
+                top: 10%;
+                left: 24%;
+                border-bottom-color: red;
+                border-left-color: transparent;
+                border-right-color: transparent;
+                border-top-color: transparent;
+                border-style: solid;
+            }
         </style>
     </head>
     <body class="theme-dark">
@@ -75,6 +86,8 @@
                             <div class="pad-all-half" style="display:inline-flex; flex:40%">
                                 <label id="p2" style="color: white; font-Size:18px; font-weight: 6;">Player 2: 0</label>
                             </div>
+                            <div id="borderumplayer" >
+                            </div>
                         </div>
                     <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
                         <canvas id="canvas"></canvas>
@@ -90,7 +103,7 @@
         <script src="{% static 'js/main.js' %}"></script>
         <script>
         $(function(){
-            var Feldgröße = [20,23]
+            var Feldgröße = [10,13]
             var canvas = document.getElementById("canvas");
             var context = canvas.getContext("2d");
             var $canvas=$("#canvas");
@@ -106,9 +119,12 @@
             var amZug = "Player 1";
             var p1points = 0;
             var p2points = 0;
+            var angekreuzt = 0;
+            var kreuzeinkästchen = [];
 
             function turn() {
                 if(amZug == "Player 1"){
+                    playerwechselanimation(amZug);
                     amZug = "Player 2";
                     p2 = document.getElementById("p2")
                     p2.innerHTML = "Player 2: " + p2points;
@@ -120,7 +136,11 @@
                     p1.style.color = "white";
                     p1.style.fontSize = "18px"
                     p1.style.fontWeight = "6"
+
+
+
                 } else {
+                    playerwechselanimation(amZug);
                     amZug = "Player 1";
                     p1 = document.getElementById("p1")
                     p1.innerHTML = "Player 1: " + p1points;
@@ -137,14 +157,38 @@
             
 
             function points(borders) {
-                var listefür1 = []
+                altekreuze = kreuzeinkästchen;
+                kreuzeinkästchen = []
                 for(var i = 0; i < Feldgröße[0]; i++) {
                     for(var a = 0; a < Feldgröße[1]; a++) {
-                        listefür1.push(Array.prototype.includes.call(kästcheninfos[i][a], 1));
-                        console.log("list:" + listefür1);
+                        kreuzeinkästchen.push(Array.prototype.includes.call(kästcheninfos[i][a], 1));
                     }
                 }
-                if(listefür1.includes(true) != true) {
+                falsein_altekreuze = altekreuze.filter(function condition(element) {
+                    if(element == false) return true
+                    return false
+                })
+                falsein_kreuzeinkästchen = kreuzeinkästchen.filter(function condition(element) {
+                    if(element == false) return true
+                    return false
+                })
+                if( falsein_altekreuze.length != falsein_kreuzeinkästchen.length) {
+                    punktefürplayer = falsein_kreuzeinkästchen.length - falsein_altekreuze.length;
+                    console.log(punktefürplayer)
+                    if(amZug == "Player 1") {
+                        p1points += punktefürplayer; 
+                        p1 = document.getElementById("p1")
+                        p1.innerHTML = "Player 1: " + p1points;
+                    } else {
+                        p2points++
+                        p2 = document.getElementById("p2")
+                        p2.innerHTML = "Player 2: " + p2points;
+                    }
+                } else {
+                    turn();
+                }
+
+                if(kreuzeinkästchen.includes(true) != true) {
                         if(p1points > p2points) {
                             sieger = "Player 1 hat gewonnen!";
                         } else if(p1points == p2points) {
@@ -154,22 +198,11 @@
                         }
                         sieglabel = document.getElementById("Sieglabel");
                         sieglabel.innerHTML = sieger;
-                } 
-                if(borders[0] != 1 && borders[1] != 1 && borders[2] != 1 && borders[3] != 1) {
-                    if(amZug == "Player 1") {
-                        p1points++
-                        p1 = document.getElementById("p1")
-                        p1.innerHTML = "Player 1: " + p1points;
 
-                    } else {
-                        p2points++
-                        p2 = document.getElementById("p2")
-                        p2.innerHTML = "Player 2: " + p2points;
-                    }
-                }  else {
-                    turn();
-                }
-               
+                
+                
+                } 
+
             }
 
             function draw() {
@@ -347,6 +380,41 @@
                 }
                 check(pos.x, pos.y)
             });
+
+
+            function playerwechselanimation(player) {
+                var playerwechsel = document.getElementById('borderumplayer');
+                if(player == "Player 1") {
+                    playerwechsel.animate(
+                        [
+                            {
+                                left: '24%',
+                            }, {
+                                left: '59%'
+                            }
+                        ], {
+                            duration: 200,
+                            fill: 'forwards'
+                        }
+                    )
+                } else {
+                    playerwechsel.animate(
+                        [
+                            {
+                                left: '59%',
+                            }, {
+                                left: '24%'
+                            }
+                        ], {
+                            duration: 200,
+                            fill: 'forwards'
+                        }
+                    )
+                }
+                
+            }
+
+
 
         
         });    
