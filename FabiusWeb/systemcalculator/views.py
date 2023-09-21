@@ -2,9 +2,8 @@ from django.template import loader
 from django.http import HttpResponse
 from random import randrange
 import json
-from django.shortcuts import redirect
 
-context = {'ergebnis': "", 'verlauf': [], 'feldgröße': [], 'spielerfarben': []}
+context = {'ergebnis': "", 'verlauf': [], 'feldgröße': [], 'spielerfarben': [], 'strich_color': []}
 def systemcalculator(request):
     template = loader.get_template('systemcalc.html')
     if request.method == "POST":
@@ -49,7 +48,8 @@ def settings(request):
         yWert = request.POST.get("ywert")
         p1_color = request.POST.get('Player_1_color')
         p2_color = request.POST.get('Player_2_color')
-        Settings().setsettings(xWert, yWert, p1_color, p2_color)
+        strich_color = request.POST.get('Strich_color')
+        Settings().setsettings(xWert, yWert, p1_color, p2_color, strich_color)
         template = loader.get_template('interactive.html')
         return HttpResponse(template.render(context, request=request))
     else:
@@ -109,9 +109,35 @@ class Settings():
         # spielerfarben[1] ist Spieler 2
         pass
 
-    def setsettings(self, xWert, yWert, p1_color, p2_color):
+    def setsettings(self, xWert, yWert, p1_color, p2_color, strich_color):
         größe = [xWert, yWert]
         context['feldgröße'] = json.dumps(größe)
+
+        strich_farben = []
+
+        if strich_color == "rot":
+            strich_farben.append("red")
+        elif strich_color == "blau":
+            strich_farben.append("blue")
+        elif strich_color == "grün":
+            strich_farben.append("green")
+        elif strich_color == "schwarz":
+            strich_farben.append("black")
+        elif strich_color == "gelb":
+            strich_farben.append("yellow")
+        elif strich_color == "pink":
+            strich_farben.append("pink")
+        elif strich_color == "orange":
+            strich_farben.append("orange")
+        elif strich_color == "weiß":
+            strich_farben.append("white")
+        else:
+            strich_farben.append("red")
+
+        strich_farbe = [strich_farben]
+        context['strich_color'] = json.dumps(strich_farbe)
+
+
         context['spielerfarben'] = []
         farben = []
         print(p1_color)

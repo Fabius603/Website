@@ -130,6 +130,7 @@
             var kreuzeinkästchen = [];
             var letztermouseover = [];
             var player_x_color = JSON.parse('{{ spielerfarben|escapejs }}');
+            var strichfarbe = JSON.parse('{{ strich_color|escapejs }}');
 
             function turn() {
                 if(amZug == "Player 1"){
@@ -248,7 +249,7 @@
 
             function place(i, a) {
                 feldinfo = kästcheninfos[lastiunda[0]][lastiunda[1]];
-                context.strokeStyle = "red"
+                context.strokeStyle = strichfarbe[0];
                 context.beginPath();
                 if(feldinfo[0] == 1) {
                     if(lastiunda[1]-1 == a && lastiunda[0] == i) {
