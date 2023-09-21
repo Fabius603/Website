@@ -121,6 +121,16 @@ class Settings():
             farben.append("blue")
         elif p1_color == "grün":
             farben.append("green")
+        elif p1_color == "schwarz":
+            farben.append("black")
+        elif p1_color == "gelb":
+            farben.append("yellow")
+        elif p1_color == "pink":
+            farben.append("pink")
+        elif p1_color == "orange":
+            farben.append("orange")
+        elif p1_color == "weiß":
+            farben.append("white")
         else:
             farben.append("black")
 
@@ -130,6 +140,16 @@ class Settings():
             farben.append("blue")
         elif p2_color == "grün":
             farben.append("green")
+        elif p2_color == "schwarz":
+            farben.append("black")
+        elif p2_color == "gelb":
+            farben.append("yellow")
+        elif p2_color == "pink":
+            farben.append("pink")
+        elif p2_color == "orange":
+            farben.append("orange")
+        elif p2_color == "weiß":
+            farben.append("white")
         else:
             farben.append("black")
 

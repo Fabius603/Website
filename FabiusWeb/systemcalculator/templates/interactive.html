@@ -106,6 +106,10 @@
             var xyfeldgröße = JSON.parse('{{ feldgröße|escapejs }}');
             let xgröße = Number(xyfeldgröße[0]);
             let ygröße = Number(xyfeldgröße[1]);
+            if(xgröße * ygröße > 500) {
+                xgröße = 10;
+                ygröße = 10;
+            }
             var Feldgröße = [xgröße,ygröße];
             var canvas = document.getElementById("canvas");
             var context = canvas.getContext("2d");
