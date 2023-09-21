@@ -71,11 +71,11 @@
             <div class="container-content">
                 <nav class="breadcrumb">
                     <div>
-                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/interactive">interactive</a></span>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/settings">settings</a><a href="http://127.0.0.1:700/interactive">käsekästchen</a></span>
                     </div>
                 </nav>
                 <main class="content-full">
-                    <h1 class="fixed-headline transition-standard border-and-shadow">Interactive Page</h1>
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Käsekästchen</h1>
                     <form class="full-width flex-left pad-sides" method="POST" action="">
                         {% csrf_token %}
                         <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
@@ -103,7 +103,10 @@
         <script src="{% static 'js/main.js' %}"></script>
         <script>
         $(function(){
-            var Feldgröße = [10,13]
+            var xyfeldgröße = JSON.parse('{{ feldgröße|escapejs }}');
+            let xgröße = Number(xyfeldgröße[0]);
+            let ygröße = Number(xyfeldgröße[1]);
+            var Feldgröße = [xgröße,ygröße];
             var canvas = document.getElementById("canvas");
             var context = canvas.getContext("2d");
             var $canvas=$("#canvas");
@@ -122,6 +125,7 @@
             var angekreuzt = 0;
             var kreuzeinkästchen = [];
             var letztermouseover = [];
+            var player_x_color = JSON.parse('{{ spielerfarben|escapejs }}');
 
             function turn() {
                 if(amZug == "Player 1"){
@@ -385,9 +389,9 @@
             }
             function boxabkreuzen2(x, y) {
                 if(amZug == "Player 1") {
-                    context.strokeStyle = "black";
+                    context.strokeStyle = player_x_color[0];
                 } else {
-                    context.strokeStyle = "white";
+                    context.strokeStyle = player_x_color[1];
 
                 }
                 
@@ -424,12 +428,17 @@
             });
 
             canvas.addEventListener('mousemove', function(evt) {
-                let rect = canvas.getBoundingClientRect();
-                var pos = {
-                    x: evt.clientX - rect.left,
-                    y: evt.clientY - rect.top,
+                try {
+                    let rect = canvas.getBoundingClientRect();
+                    var pos = {
+                        x: evt.clientX - rect.left,
+                        y: evt.clientY - rect.top,
+                    }
+                    hoveranimation(pos.x, pos.y)
                 }
-                hoveranimation(pos.x, pos.y)
+                catch {
+                    return
+                }
             })
 
             function hoveranimation(xwert, ywert) {

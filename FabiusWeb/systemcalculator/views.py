@@ -1,8 +1,10 @@
 from django.template import loader
 from django.http import HttpResponse
 from random import randrange
+import json
+from django.shortcuts import redirect
 
-context = {'ergebnis': "", 'verlauf': []}
+context = {'ergebnis': "", 'verlauf': [], 'feldgröße': [], 'spielerfarben': []}
 def systemcalculator(request):
     template = loader.get_template('systemcalc.html')
     if request.method == "POST":
@@ -38,8 +40,20 @@ def testing(request):
 
 def interactive(request):
     template = loader.get_template('interactive.html')
-    return HttpResponse(template.render(request=request))
+    return HttpResponse(template.render(context, request=request))
 
+def settings(request):
+    template = loader.get_template('settings.html')
+    if request.method == "POST":
+        xWert = request.POST.get("xwert")
+        yWert = request.POST.get("ywert")
+        p1_color = request.POST.get('Player_1_color')
+        p2_color = request.POST.get('Player_2_color')
+        Settings().setsettings(xWert, yWert, p1_color, p2_color)
+        template = loader.get_template('interactive.html')
+        return HttpResponse(template.render(context, request=request))
+    else:
+        return HttpResponse(template.render(request=request))
 
 def main(request):
     template = loader.get_template('main.html')
@@ -87,7 +101,40 @@ def generator(länge, klein, groß, num, sym):
         pass
 
 
+class Settings():
+    def __inin__(self):
+        # feldgröße[0] ist x
+        # feldgröße[1] ist y
+        # spielerfarben[0] ist Spieler 1
+        # spielerfarben[1] ist Spieler 2
+        pass
 
+    def setsettings(self, xWert, yWert, p1_color, p2_color):
+        größe = [xWert, yWert]
+        context['feldgröße'] = json.dumps(größe)
+        context['spielerfarben'] = []
+        farben = []
+        print(p1_color)
+        if p1_color == "rot":
+            farben.append("red")
+        elif p1_color == "blau":
+            farben.append("blue")
+        elif p1_color == "grün":
+            farben.append("green")
+        else:
+            farben.append("black")
+
+        if p2_color == "rot":
+            farben.append("red")
+        elif p2_color == "blau":
+            farben.append("blue")
+        elif p2_color == "grün":
+            farben.append("green")
+        else:
+            farben.append("black")
+
+        context['spielerfarben'] = json.dumps(farben)
+        print(context)
 
 class Systems():
     def __init__(self):

@@ -1,0 +1,122 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+
+        <style>
+            .rot {
+                color: red;
+            }
+            .blau {
+                color: blue;
+            }
+            .grün {
+                color: green;
+            }
+        </style>
+    </head>
+    <body class="theme-dark">
+        <div class="container-page-nofooter container-page-nonavi">
+            <header class="container-titlebar" id="head">
+                <div>
+                    <!-- flex wrapper -->
+                    <div>
+                        <div>
+                            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                        </div>
+                        <div>
+                            <i class="nf nf-mdi-arrow_left_thick"></i>
+                        </div>
+                    </div>
+                    <div class="pad-sides margin-r-5x">
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <h1>Fabius</h1>
+                    </div>
+                    <div>
+                        <div id="pageclock"></div>
+                        <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                    </div>
+                </div>
+            </header>
+            <div class="container-content">
+                <nav class="breadcrumb">
+                    <div>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/settings">settings</a></span>
+                    </div>
+                </nav>
+                <main class="content-full">
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Settings</h1>
+                    <form class="full-width flex-left pad-sides" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">
+                                <label>Feldgröße:</label>
+                            </div>
+                            <div class="pad-all-half" style="flex:70%">
+                                <input name="xwert" id="xwert" style="width: 10%" placeholder="X-Wert..." oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                                <label>x</label>
+                                <input name="ywert" id="ywert" style="width: 10%" placeholder="Y-Wert..." oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                            </div>
+                        </div>
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">
+                                <label>Spielerfarben:</label>
+                            </div>
+                            <div class="pad-all-half" style="flex:70%">
+                                <div class="container-dropdown margin-b">
+                                    <div class="content-select-softborder">
+                                        <select name="Player_1_color" id="Player_1_color">
+                                            <option disabled selected>Spieler 1</option>
+                                            <option class="rot" value="rot">Rot</option>
+                                            <option class="blau" value="blau">Blau</option>
+                                            <option class="grün" value="grün">Grün</option>
+                                        </select>
+                                    </div>
+                                    <div class="content-select-softborder">
+                                        <select name="Player_2_color" id="Player_2_color">
+                                            <option disabled selected>Spieler 2</option>
+                                            <option class="rot" value="rot">Rot</option>
+                                            <option class="blau" value="blau">Blau</option>
+                                            <option class="grün" value="grün">Grün</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
+                            <div class="pad-all-half" style="flex:30%">                            
+                            </div>      
+                            <!-- Submitfeld -->                  
+                            <div class="pad-all-half" style="display:inline-flex; flex:70%">
+                                
+                                <input type="reset" value="Zurücksetzen">
+                                &nbsp
+                                <input type="submit" value="Spiel starten!" id="submit">              
+                            </div>                        
+                        </div> 
+                    </form>
+                </main>
+            </div>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+           
+
+            function switchsite() {
+                location.href = "http://127.0.0.1:700/interactive/";
+            }
+        </script>
+    </body>
+</html>
