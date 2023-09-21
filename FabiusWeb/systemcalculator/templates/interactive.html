@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>Käsekästchen</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <base href="~/" />
@@ -131,6 +132,7 @@
             var letztermouseover = [];
             var player_x_color = JSON.parse('{{ spielerfarben|escapejs }}');
             var strichfarbe = JSON.parse('{{ strich_color|escapejs }}');
+            var doAnim=true;
 
             function turn() {
                 if(amZug == "Player 1"){
@@ -492,13 +494,8 @@
                             fill: 'forwards'
                         }
                     )
-                }
-                
-            }
-
-
-
-        
+                }              
+            }      
         });    
         </script>
     </body>

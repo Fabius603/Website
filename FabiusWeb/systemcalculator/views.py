@@ -121,8 +121,6 @@ class Settings():
             strich_farben.append("blue")
         elif strich_color == "grün":
             strich_farben.append("green")
-        elif strich_color == "schwarz":
-            strich_farben.append("black")
         elif strich_color == "gelb":
             strich_farben.append("yellow")
         elif strich_color == "pink":
