@@ -394,18 +394,20 @@
             function boxabkreuzen2(x, y) {
                 if(amZug == "Player 1") {
                     context.strokeStyle = player_x_color[0];
+                    context.lineWidth = 2;
+                    context.beginPath();
+                    context.moveTo(30*x+4, 30*y+4);
+                    context.lineTo(30*x+26, 30*y+26);
+                    context.moveTo(30*x+26, 30*y+4);
+                    context.lineTo(30*x+4, 30*y+26);
+                    context.stroke();
                 } else {
                     context.strokeStyle = player_x_color[1];
+                    context.beginPath();
+                    context.arc(30*x+15, 30*y+15, 11, 0, 2 * Math.PI);
+                    context.stroke();
 
                 }
-                
-                context.lineWidth = 2;
-                context.beginPath();
-                context.moveTo(30*x+4, 30*y+4);
-                context.lineTo(30*x+26, 30*y+26);
-                context.moveTo(30*x+26, 30*y+4);
-                context.lineTo(30*x+4, 30*y+26);
-                context.stroke();
             }
 
 
