@@ -35,7 +35,7 @@
                 position: relative;
                 min-width: 9em;
                 top: 10%;
-                left: 24%;
+                left: 30%;
                 border-bottom-color: red;
                 border-left-color: transparent;
                 border-right-color: transparent;
@@ -80,11 +80,14 @@
                     <form class="full-width flex-left pad-sides" method="POST" action="">
                         {% csrf_token %}
                         <div class="full-width pad-all-half" style="display:flex; flex-wrap:wrap">
-                            <div class="pad-all-half" style="flex:25%"></div>
-                            <div class="pad-all-half" style="flex:35%">
+                            <div class="pad-all-half" style="flex:31%"></div>
+                            <div class="pad-all-half" style="flex:15%">
                                 <label id="p1" style="color: red; font-Size:25px; font-weight: 8;">Player 1: 0</label>
                             </div>
-                            <div class="pad-all-half" style="display:inline-flex; flex:40%">
+                            <div class="pad-all-half" style="display:inline-flex; flex:14%">
+                                <label id="zeit" style="color: white; font-Size:18px; font-weight: 6;">Timer: 10</label>
+                            </div>
+                            <div class="pad-all-half" style="display:inline-flex; flex:39%">
                                 <label id="p2" style="color: white; font-Size:18px; font-weight: 6;">Player 2: 0</label>
                             </div>
                             <div id="borderumplayer" >
@@ -101,7 +104,6 @@
                 </main>
             </div>
         </div>
-        <script src="{% static 'js/main.js' %}"></script>
         <script>
         $(function(){
             var xyfeldgröße = JSON.parse('{{ feldgröße|escapejs }}');
@@ -133,37 +135,89 @@
             var player_x_color = JSON.parse('{{ spielerfarben|escapejs }}');
             var strichfarbe = JSON.parse('{{ strich_color|escapejs }}');
             var doAnim=true;
+            var counter = 15;
+            var autoplaceing = "passive";
+
+
+            function timer() {
+                if(counter > 0) {
+                    counter--;
+                    timetext = "Timer: " + counter;
+                    document.getElementById("zeit").innerHTML = timetext;
+                }
+                if(counter == 0) {
+                    autoplace();
+                }
+            }
+            window.setInterval(timer, 1000);
+
+            //automatisches Platzieren von Strichen
+            function autoplace() {
+                autoplaceing = "active";
+                while(autoplaceing == "active") {
+                    x = Math.random()*Feldgröße[0];
+                    y = Math.random()*Feldgröße[1];
+                    zufallszahl = Math.random()*4;
+                    zufallszahl = Math.floor(zufallszahl);
+                    i = Math.floor(x);
+                    a = Math.floor(y);
+                    if(zufallszahl == 0) {
+                        lastiunda[0] = i-1;
+                        lastiunda[1] = a;
+                    }
+                    else if(zufallszahl == 1) {
+                        lastiunda[0] = i+1;
+                        lastiunda[1] = a;
+                    }
+                    else if(zufallszahl == 2) {
+                        lastiunda[1] = a-1;
+                        lastiunda[0] = i;
+                    }
+                    else if(zufallszahl == 3) {
+                        lastiunda[1] = a+1;
+                        lastiunda[0] = i;
+                    }
+                    try {
+                        place(i, a);
+                        boxabkreuzen1(i, a);
+                    } catch {
+                        return
+                    }
+                    
+                }
+                    
+            }
 
             function turn() {
-                if(amZug == "Player 1"){
+                if(amZug == "Player 1") {
+                    counter = 16;
                     playerwechselanimation(amZug);
                     amZug = "Player 2";
-                    p2 = document.getElementById("p2")
+                    p2 = document.getElementById("p2");
                     p2.innerHTML = "Player 2: " + p2points;
                     p2.style.color = "red";
-                    p2.style.fontSize = "25px"
-                    p2.style.fontWeight = "8"
-                    p1 = document.getElementById("p1")
+                    p2.style.fontSize = "25px";
+                    p2.style.fontWeight = "8";
+                    p1 = document.getElementById("p1");
                     p1.innerHTML = "Player 1: " + p1points;
                     p1.style.color = "white";
-                    p1.style.fontSize = "18px"
-                    p1.style.fontWeight = "6"
-
-
+                    p1.style.fontSize = "18px";
+                    p1.style.fontWeight = "6";
 
                 } else {
+                    counter = 16;
                     playerwechselanimation(amZug);
                     amZug = "Player 1";
-                    p1 = document.getElementById("p1")
+                    p1 = document.getElementById("p1");
                     p1.innerHTML = "Player 1: " + p1points;
                     p1.style.color = "red";
-                    p1.style.fontSize = "25px"
-                    p1.style.fontWeight = "8"
-                    p2 = document.getElementById("p2")
+                    p1.style.fontSize = "25px";
+                    p1.style.fontWeight = "8";
+                    p2 = document.getElementById("p2");
                     p2.innerHTML = "Player 2: " + p2points;
                     p2.style.color = "white";
-                    p2.style.fontSize = "18px"
-                    p2.style.fontWeight = "6"
+                    p2.style.fontSize = "18px";
+                    p2.style.fontWeight = "6";
                 }
             }
             
@@ -260,6 +314,7 @@
                         kästcheninfos[i][a][2] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][0] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
+                        autoplaceing = "passive";
                     }
                 }
                 if(feldinfo[1] == 1) {
@@ -269,6 +324,7 @@
                         kästcheninfos[i][a][3] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][1] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
+                        autoplaceing = "passive";
                     }
                 }
                 if(feldinfo[2] == 1) {
@@ -278,6 +334,7 @@
                         kästcheninfos[i][a][0] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][2] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
+                        autoplaceing = "passive";
                     }
                 }
                 if(feldinfo[3] == 1) {
@@ -287,16 +344,23 @@
                         kästcheninfos[i][a][1] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][3] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
+                        autoplaceing = "passive";
                     }
                 }
                 nea = 1
                 context.stroke();
-                removehilfsblock(lastiunda[0], lastiunda[1], "grey");
-                barrierarroundfield(lastiunda[0], lastiunda[1], "#616161", "remove");
+                try {
+                    removehilfsblock(lastiunda[0], lastiunda[1], "grey");
+                    barrierarroundfield(lastiunda[0], lastiunda[1], "#616161", "remove");
+                } catch {
+                    return
+                }
             }
+                
             function removehilfsblock(i, a, color) {
                 context.beginPath();
                 context.fillStyle = color;
+
                 for(var x = 0; x < 4; x++) {
                     context.rect(((neighbour[x][1]*30)+5), ((neighbour[x][0]*30)+5), 20, 20);
                 }
@@ -472,9 +536,9 @@
                     playerwechsel.animate(
                         [
                             {
-                                left: '24%',
+                                left: '30%',
                             }, {
-                                left: '59%'
+                                left: '60%'
                             }
                         ], {
                             duration: 200,
@@ -485,9 +549,9 @@
                     playerwechsel.animate(
                         [
                             {
-                                left: '59%',
+                                left: '60%',
                             }, {
-                                left: '24%'
+                                left: '30%'
                             }
                         ], {
                             duration: 200,
