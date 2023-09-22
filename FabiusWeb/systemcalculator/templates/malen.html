@@ -1,0 +1,243 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Malen</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <meta name="theme-color" content="#cecece">
+        <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/vendor/plugins.js' %}"></script>
+        <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+        <style>
+            #canvas {
+                position: relative;
+                margin-right: auto;
+                margin-left: auto;
+                border: 3px solid rgb(0, 0, 0);
+                background-color: grey;
+            }
+            .tools {
+                position: relative;
+                margin-left: auto;
+                margin-right: auto;
+                background-color: #66CDAA;
+                font-size:20px;
+                cursor: pointer;
+                outline: none;
+                border-radius: 10px;
+                box-shadow: 0 5px #999;
+                color: white;
+                border: none;
+            }
+            .tools:active {
+                background-color: darkslateblue;
+                transform: translateY(3px);
+                box-shadow: 0 2px #666
+
+            }
+            #currentpos {
+                position: relative;
+                left: 77%
+            }
+        </style>
+    </head>
+
+
+    <body class="theme-dark">
+        <div class="container-page-nofooter container-page-nonavi">
+            <header class="container-titlebar" id="head">
+                <div>
+                    <!-- flex wrapper -->
+                    <div>
+                        <div>
+                            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                        </div>
+                        <div>
+                            <i class="nf nf-mdi-arrow_left_thick"></i>
+                        </div>
+                    </div>
+                    <div class="pad-sides margin-r-5x">
+                        &#8203; <!-- zero-width unicode char to force rendering of the div -->
+                    </div>
+                    <div>
+                        <h1>Fabius</h1>
+                    </div>
+                    <div>
+                        <div id="pageclock"></div>
+                        <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+                    </div>
+                </div>
+            </header>
+            <div class="container-content">
+                <nav class="breadcrumb">
+                    <div>
+                        <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/malen">malen</a></span>
+                    </div>
+                </nav>
+                <main class="content-full">
+                    <h1 class="fixed-headline transition-standard border-and-shadow">Malen</h1>
+                    <div class="full-width flex-left pad-sides">
+                        {% csrf_token %}
+                        <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:40%" style="align-items: center; justify-content: center">
+                            <button id="zeichnen" class="tools" onClick="zeichnenActivate()">Zeichnen</button>
+                            <button id="radieren" class="tools" onClick="radierenActivate()">Radierer</button>
+                        </div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
+                            <canvas id="canvas" width="1200" height="600"></canvas>
+                        </div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:100%">
+                            <label id="currentpos"></label>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script>
+            canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            var zeichnen = false;
+            var radieren = false;
+            var mousedown = false;
+            var farbe = "red";
+            var hintergrundfarbe = "grey"
+            var radierdicke = 20;
+            var vorherigesx = "";
+            var vorherigesy = "";
+
+//--------------------------------------------------
+//tools aktivieren
+
+            function zeichnenActivate() {
+                console.log("aktiviere")
+                if(zeichnen == true) {
+                    zeichnen = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                } else {
+                    zeichnen = true;
+                    radieren = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                    $("#zeichnen").css('background-color', 'red')
+                }
+                
+            }
+            function radierenActivate() {
+                if(radieren == true) {
+                    radieren = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                } else {
+                    radieren = true;
+                    zeichnen = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                    $("#radieren").css('background-color', 'red')
+                }
+            }
+
+//--------------------------------------------------
+//tools ausführen
+
+            function dozeichnen(x, y) {
+                ctx.beginPath();
+                ctx.strokeStyle = farbe;
+                ctx.strokeWidth = 0.2;
+                ctx.moveTo(x, y);
+                ctx.lineTo(vorherigesx, vorherigesy);
+                ctx.stroke();
+                vorherigesx = x;
+                vorherigesy = y;
+            }
+
+
+            function doradieren(x, y) {
+                ctx.beginPath();
+                ctx.fillStyle = hintergrundfarbe;
+                ctx.arc(vorherigesx, vorherigesy, radierdicke, 0, 2*Math.PI);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.arc(x, y, radierdicke-2, 0, 2*Math.PI);
+                ctx.fill();
+                ctx.strokeStyle = "black"
+                ctx.strokeWidth = 1
+                ctx.arc(x, y, radierdicke-2, 0, 2*Math.PI);
+                ctx.stroke();
+                vorherigesx = x;
+                vorherigesy = y;
+                ctx.beginPath();
+            }
+
+//--------------------------------------------------
+//aussehen
+            function displayMousepos(x, y) {
+                text = "X: " + x + ", " + "Y: " + y
+                document.getElementById("currentpos").innerHTML = text
+            }
+
+//--------------------------------------------------
+//event listener
+            canvas.addEventListener('mousemove', function(evt) {
+                try {
+                    let rect = canvas.getBoundingClientRect();
+                    var pos = {
+                        x: evt.clientX - rect.left,
+                        y: evt.clientY - rect.top,
+                    }
+                    x = Math.floor(pos.x);
+                    y = Math.floor(pos.y);
+                    displayMousepos(x, y)
+                    console.log(zeichnen)
+                    if(zeichnen == true && mousedown == true) {
+                        dozeichnen(x, y);
+                    }
+                    if(radieren == true && mousedown == true) {
+                        doradieren(x, y);
+                    }
+                }
+                catch {
+                    return
+                }
+            })
+
+            canvas.addEventListener('mousedown', function(evt) {
+                let rect = canvas.getBoundingClientRect();
+                var pos = {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top,
+                }
+                x = Math.floor(pos.x);
+                y = Math.floor(pos.y);
+                mousedown = true
+                //zum Malen um die letze Psoition zu finden
+                vorherigesx = x;
+                vorherigesy = y;
+            });
+            canvas.addEventListener('mouseup', function(evt) {
+                let rect = canvas.getBoundingClientRect();
+                var pos = {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top,
+                }
+                x = Math.floor(pos.x);
+                y = Math.floor(pos.y);
+                mousedown = false;
+                if(radieren == true) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, radierdicke, 0, 2*Math.PI);
+                    ctx.fillStyle = hintergrundfarbe;
+                    ctx.fill();
+                }
+            });
+
+            
+        </script>
+    </body>
+</html>

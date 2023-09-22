@@ -33,8 +33,8 @@ def pwgen(request):
         return HttpResponse(template.render(request=request))
 
     
-def testing(request):
-    template = loader.get_template('testing.html')
+def malen(request):
+    template = loader.get_template('malen.html')
     return HttpResponse(template.render(request=request))   
 
 def interactive(request):
