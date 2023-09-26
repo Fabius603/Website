@@ -23,13 +23,15 @@
                 margin-left: auto;
                 border: 3px solid rgb(0, 0, 0);
                 background-color: grey;
+                margin-bottom: 0px;
+                z-index: 10;
             }
             .tools {
                 position: relative;
                 margin-left: auto;
                 margin-right: auto;
                 background-color: #66CDAA;
-                font-size:20px;
+                font-size: 20px;
                 cursor: pointer;
                 outline: none;
                 border-radius: 10px;
@@ -38,20 +40,48 @@
                 border: none;
             }
             .tools:active {
-                background-color: darkslateblue;
                 transform: translateY(3px);
                 box-shadow: 0 2px #666
 
             }
             #currentpos {
                 position: relative;
-                left: 77%
+                left: 51%
+            }
+            #clearcanvas {
+                position: relative;
+                left:34%;
+                background-color: transparent;
+                cursor: pointer;
+                outline: none;
+                border: none;
+                color: white;
+            }
+            #clearcanvas:hover {
+                background-color: lightgray;
+                color: black;
+                border-radius: 6px;
+            }
+            #clearcanvas:active {
+                transform: scale(0.9,0.9);
+            }
+            #zeichnenoptions_div {
+                position: absolute;
+                left: 200px;
+                top: 200px;
+                z-index: 100;
+                clear: both;
+            }
+            .colorbuttons {
+
             }
         </style>
     </head>
 
 
     <body class="theme-dark">
+        <div id="zeichnenoptions_div" style="width:15%">
+        </div>
         <div class="container-page-nofooter container-page-nonavi">
             <header class="container-titlebar" id="head">
                 <div>
@@ -88,14 +118,17 @@
                         {% csrf_token %}
                         <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
                         <div class="pad-all-half" style="display:inline-flex; flex:40%" style="align-items: center; justify-content: center">
-                            <button id="zeichnen" class="tools" onClick="zeichnenActivate()">Zeichnen</button>
-                            <button id="radieren" class="tools" onClick="radierenActivate()">Radierer</button>
+                            <button id="zeichnen" class="tools js-noMenu" onClick="zeichnenActivate()" oncontextmenu="zeichnenoptionsActivate('left')" onmouseout="zeichnenoptionsActivate('right')">Zeichnen</button>
+                            <button id="radieren" class="tools js-noMenu" onClick="radierenActivate()">Radierer</button>
                         </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
                         <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
                             <canvas id="canvas" width="1200" height="600"></canvas>
                         </div>
-                        <div class="pad-all-half" style="display:inline-flex; flex:100%">
+                        <div class="pad-all-half" style="display:inline-flex; flex:50%">
+                            <button id="clearcanvas" onClick="clearCanvas()">clear</button>
+                        </div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:50%">
                             <label id="currentpos"></label>
                         </div>
                     </div>
@@ -113,6 +146,14 @@
             var radierdicke = 20;
             var vorherigesx = "";
             var vorherigesy = "";
+            var zeichnen_aktive = false;
+            var hoveranimation = {
+                zeichnen_button_position: "right",      //position des zeichnen Buttons              
+                zeichnen_ausführen: false,    //soll die zeichnen Animation ausgeführt werden
+            };
+            var mausposX;
+            var mausposY;
+            var zeichnenIntervall;
 
 //--------------------------------------------------
 //tools aktivieren
@@ -140,6 +181,103 @@
                     $(".tools").css('background-color', '#66CDAA')
                     $("#radieren").css('background-color', 'red')
                 }
+            }
+
+
+
+//--------------------------------------------------
+//on hover events
+
+            function zeichnenoptionsActivate(direction) {
+                let zeichnen_button = document.getElementById("zeichnen");
+                if(direction == "left" && hoveranimation.zeichnen_button_position == "right") {
+                    hoveranimation.zeichnen_button_position = "left";
+                    hoveranimation.zeichnen_ausführen = true;
+                    von = "0px";
+                    zu = "-40px";
+                    x_Button = zeichnen_button.offsetLeft;
+                    y_Button = zeichnen_button.offsetTop;
+                    zeichnenIntervall = window.setInterval(zeichnenoptionsActivate, 200);
+                    createZeichnenOptions(x_Button, y_Button);
+                } 
+                else if(hoveranimation.zeichnen_button_position == "left" && inzeichnenoptions() == false) {
+                    hoveranimation.zeichnen_button_position = "right";
+                    hoveranimation.zeichnen_ausführen = true;
+                    von = "-40px";
+                    zu = "0px";
+                    clearInterval(zeichnenIntervall);
+                    deleteZeichnenOptions();
+                }
+                if(hoveranimation.zeichnen_ausführen == true) {
+                    hoveranimation.zeichnen_ausführen = false;
+                    zeichnen_button.animate(
+                        [
+                            {left: von},
+                            {left: zu},
+                        ],
+                            {
+                                duration: 130,
+                                fill: 'forwards',
+                            }
+                    );  
+                }
+                    
+            }
+
+//--------------------------------------------------
+//neues Element in DOM einfügen/entfernen
+
+            function createZeichnenOptions(x, y) {
+                const div = document.getElementById("zeichnenoptions_div");
+                $("#zeichnenoptions_div").css('left', x+70);
+                $("#zeichnenoptions_div").css('top', y)
+                div.style.backgroundColor = "#66cdab5d"
+
+                const ul = document.createElement("ul");
+                ul.id = "ulzeichnen"
+                div.appendChild(ul);
+
+                const list1Element = document.createElement("li");
+                list1Element.id = "list1";
+                list1Element.width = "100%";
+                const list2Element = document.createElement("li");
+                list2Element.id = "list2";
+                list2Element.width = "100%";
+
+                ul.appendChild(list1Element);
+                ul.appendChild(list2Element);
+
+                const Farbe1 = document.createElement("button");
+                const Farbe2 = document.createElement("button");
+                const Farbe3 = document.createElement("button");
+                const Farbe4 = document.createElement("button");
+                farbbuttons = [Farbe1, Farbe2, Farbe3, Farbe4];
+
+                Farbe1.innerHTML = "Rot";
+                Farbe2.innerHTML = "Schwarz";
+                Farbe3.innerHTML = "Grün";
+                Farbe4.innerHTML = "Blau";
+
+                for(var i = 0; i < 4; i++) {
+                    Farbe = farbbuttons[i];
+                    Farbe.style.width = "50%";
+                    Farbe.style.border = "none";
+                    Farbe.style.backgroundColor = "transparent"
+                }
+                list1Element.appendChild(Farbe1);   
+                list1Element.appendChild(Farbe2);
+                list2Element.appendChild(Farbe3);
+                list2Element.appendChild(Farbe4);
+                
+
+                return
+            }
+
+            function deleteZeichnenOptions() {
+                const element = document.getElementById("zeichnenoptions_div");
+                const ulzeichnen = document.getElementById("ulzeichnen")
+                element.removeChild(ulzeichnen)
+                return
             }
 
 //--------------------------------------------------
@@ -175,6 +313,10 @@
                 ctx.beginPath();
             }
 
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+
 //--------------------------------------------------
 //aussehen
             function displayMousepos(x, y) {
@@ -194,7 +336,6 @@
                     x = Math.floor(pos.x);
                     y = Math.floor(pos.y);
                     displayMousepos(x, y)
-                    console.log(zeichnen)
                     if(zeichnen == true && mousedown == true) {
                         dozeichnen(x, y);
                     }
@@ -238,6 +379,37 @@
             });
 
             
+            [...document.querySelectorAll(".js-noMenu")].forEach( el => 
+            el.addEventListener('contextmenu', e => e.preventDefault())
+            );
+
+            window.addEventListener('mousemove', function(evt){
+                var pos = {
+                    x: evt.clientX,
+                    y: evt.clientY,
+                }
+                mausposX = pos.x;
+                mausposY = pos.y;
+                console.log(mausposX, mausposY)
+            });
+
+//--------------------------------------------------
+//hilfreiche Funktionen
+
+            function inzeichnenoptions() {
+                console.log("test")
+                if(mausposY >= 193 && mausposY <=225 && mausposX >= 445 && mausposX <= 700) {
+                    return true
+                }
+                else if(mausposY >= 193 && mausposY <=370 && mausposX >= 555 && mausposX <= 700) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+            
+
         </script>
     </body>
 </html>
