@@ -15,7 +15,7 @@
         <script src="{% static 'js/vendor/plugins.js' %}"></script>
         <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-
+        
         <style>
             #canvas {
                 position: relative;
@@ -38,11 +38,16 @@
                 box-shadow: 0 5px #999;
                 color: white;
                 border: none;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                width: 12%;
             }
             .tools:active {
                 transform: translateY(3px);
                 box-shadow: 0 2px #666
-
+                
             }
             #currentpos {
                 position: relative;
@@ -67,21 +72,79 @@
             }
             #zeichnenoptions_div {
                 position: absolute;
-                left: 200px;
-                top: 200px;
                 z-index: 100;
                 clear: both;
             }
-            .colorbuttons {
-
+            #radieroptions_div {
+                position: absolute;
+                z-index: 100;
+                clear: both;
             }
-        </style>
+            #formenoptions_div {
+                position: absolute;
+                z-index: 100;
+                clear: both;
+            }
+            #schriftgröße {
+                width: 94%;
+                font-size: 16px;
+                margin-top: 5px;
+                margin-left: 5px;
+                margin-right: 5px;
+                margin-bottom: 5px;
+                background-color: #66CDAA;
+                border: solid black 1px;
+            }
+            #radiergröße {
+                width: 94%;
+                font-size: 16px;
+                margin-top: 5px;
+                margin-left: 5px;
+                margin-right: 5px;
+                margin-bottom: 5px;
+                background-color: #66CDAA;
+                border: solid black 1px;
+            }
+            .formButtons {
+                margin-left: 5px;
+                margin-right: 5px;
+                width: 94%;
+                font-size: 15px;
+            }
+            .tabelle {
+                width: 100%;
+            }
+            ::placeholder {
+                color: black;
+            }
+            .colorbuttons {
+                width: 25px;
+                border: none;
+                color: transparent;
+                border-radius: 10px;
+                padding-top: 1.25px;
+                padding-bottom: 1.25px;
+                padding-left: 1.25px;
+                padding-right: 1.25px;
+                margin-top: 5px;
+                margin-left: 5px;
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+            .colorbuttons:hover {
+                transform: scale(1.25, 1.25);
+                border: var(--button-animation-border);
+                border-color: var(--button-animation-borderColor);
+                border-width: var(--button-animation-borderWidth);
+            }
+            </style>
     </head>
 
 
     <body class="theme-dark">
-        <div id="zeichnenoptions_div" style="width:15%">
-        </div>
+        <div id="zeichnenoptions_div" style="width:15%"></div>
+        <div id="radieroptions_div" style="width:15%"></div>
+        <div id="formenoptions_div" style="width: 15%"></div>
         <div class="container-page-nofooter container-page-nonavi">
             <header class="container-titlebar" id="head">
                 <div>
@@ -116,12 +179,13 @@
                     <h1 class="fixed-headline transition-standard border-and-shadow">Malen</h1>
                     <div class="full-width flex-left pad-sides">
                         {% csrf_token %}
-                        <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
-                        <div class="pad-all-half" style="display:inline-flex; flex:40%" style="align-items: center; justify-content: center">
+                        <div class="pad-all-half" style="display:inline-flex; flex:20%"></div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:60%" style="align-items: center; justify-content: center">
                             <button id="zeichnen" class="tools js-noMenu" onClick="zeichnenActivate()" oncontextmenu="zeichnenoptionsActivate('left')" onmouseout="zeichnenoptionsActivate('right')">Zeichnen</button>
-                            <button id="radieren" class="tools js-noMenu" onClick="radierenActivate()">Radierer</button>
+                            <button id="radieren" class="tools js-noMenu" onClick="radierenActivate()" oncontextmenu="radierenoptionsActivate('left')" onmouseout="radierenoptionsActivate('right')">Radierer</button>
+                            <button id="formen" class="tools js-noMenu" onClick="formenActivate()" oncontextmenu="formenoptionsActivate('left')" onmouseout="formenoptionsActivate('right')">Formen</button>
                         </div>
-                        <div class="pad-all-half" style="display:inline-flex; flex:30%"></div>
+                        <div class="pad-all-half" style="display:inline-flex; flex:20%"></div>
                         <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
                             <canvas id="canvas" width="1200" height="600"></canvas>
                         </div>
@@ -140,6 +204,7 @@
             ctx = canvas.getContext("2d");
             var zeichnen = false;
             var radieren = false;
+            var formen = false;
             var mousedown = false;
             var farbe = "red";
             var hintergrundfarbe = "grey"
@@ -147,25 +212,40 @@
             var vorherigesx = "";
             var vorherigesy = "";
             var zeichnen_aktive = false;
+            var radieren_aktive = false;
             var hoveranimation = {
                 zeichnen_button_position: "right",      //position des zeichnen Buttons              
                 zeichnen_ausführen: false,    //soll die zeichnen Animation ausgeführt werden
+                radieren_button_position: "right",      //position des radieren Buttons              
+                radieren_ausführen: false,    //soll die radieren Animation ausgeführt werden
+                formen_button_position: "right",      //position des formen Buttons              
+                formen_ausführen: false,    //soll die formen Animation ausgeführt werden
             };
             var mausposX;
             var mausposY;
             var zeichnenIntervall;
+            var radierenIntervall;
+            var formenIntervall;
+            var farbbuttons;
+            var xvonAltenZeichnenOptions;
+            var yvonAltenZeichnenOptions;
+            var xvonAltenRadierOptions;
+            var yvonAltenRadierOptions;
+            var xvonAltenFormenOptions;
+            var yvonAltenFormenOptions;
+            var strichdicke = 1;
 
 //--------------------------------------------------
 //tools aktivieren
 
             function zeichnenActivate() {
-                console.log("aktiviere")
                 if(zeichnen == true) {
                     zeichnen = false;
                     $(".tools").css('background-color', '#66CDAA')
                 } else {
                     zeichnen = true;
                     radieren = false;
+                    formen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#zeichnen").css('background-color', 'red')
                 }
@@ -178,11 +258,24 @@
                 } else {
                     radieren = true;
                     zeichnen = false;
+                    formen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#radieren").css('background-color', 'red')
                 }
             }
-
+            function formenActivate() {
+                console.log(formen)
+                if(formen == true) {
+                    formen = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                } else {
+                    formen = true;
+                    zeichnen = false;
+                    radieren = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                    $("#formen").css('background-color', 'red')
+                }
+            }
 
 
 //--------------------------------------------------
@@ -190,20 +283,23 @@
 
             function zeichnenoptionsActivate(direction) {
                 let zeichnen_button = document.getElementById("zeichnen");
+                x_Button = zeichnen_button.offsetLeft;
+                y_Button = zeichnen_button.offsetTop;
+                buttonposition = zeichnen_button.getBoundingClientRect();
                 if(direction == "left" && hoveranimation.zeichnen_button_position == "right") {
                     hoveranimation.zeichnen_button_position = "left";
                     hoveranimation.zeichnen_ausführen = true;
                     von = "0px";
-                    zu = "-40px";
+                    zu = "-60px";
                     x_Button = zeichnen_button.offsetLeft;
                     y_Button = zeichnen_button.offsetTop;
                     zeichnenIntervall = window.setInterval(zeichnenoptionsActivate, 200);
                     createZeichnenOptions(x_Button, y_Button);
                 } 
-                else if(hoveranimation.zeichnen_button_position == "left" && inzeichnenoptions() == false) {
+                else if(hoveranimation.zeichnen_button_position == "left" && inzeichnenoptions(buttonposition) == false) {
                     hoveranimation.zeichnen_button_position = "right";
                     hoveranimation.zeichnen_ausführen = true;
-                    von = "-40px";
+                    von = "-60px";
                     zu = "0px";
                     clearInterval(zeichnenIntervall);
                     deleteZeichnenOptions();
@@ -224,52 +320,177 @@
                     
             }
 
+            function radierenoptionsActivate(direction) {
+                let radieren_button = document.getElementById("radieren");
+                x_Button = radieren_button.offsetLeft;
+                y_Button = radieren_button.offsetTop;
+                buttonposition = radieren_button.getBoundingClientRect();
+                if(direction == "left" && hoveranimation.radieren_button_position == "right") {
+                    hoveranimation.radieren_button_position = "left";
+                    hoveranimation.radieren_ausführen = true;
+                    von = "0px";
+                    zu = "-60px";
+                    x_Button = radieren_button.offsetLeft;
+                    y_Button = radieren_button.offsetTop;
+                    radierenIntervall = window.setInterval(radierenoptionsActivate, 200);
+                    createRadierenOptions(x_Button, y_Button);
+                } 
+                else if(hoveranimation.radieren_button_position == "left" && inradierenoptions(buttonposition) == false) {
+                    hoveranimation.radieren_button_position = "right";
+                    hoveranimation.radieren_ausführen = true;
+                    von = "-60px";
+                    zu = "0px";
+                    clearInterval(radierenIntervall);
+                    deleteRadierenOptions();
+                }
+                if(hoveranimation.radieren_ausführen == true) {
+                    hoveranimation.radieren_ausführen = false;
+                    radieren_button.animate(
+                        [
+                            {left: von},
+                            {left: zu},
+                        ],
+                            {
+                                duration: 130,
+                                fill: 'forwards',
+                            }
+                    );  
+                }
+                    
+            }
+
+            function formenoptionsActivate(direction) {
+                let formen_button = document.getElementById("formen");
+                x_Button = formen_button.offsetLeft;
+                y_Button = formen_button.offsetTop;
+                buttonposition = formen_button.getBoundingClientRect();
+                if(direction == "left" && hoveranimation.formen_button_position == "right") {
+                    hoveranimation.formen_button_position = "left";
+                    hoveranimation.formen_ausführen = true;
+                    von = "0px";
+                    zu = "-60px";
+                    x_Button = formen_button.offsetLeft;
+                    y_Button = formen_button.offsetTop;
+                    formenIntervall = window.setInterval(formenoptionsActivate, 200);
+                    createFormenOptions(x_Button, y_Button);
+                } 
+                else if(hoveranimation.formen_button_position == "left" && informenoptions(buttonposition) == false) {
+                    hoveranimation.formen_button_position = "right";
+                    hoveranimation.formen_ausführen = true;
+                    von = "-60px";
+                    zu = "0px";
+                    clearInterval(formenIntervall);
+                    deleteFormenOptions();
+                }
+                if(hoveranimation.formen_ausführen == true) {
+                    hoveranimation.formen_ausführen = false;
+                    formen_button.animate(
+                        [
+                            {left: von},
+                            {left: zu},
+                        ],
+                            {
+                                duration: 130,
+                                fill: 'forwards',
+                            }
+                    );  
+                }
+            }
+
 //--------------------------------------------------
 //neues Element in DOM einfügen/entfernen
 
             function createZeichnenOptions(x, y) {
+                xvonAltenZeichnenOptions = x;
+                yvonAltenZeichnenOptions = y;
                 const div = document.getElementById("zeichnenoptions_div");
                 $("#zeichnenoptions_div").css('left', x+70);
                 $("#zeichnenoptions_div").css('top', y)
                 div.style.backgroundColor = "#66cdab5d"
+                div.style.borderLeft = "5px solid black";
+
 
                 const ul = document.createElement("ul");
                 ul.id = "ulzeichnen"
                 div.appendChild(ul);
 
                 const list1Element = document.createElement("li");
-                list1Element.id = "list1";
+                list1Element.id = "zeichnen_list1";
                 list1Element.width = "100%";
                 const list2Element = document.createElement("li");
-                list2Element.id = "list2";
+                list2Element.id = "zeichnen_list2";
                 list2Element.width = "100%";
+                const list3Element = document.createElement("li");
+                list3Element.id = "zeichnen_list3";
+                list3Element.width = "100%";
+                const list4Element = document.createElement("li");
+                list3Element.id = "zeichnen_list4";
+                list3Element.width = "100%";
 
                 ul.appendChild(list1Element);
                 ul.appendChild(list2Element);
+                ul.appendChild(list3Element);
+                ul.appendChild(list4Element);
 
+                //Farbbuttons werden erstellt
                 const Farbe1 = document.createElement("button");
                 const Farbe2 = document.createElement("button");
                 const Farbe3 = document.createElement("button");
                 const Farbe4 = document.createElement("button");
-                farbbuttons = [Farbe1, Farbe2, Farbe3, Farbe4];
-
-                Farbe1.innerHTML = "Rot";
-                Farbe2.innerHTML = "Schwarz";
-                Farbe3.innerHTML = "Grün";
-                Farbe4.innerHTML = "Blau";
-
-                for(var i = 0; i < 4; i++) {
+                const Farbe5 = document.createElement("button");
+                const Farbe6 = document.createElement("button");
+                const Farbe7 = document.createElement("button");
+                const Farbe8 = document.createElement("button");
+                const Farbe9 = document.createElement("button");
+                farbbuttons = [Farbe1, Farbe2, Farbe3, Farbe4, Farbe5, Farbe6, Farbe7, Farbe8, Farbe9];
+                
+                Farbe1.id = "red";
+                Farbe2.id = "black";
+                Farbe3.id = "green";
+                Farbe4.id = "blue";
+                Farbe5.id = "yellow";
+                Farbe6.id = "white";
+                Farbe7.id = "pink";
+                Farbe8.id = "orange";
+                Farbe9.id = "grey";
+                
+                for(var i = 0; i < farbbuttons.length; i++) {
                     Farbe = farbbuttons[i];
-                    Farbe.style.width = "50%";
-                    Farbe.style.border = "none";
-                    Farbe.style.backgroundColor = "transparent"
+                    Farbe.className = "colorbuttons"
+                    Farbe.style.backgroundColor = farbbuttons[i].id;
+                    Farbe.innerHTML = ".";
                 }
+
+                //Schriftgröße (input) wird erstellt
+                const Schriftgröße = document.createElement("input");
+                Schriftgröße.id = "schriftgröße"
+                Schriftgröße.placeholder = "Schriftgröße: " + strichdicke;
+                Schriftgröße.style.color = "black";
+
+
                 list1Element.appendChild(Farbe1);   
                 list1Element.appendChild(Farbe2);
-                list2Element.appendChild(Farbe3);
-                list2Element.appendChild(Farbe4);
-                
+                list1Element.appendChild(Farbe3);
 
+                list2Element.appendChild(Farbe4);
+                list2Element.appendChild(Farbe5);
+                list2Element.appendChild(Farbe6);
+                
+                list3Element.appendChild(Farbe7);
+                list3Element.appendChild(Farbe8);
+                list3Element.appendChild(Farbe9);
+
+                list4Element.appendChild(Schriftgröße);
+                
+                
+                for(var i = 0; i < farbbuttons.length; i++) {
+                    Farbe = farbbuttons[i]
+                    if(Farbe.id == farbe) {
+                        mainfarbSwitch("keine", Farbe.id);
+                    }
+                }
+                createzeichneninputListener();
+                createfarbbuttonListener();
                 return
             }
 
@@ -280,13 +501,128 @@
                 return
             }
 
-//--------------------------------------------------
-//tools ausführen
+            
+            function createRadierenOptions(x, y) {
+                xvonAltenRadierOptions = x;
+                yvonAltenRadierOptions = y;
+                const div = document.getElementById("radieroptions_div");
+                $("#radieroptions_div").css('left', x+70);
+                $("#radieroptions_div").css('top', y)
+                div.style.backgroundColor = "#66cdab5d"
+                div.style.borderLeft = "5px solid black";
+                
+                const ul = document.createElement("ul");
+                ul.id = "ulradieren"
+                div.appendChild(ul);
+                
+                const list1Element = document.createElement("li");
+                list1Element.id = "radieren_list1";
+                list1Element.width = "100%";
+                
+                ul.appendChild(list1Element);
+                
+                const Radiergröße = document.createElement("input");
+                Radiergröße.id = "radiergröße";
+                Radiergröße.placeholder = "Radiergröße: " + radierdicke;
+                Radiergröße.style.color = "black";
 
+                list1Element.appendChild(Radiergröße);
+
+                createradiereninputListener();
+                return
+            }
+
+
+            function deleteRadierenOptions() {
+                const element = document.getElementById("radieroptions_div");
+                const ulzeichnen = document.getElementById("ulradieren");
+                element.removeChild(ulzeichnen);
+                return
+            }
+
+
+            function createFormenOptions(x, y) {
+                xvonAltenZeichnenOptions = x;
+                yvonAltenZeichnenOptions = y;
+                const div = document.getElementById("formenoptions_div");
+                $("#formenoptions_div").css('left', x+70);
+                $("#formenoptions_div").css('top', y)
+                div.style.backgroundColor = "#66cdab5d"
+                div.style.borderLeft = "5px solid black";
+
+                const table = document.createElement("table");
+                    table.className = "tabelle"
+                    table.id = "formentabel";
+                div.appendChild(table);
+
+                const row1 = document.createElement("tr");
+                row1.id = "row1formen";
+
+                alleRows = [row1];
+                for(var i = 0; i < alleRows.length; i++) {
+                    row = alleRows[i];
+                    row.className = "formrows";
+                    table.appendChild(row);
+                }
+
+                const column1row1Element = document.createElement("th");
+                column1row1Element.id = "column1row1";
+                column1row1Element.width = "33%";
+                const column2row1Element = document.createElement("th");
+                column2row1Element.id = "column2row1";
+                column2row1Element.width = "33%";
+                const column3row1Element = document.createElement("th");
+                column3row1Element.id = "column3row1";
+                column3row1Element.width = "34%";
+
+                row1.appendChild(column1row1Element);
+                row1.appendChild(column2row1Element);
+                row1.appendChild(column3row1Element);
+
+                const Square = document.createElement("button");
+                Square.innerHTML = "Box";
+                const Line = document.createElement("button");
+                Line.innerHTML = "Linie";
+                const Circle = document.createElement("button");
+                Circle.innerHTML = "Kreis";
+
+                //für alle festgelegte Eigenschaften:
+                alleFormen = [Square, Line, Circle];
+                for(var i = 0; i < alleFormen.length; i++) {
+                    Form = alleFormen[i]
+                    Form.className = "formButtons";
+                }
+
+                Square.id = "square";
+                Line.id = "line";
+                Circle.id = "circle";
+
+                column1row1Element.appendChild(Square);
+                column2row1Element.appendChild(Line);
+                column3row1Element.appendChild(Circle);
+                
+                createformenbuttonListener();
+                return
+            }
+
+            function deleteFormenOptions() {
+                const element = document.getElementById("formenoptions_div");
+                const table = document.getElementById("formentabel");
+                element.removeChild(table);
+                return
+            }
+
+            //--------------------------------------------------
+            //tools ausführen
+            
             function dozeichnen(x, y) {
                 ctx.beginPath();
+                ctx.fillStyle = farbe;
+                ctx.arc(x, y, strichdicke/2, 0, 2*Math.PI);
+                ctx.fill();
+                ctx.beginPath();
                 ctx.strokeStyle = farbe;
-                ctx.strokeWidth = 0.2;
+                ctx.lineWidth = strichdicke;
                 ctx.moveTo(x, y);
                 ctx.lineTo(vorherigesx, vorherigesy);
                 ctx.stroke();
@@ -300,17 +636,31 @@
                 ctx.fillStyle = hintergrundfarbe;
                 ctx.arc(vorherigesx, vorherigesy, radierdicke, 0, 2*Math.PI);
                 ctx.fill();
+
+                ctx.beginPath();
+                ctx.strokeStyle = hintergrundfarbe;
+                ctx.lineWidth = 2*radierdicke;
+                ctx.moveTo(x, y);
+                ctx.lineTo(vorherigesx, vorherigesy);
+                ctx.stroke();
+
                 ctx.beginPath();
                 ctx.fillStyle = "white";
                 ctx.arc(x, y, radierdicke-2, 0, 2*Math.PI);
                 ctx.fill();
+
                 ctx.strokeStyle = "black"
-                ctx.strokeWidth = 1
+                ctx.lineWidth = 1;
+                ctx.strokeWidth = 1;
                 ctx.arc(x, y, radierdicke-2, 0, 2*Math.PI);
                 ctx.stroke();
+
                 vorherigesx = x;
                 vorherigesy = y;
-                ctx.beginPath();
+            }
+
+            function doformen() {
+                return
             }
 
             function clearCanvas() {
@@ -390,18 +740,74 @@
                 }
                 mausposX = pos.x;
                 mausposY = pos.y;
-                console.log(mausposX, mausposY)
             });
+
+            function createfarbbuttonListener() {
+                for(var i = 0; i < farbbuttons.length; i++) {
+                    element = document.getElementById(farbbuttons[i].id);
+                    element.addEventListener('click', function(){
+                        altefarbe = farbe;
+                        farbe = String(this.id);
+                        mainfarbSwitch(altefarbe, this.id);
+                        if(xvonAltenOptions != undefined && yvonAltenOptions != undefined) {
+                            deleteZeichnenOptions();
+                            createZeichnenOptions(xvonAltenOptions, yvonAltenOptions);
+                        }
+                    })
+                }
+            }
+
+            function createzeichneninputListener() {
+                sizeinput = document.getElementById("schriftgröße");
+                sizeinput.addEventListener('input', function(evt){
+                    numberUnedited = sizeinput.value;
+                    number = numberUnedited.replace(",", ".")
+                    if(Number.isInteger(Number(number))) {
+                        strichdicke = parseInt(number)
+                    }
+                })
+                return
+            }
+
+            function createradiereninputListener() {
+                console.log("test")
+                sizeinput = document.getElementById("radiergröße");
+                sizeinput.addEventListener('input', function(evt){
+                    numberUnedited = sizeinput.value;
+                    number = numberUnedited.replace(",", ".")
+                    if(Number.isInteger(Number(number))) {
+                        radierdicke = parseInt(number)
+                    }
+                })
+                return
+            }
+            
+            function createformenbuttonListener() {
+                return
+            }
 
 //--------------------------------------------------
 //hilfreiche Funktionen
 
-            function inzeichnenoptions() {
-                console.log("test")
-                if(mausposY >= 193 && mausposY <=225 && mausposX >= 445 && mausposX <= 700) {
+            function inzeichnenoptions(buttonposition) {
+                optiondivgröße = document.getElementById("zeichnenoptions_div").getBoundingClientRect();
+                if(mausposY >= buttonposition.top && mausposY <= buttonposition.bottom && mausposX >= buttonposition.left && mausposX <= optiondivgröße.right) {
                     return true
                 }
-                else if(mausposY >= 193 && mausposY <=370 && mausposX >= 555 && mausposX <= 700) {
+                else if(mausposY >= buttonposition.top && mausposY <= optiondivgröße.bottom && mausposX >= buttonposition.right && mausposX <= optiondivgröße.right) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+
+            function inradierenoptions(buttonposition) {
+                optiondivgröße = document.getElementById("radieroptions_div").getBoundingClientRect();
+                if(mausposY >= buttonposition.top && mausposY <= buttonposition.bottom && mausposX >= buttonposition.left && mausposX <= optiondivgröße.right) {
+                    return true
+                }
+                else if(mausposY >= buttonposition.top && mausposY <= optiondivgröße.bottom && mausposX >= buttonposition.right && mausposX <= optiondivgröße.right) {
                     return true
                 }
                 else {
@@ -409,6 +815,43 @@
                 }
             }
             
+            function informenoptions(buttonposition) {
+                optiondivgröße = document.getElementById("formenoptions_div").getBoundingClientRect();
+                if(mausposY >= buttonposition.top && mausposY <= buttonposition.bottom && mausposX >= buttonposition.left && mausposX <= optiondivgröße.right) {
+                    return true
+                }
+                else if(mausposY >= buttonposition.top && mausposY <= optiondivgröße.bottom && mausposX >= buttonposition.right && mausposX <= optiondivgröße.right) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+            
+            function mainfarbSwitch(altefarbe, id) {
+                if(altefarbe != "keine") {
+                    mainalteFarbe = document.getElementById(altefarbe);
+                    mainalteFarbe.style.border = "none";
+                    mainalteFarbe
+                }
+                mainFarbe = document.getElementById(id);
+                mainFarbe.style.border = "solid";
+                mainFarbe.style.borderColor = "white";
+                mainFarbe.style.borderWidth = "2px";
+                buttonBorderReload()
+                return
+            }
+
+            function buttonBorderReload() {
+                const btns = document.querySelectorAll(".colorbuttons");
+                btns.forEach((button) => {
+                    button.style.setProperty('--button-animation-border', 'solid');
+                    button.style.setProperty('--button-animation-borderColor', 'white');
+                    button.style.setProperty('--button-animation-borderWidth', '1px');
+                })
+                return
+            }
+
 
         </script>
     </body>
