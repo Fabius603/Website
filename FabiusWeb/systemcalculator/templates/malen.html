@@ -2,19 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Malen</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#cecece">
         <base href="~/" />
         <link rel="stylesheet" href="{% static 'css/icons.css' %}">
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
         <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
-        <meta name="theme-color" content="#cecece">
         <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/vendor/plugins.js' %}"></script>
         <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+        <title>Malen</title>
         
         <style>
             #canvas {
@@ -42,7 +42,7 @@
                 padding-right: 20px;
                 padding-top: 5px;
                 padding-bottom: 5px;
-                width: 12%;
+                width: 150px;
             }
             .tools:active {
                 transform: translateY(3px);
@@ -110,6 +110,18 @@
                 margin-right: 5px;
                 width: 94%;
                 font-size: 15px;
+                background-color: #66CDAA;
+                border: solid black 1px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .formButtons:hover {
+                transform: scale(1.1);
+                background-color: #5d9785;
+            }
+            .formButtons:active {
+                transform: scale(1.2);
+                background-color: #8aaca1;
             }
             .tabelle {
                 width: 100%;
@@ -137,7 +149,68 @@
                 border-color: var(--button-animation-borderColor);
                 border-width: var(--button-animation-borderWidth);
             }
-            </style>
+            #canvasEbene2 {
+                position: absolute;
+                background-color: transparent;
+            }
+            #sidebar {
+                z-index: 300;
+                width: 3%;
+                height: 600px;
+                background-color: #999;
+                margin-top: var(--sidebar-top);
+                transition: 0.5s;
+            }
+            #sidebar:hover {
+                width: 15%
+            }
+            #sidebar:hover > .sidebar-container {
+                left: 0;
+            }
+            .sidebar-container {
+                transition: 0.5s;
+                position: fixed;
+                display: block;
+                background-color: transparent;
+                width: 15%;
+                left: -12%;
+            }
+            .sidebar-elements {
+                display: block;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: transparent;
+                border: solid 1px #767676;
+                width: 100%;
+                text-align: left;
+            }
+            .sidebar-elements:hover {
+                color: white;
+                background-color: #767676;
+            }
+            #sidebar-container-2 {
+                z-index: 1;
+                position: fixed;
+                display: block;
+                width: 15%;
+                left: 15%;
+                background-color: #999;
+                visibility: hidden;
+            }
+            .sidebar-elements-container-2 {
+                display: block;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: transparent;
+                border: solid 1px #66CDAA;
+                width: 100%;
+                text-align: left;
+                color: transparent;
+            }
+            .sidebar-elements-container-2:hover {
+                transform: scale(1.1);
+            }
+        </style>
     </head>
 
 
@@ -145,6 +218,7 @@
         <div id="zeichnenoptions_div" style="width:15%"></div>
         <div id="radieroptions_div" style="width:15%"></div>
         <div id="formenoptions_div" style="width: 15%"></div>
+        <canvas id="canvasEbene2" width="1200" height="600"></canvas>
         <div class="container-page-nofooter container-page-nonavi">
             <header class="container-titlebar" id="head">
                 <div>
@@ -175,8 +249,27 @@
                         <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/malen">malen</a></span>
                     </div>
                 </nav>
+                <div id="sidebar" style="position: absolute; ">
+                    <div class="sidebar-container">
+                        <button class="sidebar-elements" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')">Hintergrund</button>
+                        <button class="sidebar-elements" id="malennachzahlen_btn" onClick="malennachzahlenActivate()">Malennachzahlen</button>
+                        <button class="sidebar-elements">kommt noch</button>
+                        <button class="sidebar-elements">kommt noch</button>
+                    </div>
+                    <div id="sidebar-container-2">
+                        <button class="sidebar-elements-container-2" style="background-color: red;"     onCLick="bgChanger('red')">red</button>
+                        <button class="sidebar-elements-container-2" style="background-color: black;"   onCLick="bgChanger('black')">black</button>
+                        <button class="sidebar-elements-container-2" style="background-color: green;"   onCLick="bgChanger('green')">green</button>
+                        <button class="sidebar-elements-container-2" style="background-color: blue;"    onCLick="bgChanger('blue')">blue</button>
+                        <button class="sidebar-elements-container-2" style="background-color: yellow;"  onCLick="bgChanger('yellow')">yellow</button>
+                        <button class="sidebar-elements-container-2" style="background-color: white;"   onCLick="bgChanger('white')">white</button>
+                        <button class="sidebar-elements-container-2" style="background-color: pink;"    onCLick="bgChanger('pink')">pink</button>
+                        <button class="sidebar-elements-container-2" style="background-color: orange;"  onCLick="bgChanger('orange')">orange</button>
+                        <button class="sidebar-elements-container-2" style="background-color: grey;"    onCLick="bgChanger('grey')">grey</button>
+                    </div>
+                </div> 
                 <main class="content-full">
-                    <h1 class="fixed-headline transition-standard border-and-shadow">Malen</h1>
+                    <h1 class="fixed-headline transition-standard border-and-shadow" id="überschrift">Malen</h1>
                     <div class="full-width flex-left pad-sides">
                         {% csrf_token %}
                         <div class="pad-all-half" style="display:inline-flex; flex:20%"></div>
@@ -200,12 +293,13 @@
             </div>
         </div>
         <script>
-            canvas = document.getElementById("canvas");
-            ctx = canvas.getContext("2d");
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
             var zeichnen = false;
             var radieren = false;
             var formen = false;
             var mousedown = false;
+            var mousedown_can2 = false;
             var farbe = "red";
             var hintergrundfarbe = "grey"
             var radierdicke = 20;
@@ -223,6 +317,8 @@
             };
             var mausposX;
             var mausposY;
+            var mausposX_can2;
+            var mausposY_can2;
             var zeichnenIntervall;
             var radierenIntervall;
             var formenIntervall;
@@ -234,6 +330,32 @@
             var xvonAltenFormenOptions;
             var yvonAltenFormenOptions;
             var strichdicke = 1;
+            var aktuelleForm = "square";
+            //canvas2
+            var canvas2 = document.getElementById("canvasEbene2");
+            var ctx2 = canvas2.getContext("2d");
+            var letzteForm = {
+                form: "",
+                cords: [],
+            }
+            //malen nach Zahlen
+            var zahlenCords = {};
+            var abbrechen = false;
+
+//--------------------------------------------------
+//canvas2 erstellen
+            function canvas2erstellen() {
+                ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+                canvas_pos = canvas.getBoundingClientRect();
+                $("#canvasEbene2").css('left', canvas_pos.left+3)
+                $("#canvasEbene2").css('top', canvas_pos.top+3)
+                if(formen == true) {
+                    $("#canvasEbene2").css('z-index', '11');
+                } else {
+                    $("#canvasEbene2").css('z-index', '0');                
+                }
+            }
+            canvas2erstellen();
 
 //--------------------------------------------------
 //tools aktivieren
@@ -248,9 +370,11 @@
                     formen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#zeichnen").css('background-color', 'red')
+                    canvas2erstellen();
                 }
                 
             }
+
             function radierenActivate() {
                 if(radieren == true) {
                     radieren = false;
@@ -261,19 +385,22 @@
                     formen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#radieren").css('background-color', 'red')
+                    canvas2erstellen();
                 }
             }
-            function formenActivate() {
-                console.log(formen)
-                if(formen == true) {
+
+            function formenActivate(info) {
+                if(formen == true && info != "ohne deaktivieren") {
                     formen = false;
                     $(".tools").css('background-color', '#66CDAA')
+                    canvas2erstellen();
                 } else {
                     formen = true;
                     zeichnen = false;
                     radieren = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#formen").css('background-color', 'red')
+                    canvas2erstellen();
                 }
             }
 
@@ -404,7 +531,7 @@
                 xvonAltenZeichnenOptions = x;
                 yvonAltenZeichnenOptions = y;
                 const div = document.getElementById("zeichnenoptions_div");
-                $("#zeichnenoptions_div").css('left', x+70);
+                $("#zeichnenoptions_div").css('left', x+95);
                 $("#zeichnenoptions_div").css('top', y)
                 div.style.backgroundColor = "#66cdab5d"
                 div.style.borderLeft = "5px solid black";
@@ -500,13 +627,12 @@
                 element.removeChild(ulzeichnen)
                 return
             }
-
             
             function createRadierenOptions(x, y) {
                 xvonAltenRadierOptions = x;
                 yvonAltenRadierOptions = y;
                 const div = document.getElementById("radieroptions_div");
-                $("#radieroptions_div").css('left', x+70);
+                $("#radieroptions_div").css('left', x+95);
                 $("#radieroptions_div").css('top', y)
                 div.style.backgroundColor = "#66cdab5d"
                 div.style.borderLeft = "5px solid black";
@@ -532,7 +658,6 @@
                 return
             }
 
-
             function deleteRadierenOptions() {
                 const element = document.getElementById("radieroptions_div");
                 const ulzeichnen = document.getElementById("ulradieren");
@@ -540,12 +665,11 @@
                 return
             }
 
-
             function createFormenOptions(x, y) {
                 xvonAltenZeichnenOptions = x;
                 yvonAltenZeichnenOptions = y;
                 const div = document.getElementById("formenoptions_div");
-                $("#formenoptions_div").css('left', x+70);
+                $("#formenoptions_div").css('left', x+95);
                 $("#formenoptions_div").css('top', y)
                 div.style.backgroundColor = "#66cdab5d"
                 div.style.borderLeft = "5px solid black";
@@ -585,23 +709,28 @@
                 Line.innerHTML = "Linie";
                 const Circle = document.createElement("button");
                 Circle.innerHTML = "Kreis";
+                
+                
+                Square.id = "square";
+                Line.id = "line";
+                Circle.id = "circle";
 
                 //für alle festgelegte Eigenschaften:
                 alleFormen = [Square, Line, Circle];
                 for(var i = 0; i < alleFormen.length; i++) {
                     Form = alleFormen[i]
                     Form.className = "formButtons";
+                    if(Form.id == aktuelleForm) {
+                        Form.style.backgroundColor = "red";
+                    }
                 }
 
-                Square.id = "square";
-                Line.id = "line";
-                Circle.id = "circle";
 
                 column1row1Element.appendChild(Square);
                 column2row1Element.appendChild(Line);
                 column3row1Element.appendChild(Circle);
                 
-                createformenbuttonListener();
+                createformenbuttonListener(alleFormen);
                 return
             }
 
@@ -612,8 +741,8 @@
                 return
             }
 
-            //--------------------------------------------------
-            //tools ausführen
+//--------------------------------------------------
+//tools ausführen
             
             function dozeichnen(x, y) {
                 ctx.beginPath();
@@ -630,10 +759,8 @@
                 vorherigesy = y;
             }
 
-
             function doradieren(x, y) {
-                ctx.beginPath();
-                ctx.fillStyle = hintergrundfarbe;
+                ctx.globalCompositeOperation = 'destination-out';
                 ctx.arc(vorherigesx, vorherigesy, radierdicke, 0, 2*Math.PI);
                 ctx.fill();
 
@@ -643,6 +770,7 @@
                 ctx.moveTo(x, y);
                 ctx.lineTo(vorherigesx, vorherigesy);
                 ctx.stroke();
+                ctx.globalCompositeOperation = 'source-over';
 
                 ctx.beginPath();
                 ctx.fillStyle = "white";
@@ -659,12 +787,80 @@
                 vorherigesy = y;
             }
 
-            function doformen() {
-                return
+            function doformen(x, y) {
+                xstart = vorherigesx_can2;
+                ystart = vorherigesy_can2;
+                ctx2.beginPath();
+                ctx2.strokeStyle = farbe;   
+                if(aktuelleForm == "square") {
+                    //Viereck
+                    if(x < xstart) {
+                        if(y < ystart) {
+                            //x < xs und y < ys
+                            ctx2.rect(xstart, ystart, x-xstart, y-ystart)
+                            letzteForm.form = "square";
+                            letzteForm.cords = [xstart, ystart, x-xstart, y-ystart];
+                        }
+                        else {
+                            //x < xs und y > ys
+                            ctx2.rect(xstart, y, x-xstart, ystart-y)
+                            letzteForm.form = "square";
+                            letzteForm.cords = [xstart, y, x-xstart, ystart-y]
+                        }
+                    } else {
+                        if (y > ystart) {
+                            //x > xs und y > ys
+                            ctx2.rect(x, ystart, xstart-x, y-ystart)
+                            letzteForm.form = "square";
+                            letzteForm.cords = [x, ystart, xstart-x, y-ystart]
+                        } else {
+                            //x > xs und y < ys
+                            ctx2.rect(x, y, xstart-x, ystart-y)
+                            letzteForm.form = "square";
+                            letzteForm.cords = [x, y, xstart-x, ystart-y]
+                        }
+                    }
+                    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+                }
+                //Linie
+                else if(aktuelleForm == "line") {
+                    ctx2.moveTo(xstart, ystart);
+                    ctx2.lineTo(x, y);
+                    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+                    letzteForm.form = "line";
+                    letzteForm.cords = [xstart, ystart, x, y];
+                }
+                //Kreis
+                else if(aktuelleForm == "circle") {
+                    radius = Math.sqrt(Math.pow((x-xstart), 2) + Math.pow((y-ystart), 2));
+                    ctx2.arc(xstart, ystart, radius, 0, 2*Math.PI);
+                    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+                    letzteForm.form = "circle";
+                    letzteForm.cords = [xstart, ystart, radius];
+                }
+                ctx2.stroke();
+            }
+
+            function doformenOnMain() {
+                ctx.beginPath();
+                ctx.strokeStyle = farbe;
+                if(aktuelleForm == "square") {
+                    ctx.rect(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], letzteForm.cords[3])
+                }
+                else if(aktuelleForm == "line") {
+                    ctx.moveTo(letzteForm.cords[0], letzteForm.cords[1]);
+                    ctx.lineTo(letzteForm.cords[2], letzteForm.cords[3]);
+                }
+                else if(aktuelleForm == "circle") {
+                    ctx.arc(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], 0, 2*Math.PI);
+                }
+                ctx.stroke();
             }
 
             function clearCanvas() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx2.clearRect(0, 0, canvas.width, canvas.height);
+                return
             }
 
 //--------------------------------------------------
@@ -692,12 +888,15 @@
                     if(radieren == true && mousedown == true) {
                         doradieren(x, y);
                     }
+                    if(formen == true && mousedown == true) {
+                        doformen(x, y)
+                    }
                 }
                 catch {
                     return
                 }
             })
-
+         
             canvas.addEventListener('mousedown', function(evt) {
                 let rect = canvas.getBoundingClientRect();
                 var pos = {
@@ -711,6 +910,7 @@
                 vorherigesx = x;
                 vorherigesy = y;
             });
+
             canvas.addEventListener('mouseup', function(evt) {
                 let rect = canvas.getBoundingClientRect();
                 var pos = {
@@ -721,17 +921,75 @@
                 y = Math.floor(pos.y);
                 mousedown = false;
                 if(radieren == true) {
+                    ctx.globalCompositeOperation = 'destination-out';
                     ctx.beginPath();
                     ctx.arc(x, y, radierdicke, 0, 2*Math.PI);
-                    ctx.fillStyle = hintergrundfarbe;
                     ctx.fill();
+                    ctx.globalCompositeOperation = 'source-over';
                 }
             });
-
-            
+                    
             [...document.querySelectorAll(".js-noMenu")].forEach( el => 
             el.addEventListener('contextmenu', e => e.preventDefault())
             );
+            
+            //canvas2 Listener
+            canvas2.addEventListener('mousemove', function(evt) {
+                try {
+                    let rect = canvas2.getBoundingClientRect();
+                    var pos = {
+                        x: evt.clientX - rect.left,
+                        y: evt.clientY - rect.top,
+                    }
+                    xcan2 = Math.floor(pos.x);
+                    ycan2 = Math.floor(pos.y);
+                    displayMousepos(xcan2, ycan2)
+                    if(zeichnen == true && mousedown_can2 == true) {
+                        dozeichnen(xcan2, ycan2);
+                    }
+                    if(radieren == true && mousedown_can2 == true) {
+                        doradieren(xcan2, ycan2);
+                    }
+                    if(formen == true && mousedown_can2 == true) {
+                        doformen(xcan2, ycan2)
+                    }
+                }
+                catch {
+                    return
+                }
+            })
+            //canvas2 Listener
+            canvas2.addEventListener('mousedown', function(evt) {
+                let rect = canvas2.getBoundingClientRect();
+                var pos = {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top,
+                }
+                xcan2 = Math.floor(pos.x);
+                ycan2 = Math.floor(pos.y);
+                mousedown_can2 = true
+                //zum Malen um die letze Psoition zu finden
+                vorherigesx_can2 = xcan2;
+                vorherigesy_can2 = ycan2;
+            });
+            //canvas2 Listener
+            canvas2.addEventListener('mouseup', function(evt) {
+                let rect = canvas2.getBoundingClientRect();
+                var pos = {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top,
+                }
+                xcan2 = Math.floor(pos.x);
+                ycan2 = Math.floor(pos.y);
+                mousedown_can2 = false;
+                if(radieren == true) {
+                    ctx2.beginPath();
+                    ctx2.arc(x, y, radierdicke, 0, 2*Math.PI);
+                    ctx2.fillStyle = hintergrundfarbe;
+                    ctx2.fill();
+                }
+                doformenOnMain();
+            });
 
             window.addEventListener('mousemove', function(evt){
                 var pos = {
@@ -770,7 +1028,6 @@
             }
 
             function createradiereninputListener() {
-                console.log("test")
                 sizeinput = document.getElementById("radiergröße");
                 sizeinput.addEventListener('input', function(evt){
                     numberUnedited = sizeinput.value;
@@ -782,9 +1039,25 @@
                 return
             }
             
-            function createformenbuttonListener() {
+            function createformenbuttonListener(alleFormen) {
+                for(var i = 0; i < alleFormen.length; i++) {
+                    element = document.getElementById(alleFormen[i].id);
+                    element.addEventListener('click', function() {
+                        formenActivate("ohne deaktivieren");
+                        alteForm = document.getElementById(aktuelleForm);
+                        alteForm.style.backgroundColor= "#66CDAA";
+                        aktuelleForm = this.id;
+                        this.style.backgroundColor = "red";
+                    })
+                }
+                
                 return
             }
+
+            window.addEventListener('resize', function() {
+                canvas2erstellen();
+                sidebarEinstellungen();
+            })
 
 //--------------------------------------------------
 //hilfreiche Funktionen
@@ -852,7 +1125,91 @@
                 return
             }
 
+            function posinRect(x, y, rect) {
+                if(x >= rect.left-1 && x <= rect.right+1 && y >= rect.top-1 && y <= rect.bottom+1) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+//--------------------------------------------------
+//sidebar
+            function sidebarEinstellungen() {
+                const sidebar = document.getElementById("sidebar");
+                const überschrift = document.getElementById("überschrift");
+                const h1Position = überschrift.getBoundingClientRect();
+                sidebar.style.setProperty('--sidebar-top', h1Position.bottom+4+"px");
+                return
+            }
+            sidebarEinstellungen()
 
+            function hintergrundAusklappen(who) {
+                let sidebarContainer2 = document.getElementById("sidebar-container-2");
+                let sidebarButtonbg = document.getElementById("hintergrund_btn");
+                
+
+                if(who == "klick") {
+                    ausklappentimer = window.setInterval(hintergrundAusklappen, 100);
+                    sidebarContainer2.style.visibility = "visible";
+                }
+                
+                if(posinRect(mausposX, mausposY, sidebarButtonbg.getBoundingClientRect()) == true || posinRect(mausposX, mausposY, sidebarContainer2.getBoundingClientRect()) == true) {
+                    return
+                } else {
+                    sidebarContainer2.style.visibility = "hidden";
+                    clearInterval(ausklappentimer);
+                }
+            }
+
+            function bgChanger(farbe) {
+                canvas.style.backgroundColor = farbe;
+                hintergrundfarbe = farbe;
+            }
+//malen nach Zahlen
+            function malennachzahlenActivate() {
+                canvas.style.backgroundColor = "white";
+                hintergrundfarbe = "white";
+                größe = 60;
+                felderstellen(größe)
+                zahlenaufCanvas(größe)
+            }
+
+            function felderstellen(größe) {
+                var xList = [];
+                var yList = [];
+                var randomX = [];
+                var randomY = [];
+                for(var i = 0; i < größe; i++) {
+                    do {
+                        abbrechen = false;
+                        randomXdiv20 = Math.floor(Math.random() * ((canvas.width-70)/20)-1);
+                        randomYdiv20 = Math.floor(Math.random() * ((canvas.height-70)/20)-1);
+                        if(xList.includes(randomXdiv20) == false || yList.includes(randomYdiv20) == false) {
+                            xList.push(randomXdiv20);
+                            yList.push(randomYdiv20);
+                            abbrechen = true;
+                        }
+                    } while (abbrechen == false);
+                    randomX = ((randomXdiv20* 20) +60);
+                    randomY = ((randomYdiv20* 20) +60);
+                    zahlenCords[i] = [randomX, randomY];
+                }
+                return
+            }
+
+            function zahlenaufCanvas(größe) {
+                clearCanvas();
+                ctx.fillStyle = "black";
+                ctx.font = "bold 16px Arial"
+                for(var i = 0; i < größe; i++) {
+                    ctx.fillText(i+1, zahlenCords[i][0], zahlenCords[i][1])
+                }
+                return
+            }
         </script>
+        
+        <footer>
+            </script> </script>
+        </footer>
     </body>
 </html>
