@@ -44,6 +44,9 @@
                 padding-bottom: 5px;
                 width: 150px;
             }
+            .tools:hover {
+                transform: scale(1.1);
+            }
             .tools:active {
                 transform: translateY(3px);
                 box-shadow: 0 2px #666
@@ -213,6 +216,27 @@
             .sidebar-elements-container-2:hover {
                 transform: scale(1.1);
             }
+            #sidebar-container-3 {
+                z-index: 1;
+                position: fixed;
+                display: block;
+                width: 15%;
+                left: 15%;
+                background-color: #999;
+                visibility: hidden;
+                margin-top: 86px;
+                top: var(--sidebar-container-3-top);
+            }
+            .sidebar-elements-container-3 {
+                display: block;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: transparent;
+                border: solid 1px #66CDAA;
+                width: 100%;
+                text-align: left;
+                color: white;
+            }
         </style>
     </head>
 
@@ -254,21 +278,24 @@
                 </nav>
                 <div id="sidebar" style="position: absolute; ">
                     <div class="sidebar-container">
-                        <button class="sidebar-elements" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')">Hintergrund</button>
-                        <button class="sidebar-elements" id="malennachzahlen_btn" onClick="malennachzahlenActivate()">Malennachzahlen</button>
-                        <button class="sidebar-elements">kommt noch</button>
-                        <button class="sidebar-elements">kommt noch</button>
+                        <button class="sidebar-elements js-noMenu" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')" oncontextmenu="hintergrundAusklappen('klick')">Hintergrund</button>
+                        <button class="sidebar-elements js-noMenu" id="malennachzahlen_btn" onClick="malennachzahlenActivate()" oncontextmenu="malennachzahlenActivate()">Malennachzahlen</button>
+                        <button class="sidebar-elements js-noMenu" id="datei_btn" onClick="dateiAusklappen('klick')" oncontextmenu="dateiAusklappen('klick')">Datei</button>
+                        <button class="sidebar-elements js-noMenu">kommt noch</button>
                     </div>
                     <div id="sidebar-container-2">
-                        <button class="sidebar-elements-container-2" style="background-color: red;"     onCLick="bgChanger('red')">red</button>
-                        <button class="sidebar-elements-container-2" style="background-color: black;"   onCLick="bgChanger('black')">black</button>
-                        <button class="sidebar-elements-container-2" style="background-color: green;"   onCLick="bgChanger('green')">green</button>
-                        <button class="sidebar-elements-container-2" style="background-color: blue;"    onCLick="bgChanger('blue')">blue</button>
-                        <button class="sidebar-elements-container-2" style="background-color: yellow;"  onCLick="bgChanger('yellow')">yellow</button>
-                        <button class="sidebar-elements-container-2" style="background-color: white;"   onCLick="bgChanger('white')">white</button>
-                        <button class="sidebar-elements-container-2" style="background-color: pink;"    onCLick="bgChanger('pink')">pink</button>
-                        <button class="sidebar-elements-container-2" style="background-color: orange;"  onCLick="bgChanger('orange')">orange</button>
-                        <button class="sidebar-elements-container-2" style="background-color: grey;"    onCLick="bgChanger('grey')">grey</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: red;"     onCLick="bgChanger('red')"      oncontextmenu="bgChanger('red')">red</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: black;"   onCLick="bgChanger('black')"    oncontextmenu="bgChanger('black')">black</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: green;"   onCLick="bgChanger('green')"    oncontextmenu="bgChanger('green')">green</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: blue;"    onCLick="bgChanger('blue')"     oncontextmenu="bgChanger('blue')">blue</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: yellow;"  onCLick="bgChanger('yellow')"   oncontextmenu="bgChanger('yellow')">yellow</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: white;"   onCLick="bgChanger('white')"    oncontextmenu="bgChanger('white')">white</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: pink;"    onCLick="bgChanger('pink')"     oncontextmenu="bgChanger('pink')">pink</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: orange;"  onCLick="bgChanger('orange')"   oncontextmenu="bgChanger('orange')">orange</button>
+                        <button class="sidebar-elements-container-2 js-noMenu" style="background-color: grey;"    onCLick="bgChanger('grey')"     oncontextmenu="bgChanger('grey')">grey</button>
+                    </div>
+                    <div id="sidebar-container-3">
+                        <button class="sidebar-elements-container-3">Speichern unter</button>
                     </div>
                 </div> 
                 <main class="content-full">
@@ -372,11 +399,13 @@
             function zeichnenActivate() {
                 if(zeichnen == true) {
                     zeichnen = false;
+                    malennachZahlen = true;
                     $(".tools").css('background-color', '#66CDAA')
                 } else {
                     zeichnen = true;
                     radieren = false;
                     formen = false;
+                    malennachZahlen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#zeichnen").css('background-color', 'red')
                     canvas2erstellen();
@@ -387,11 +416,13 @@
             function radierenActivate() {
                 if(radieren == true) {
                     radieren = false;
+                    malennachZahlen = true;
                     $(".tools").css('background-color', '#66CDAA')
                 } else {
                     radieren = true;
                     zeichnen = false;
                     formen = false;
+                    malennachZahlen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#radieren").css('background-color', 'red')
                     canvas2erstellen();
@@ -401,12 +432,14 @@
             function formenActivate(info) {
                 if(formen == true && info != "ohne deaktivieren") {
                     formen = false;
+                    malennachZahlen = true;
                     $(".tools").css('background-color', '#66CDAA')
                     canvas2erstellen();
                 } else {
                     formen = true;
                     zeichnen = false;
                     radieren = false;
+                    malennachZahlen = false;
                     $(".tools").css('background-color', '#66CDAA')
                     $("#formen").css('background-color', 'red')
                     canvas2erstellen();
@@ -414,19 +447,14 @@
             }
 
             function mnZActivate() {
-                if(malennachZahlen == true) {
-                    malennachZahlen = false;
-                    $(".tools").css('background-color', '#66CDAA')
-                } else {
                     malennachZahlen = true;
                     zeichnen = false;
                     formen = false;
                     radieren = false;
                     $(".tools").css('background-color', '#66CDAA')
-                    canvas2erstellen();
-                }
-                return
+                    return
             }
+            
 
 //--------------------------------------------------
 //on hover events
@@ -1177,7 +1205,7 @@
                 
 
                 if(who == "klick") {
-                    ausklappentimer = window.setInterval(hintergrundAusklappen, 100);
+                    ausklappentimer1 = window.setInterval(hintergrundAusklappen, 100);
                     sidebarContainer2.style.visibility = "visible";
                 }
                 
@@ -1185,7 +1213,25 @@
                     return
                 } else {
                     sidebarContainer2.style.visibility = "hidden";
-                    clearInterval(ausklappentimer);
+                    clearInterval(ausklappentimer1);
+                }
+            }
+
+            function dateiAusklappen(who) {
+                let sidebarContainer3 = document.getElementById("sidebar-container-3");
+                let sidebarButtonDatei = document.getElementById("datei_btn");
+                buttonBCR = sidebarButtonDatei.getBoundingClientRect()
+                sidebarContainer3.style.setProperty('--sidebar-container-3-top', buttonBCR.top)
+                if(who == "klick") {
+                    ausklappentimer2 = window.setInterval(dateiAusklappen, 100);
+                    sidebarContainer3.style.visibility = "visible";
+                }
+                
+                if(posinRect(mausposX, mausposY, sidebarButtonDatei.getBoundingClientRect()) == true || posinRect(mausposX, mausposY, sidebarContainer3.getBoundingClientRect()) == true) {
+                    return
+                } else {
+                    sidebarContainer3.style.visibility = "hidden";
+                    clearInterval(ausklappentimer2);
                 }
             }
 
