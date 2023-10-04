@@ -188,6 +188,9 @@
                 color: white;
                 background-color: #767676;
             }
+            .sidebar-elements:active {
+                color:#66CDAA;
+            }
             #sidebar-container-2 {
                 z-index: 1;
                 position: fixed;
@@ -341,6 +344,12 @@
             //malen nach Zahlen
             var zahlenCords = {};
             var abbrechen = false;
+            var malennachZahlen = false;
+            var randomFarben = ["red", "black", "blue", "yellow", "green", "purple", "pink", "orange", "grey"];
+            var connectNumber = {
+                aktuelleNummer: 0,
+                NummernAnzahl: "",
+            }
 
 //--------------------------------------------------
 //canvas2 erstellen
@@ -404,6 +413,20 @@
                 }
             }
 
+            function mnZActivate() {
+                if(malennachZahlen == true) {
+                    malennachZahlen = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                } else {
+                    malennachZahlen = true;
+                    zeichnen = false;
+                    formen = false;
+                    radieren = false;
+                    $(".tools").css('background-color', '#66CDAA')
+                    canvas2erstellen();
+                }
+                return
+            }
 
 //--------------------------------------------------
 //on hover events
@@ -907,6 +930,11 @@
                 y = Math.floor(pos.y);
                 mousedown = true
                 //zum Malen um die letze Psoition zu finden
+
+                if(malennachZahlen == true) {
+                    connectNumbers(x, y);
+                }
+
                 vorherigesx = x;
                 vorherigesy = y;
             });
@@ -1169,9 +1197,10 @@
             function malennachzahlenActivate() {
                 canvas.style.backgroundColor = "white";
                 hintergrundfarbe = "white";
-                größe = 60;
-                felderstellen(größe)
-                zahlenaufCanvas(größe)
+                connectNumber.NummernAnzahl = 60;
+                felderstellen(connectNumber.NummernAnzahl);
+                zahlenaufCanvas(connectNumber.NummernAnzahl);
+                mnZActivate();
             }
 
             function felderstellen(größe) {
@@ -1199,12 +1228,49 @@
 
             function zahlenaufCanvas(größe) {
                 clearCanvas();
-                ctx.fillStyle = "black";
                 ctx.font = "bold 16px Arial"
                 for(var i = 0; i < größe; i++) {
+                    textFarbe = randomFarben[Math.floor(Math.random() * (randomFarben.length - 1))];
+                    ctx.fillStyle = textFarbe;
                     ctx.fillText(i+1, zahlenCords[i][0], zahlenCords[i][1])
                 }
+                console.log(zahlenCords)
                 return
+            }
+
+            function connectNumbers() {
+                momentanerKlickbereich = zahlenCords[connectNumber.aktuelleNummer];
+                numberRect = {
+                    top: momentanerKlickbereich[1]-10,
+                    right: momentanerKlickbereich[0]+20,
+                    bottom: momentanerKlickbereich[1],
+                    left: momentanerKlickbereich[0],
+                }
+                if(posinRect(x, y, numberRect) == true) {
+                    connectNumber.aktuelleNummer = connectNumber.aktuelleNummer + 1;
+
+                    ctx.beginPath();
+                    ctx.globalCompositeOperation = "destination-over";
+                    if(connectNumber.aktuelleNummer < 10) {
+                        ctx.moveTo(momentanerKlickbereich[0], momentanerKlickbereich[1]+2)
+                        ctx.lineTo(momentanerKlickbereich[0]+10, momentanerKlickbereich[1]+2)
+                    } else {
+                        ctx.moveTo(momentanerKlickbereich[0], momentanerKlickbereich[1]+2)
+                        ctx.lineTo(momentanerKlickbereich[0]+20, momentanerKlickbereich[1]+2)
+                    }
+                    ctx.stroke()
+                    if(connectNumber.aktuelleNummer-1 != 0) {
+                        console.log(zahlenCords[connectNumber.aktuelleNummer][0])
+                        console.log(zahlenCords[connectNumber.aktuelleNummer][1])
+                        ctx.beginPath()
+                        ctx.strokeStyle = "black";
+                        ctx.lineWidth = 1;
+                        ctx.moveTo((momentanerKlickbereich[0]+5), (momentanerKlickbereich[1]-5));
+                        ctx.lineTo((zahlenCords[connectNumber.aktuelleNummer-2][0]+5), (zahlenCords[connectNumber.aktuelleNummer-2][1]-5));
+                        ctx.stroke();
+                    }
+                    ctx.globalCompositeOperation = "source-over";
+                }
             }
         </script>
         
