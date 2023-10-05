@@ -24,33 +24,53 @@
                 border: 3px solid rgb(0, 0, 0);
                 background-color: grey;
                 margin-bottom: 0px;
-                z-index: 10;
+                z-index: 0;
             }
             .tools {
                 position: relative;
                 margin-left: auto;
                 margin-right: auto;
                 background-color: #66CDAA;
-                font-size: 20px;
                 cursor: pointer;
                 outline: none;
                 border-radius: 10px;
-                box-shadow: 0 5px #999;
-                color: white;
+                box-shadow: 0 5px #999; 
                 border: none;
+                width: 150px;
+                color: white;
+                font-size: 20px;
+                transition: 0.3s;
+            }
+            .tools span {
+                position: relative;
+                transition: 0.3s;
                 padding-left: 20px;
                 padding-right: 20px;
                 padding-top: 5px;
                 padding-bottom: 5px;
-                width: 150px;
+            }
+            .tools span:after {
+                position: absolute;
+                content: '\2261';
+                opacity: 0;
+                right: -10px;
+                transition: 0.3s;
             }
             .tools:hover {
                 transform: scale(1.1);
+                transition: 0.3s;
+            }
+            .tools:hover span {
+                padding-right: 30px;
+                padding-left: 0px;
+            }
+            .tools:hover span:after {
+                opacity: 1;
+                right: 0;
             }
             .tools:active {
                 transform: translateY(3px);
-                box-shadow: 0 2px #666
-                
+                box-shadow: 0 2px #666;
             }
             #currentpos {
                 position: relative;
@@ -58,20 +78,23 @@
             }
             #clearcanvas {
                 position: relative;
-                left:34%;
+                left:50%;
                 background-color: transparent;
                 cursor: pointer;
                 outline: none;
-                border: none;
+                border-radius: 6px;
+                border: solid lightgray 1px;
                 color: white;
+                transition: 0.3s;
             }
             #clearcanvas:hover {
                 background-color: lightgray;
                 color: black;
-                border-radius: 6px;
+                transition: 0.3s;
             }
             #clearcanvas:active {
                 transform: scale(0.9,0.9);
+                transition: 0.3s;
             }
             #zeichnenoptions_div {
                 position: absolute;
@@ -155,9 +178,11 @@
             #canvasEbene2 {
                 position: absolute;
                 background-color: transparent;
+                z-index: var(--canvas2-z-index);
             }
             #sidebar {
-                z-index: 300;
+                position: absolute;
+                z-index: 99;
                 width: 3%;
                 height: 600px;
                 background-color: #999;
@@ -165,7 +190,7 @@
                 transition: 0.5s;
             }
             #sidebar:hover {
-                width: 15%
+                width: 15%;
             }
             #sidebar:hover > .sidebar-container {
                 left: 0;
@@ -179,6 +204,7 @@
                 left: -12%;
             }
             .sidebar-elements {
+                position: relative;
                 display: block;
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -186,13 +212,27 @@
                 border: solid 1px #767676;
                 width: 100%;
                 text-align: left;
+                z-index: 2;
             }
             .sidebar-elements:hover {
                 color: white;
-                background-color: #767676;
+                border-color: #66CDAA;
             }
             .sidebar-elements:active {
                 color:#66CDAA;
+            }
+            .sidebar-elements-label {
+                position: absolute;
+                right: 4.5%;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: transparent;
+                border: none;
+                text-align: right;
+                border-left: none;
+                z-index: 1;
+                transition: 0.5s;
             }
             #sidebar-container-2 {
                 z-index: 1;
@@ -215,6 +255,7 @@
             }
             .sidebar-elements-container-2:hover {
                 transform: scale(1.1);
+                transition: 0.3s;
             }
             #sidebar-container-3 {
                 z-index: 1;
@@ -224,22 +265,77 @@
                 left: 15%;
                 background-color: #999;
                 visibility: hidden;
-                margin-top: 86px;
                 top: var(--sidebar-container-3-top);
             }
             .sidebar-elements-container-3 {
                 display: block;
                 padding-top: 10px;
                 padding-bottom: 10px;
-                background-color: transparent;
+                background-color: #999;
                 border: solid 1px #66CDAA;
                 width: 100%;
                 text-align: left;
                 color: white;
             }
+            .sidebar-elements-container-3:hover {
+                transition: 0.3s;
+                color: #66CDAA;
+                transform: scale(1.05);
+            }
+            .sidebar-elements-container-3:active {
+                color: #66CDAA;
+            }
+            .pfeile {
+                position: relative;
+                border-radius: 6px;
+                left:34%;
+                background-color: transparent;
+                cursor: pointer;
+                outline: none;
+                margin-left: 10px;
+                margin-right: 20px;
+                width: 60px;
+                border: solid lightgray 1px;
+                transition: 0.3s;
+            }
+            .pfeile span {
+                position: relative;
+                font-size: 25px;
+                color: white;
+                transition: 0.3s;
+            }
+            .pfeile:hover {
+                background-color: lightgray;
+                transition: 0.3s;
+            }
+            .pfeile:hover span {
+                color: black;
+                transition: 0.3s;
+            }
+            .pfeile:active {
+                transform: scale(0.9,0.9);
+                transition: 0.3s;
+            }
+            #goback span {
+                left: 0;
+                transition: 0.1s;
+            }
+            #goback:active span{
+                position: relative;
+                left: -10px;
+                transition: 0.1s;
+            }
+            #goforward span {
+                right: 0;
+                transition: 0.1s;
+            }
+            #goforward:active span{
+                position: relative;
+                right: -10px;
+                transition: 0.1s;
+            }
         </style>
     </head>
-
 
     <body class="theme-dark">
         <div id="zeichnenoptions_div" style="width:15%"></div>
@@ -278,10 +374,10 @@
                 </nav>
                 <div id="sidebar" style="position: absolute; ">
                     <div class="sidebar-container">
-                        <button class="sidebar-elements js-noMenu" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')" oncontextmenu="hintergrundAusklappen('klick')">Hintergrund</button>
-                        <button class="sidebar-elements js-noMenu" id="malennachzahlen_btn" onClick="malennachzahlenActivate()" oncontextmenu="malennachzahlenActivate()">Malennachzahlen</button>
-                        <button class="sidebar-elements js-noMenu" id="datei_btn" onClick="dateiAusklappen('klick')" oncontextmenu="dateiAusklappen('klick')">Datei</button>
-                        <button class="sidebar-elements js-noMenu">kommt noch</button>
+                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')" oncontextmenu="hintergrundAusklappen('klick')">Hintergrund</button>
+                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="malennachzahlen_btn" onClick="malennachzahlenActivate()" oncontextmenu="malennachzahlenActivate()">Malennachzahlen</button>
+                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="datei_btn" onClick="dateiAusklappen('klick')" oncontextmenu="dateiAusklappen('klick')">Datei</button>
+                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu">kommt noch</button>
                     </div>
                     <div id="sidebar-container-2">
                         <button class="sidebar-elements-container-2 js-noMenu" style="background-color: red;"     onCLick="bgChanger('red')"      oncontextmenu="bgChanger('red')">red</button>
@@ -295,7 +391,7 @@
                         <button class="sidebar-elements-container-2 js-noMenu" style="background-color: grey;"    onCLick="bgChanger('grey')"     oncontextmenu="bgChanger('grey')">grey</button>
                     </div>
                     <div id="sidebar-container-3">
-                        <button class="sidebar-elements-container-3">Speichern unter</button>
+                        <button class="sidebar-elements-container-3">Test</button>
                     </div>
                 </div> 
                 <main class="content-full">
@@ -304,15 +400,17 @@
                         {% csrf_token %}
                         <div class="pad-all-half" style="display:inline-flex; flex:20%"></div>
                         <div class="pad-all-half" style="display:inline-flex; flex:60%" style="align-items: center; justify-content: center">
-                            <button id="zeichnen" class="tools js-noMenu" onClick="zeichnenActivate()" oncontextmenu="zeichnenoptionsActivate('left')" onmouseout="zeichnenoptionsActivate('right')">Zeichnen</button>
-                            <button id="radieren" class="tools js-noMenu" onClick="radierenActivate()" oncontextmenu="radierenoptionsActivate('left')" onmouseout="radierenoptionsActivate('right')">Radierer</button>
-                            <button id="formen" class="tools js-noMenu" onClick="formenActivate()" oncontextmenu="formenoptionsActivate('left')" onmouseout="formenoptionsActivate('right')">Formen</button>
+                            <button id="zeichnen" class="tools js-noMenu" onClick="zeichnenActivate()" oncontextmenu="zeichnenoptionsActivate('left')" onmouseout="zeichnenoptionsActivate('right')"><span>Zeichnen</span></button>
+                            <button id="radieren" class="tools js-noMenu" onClick="radierenActivate()" oncontextmenu="radierenoptionsActivate('left')" onmouseout="radierenoptionsActivate('right')"><span>Radierer</span></button>
+                            <button id="formen" class="tools js-noMenu" onClick="formenActivate()" oncontextmenu="formenoptionsActivate('left')" onmouseout="formenoptionsActivate('right')"><span>Formen</span></button>
                         </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:20%"></div>
                         <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
                             <canvas id="canvas" width="1200" height="600"></canvas>
                         </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:50%">
+                            <button class="pfeile" id="goback" onClick="goback()"><span>&lArr;</span></button>
+                            <button class="pfeile" id="goforward" onClick="goforward()"><span>&rArr;</span></button>
                             <button id="clearcanvas" onClick="clearCanvas()">clear</button>
                         </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:50%">
@@ -372,11 +470,22 @@
             var zahlenCords = {};
             var abbrechen = false;
             var malennachZahlen = false;
-            var randomFarben = ["red", "black", "blue", "yellow", "green", "purple", "pink", "orange", "grey"];
+            var randomFarben = ["red", "black", "blue", "green", "purple", "pink", "orange", "grey"];
             var connectNumber = {
                 aktuelleNummer: 0,
                 NummernAnzahl: "",
             }
+            var backups = {
+                src: [],
+                bg: [],
+            };
+            var backupPosition;
+            var sidebar = document.getElementById("sidebar");
+            var besondereForm = {
+                start: [],
+                aktuellePosition: [],
+                positionen: [],
+            };
 
 //--------------------------------------------------
 //canvas2 erstellen
@@ -386,9 +495,9 @@
                 $("#canvasEbene2").css('left', canvas_pos.left+3)
                 $("#canvasEbene2").css('top', canvas_pos.top+3)
                 if(formen == true) {
-                    $("#canvasEbene2").css('z-index', '11');
+                    canvas2.style.setProperty('--canvas2-z-index', 3);
                 } else {
-                    $("#canvasEbene2").css('z-index', '0');                
+                    canvas2.style.setProperty('--canvas2-z-index', 0);            
                 }
             }
             canvas2erstellen();
@@ -732,8 +841,10 @@
 
                 const row1 = document.createElement("tr");
                 row1.id = "row1formen";
+                const row2 = document.createElement("tr");
+                row2.id = "row2formen";
 
-                alleRows = [row1];
+                alleRows = [row1, row2];
                 for(var i = 0; i < alleRows.length; i++) {
                     row = alleRows[i];
                     row.className = "formrows";
@@ -750,9 +861,15 @@
                 column3row1Element.id = "column3row1";
                 column3row1Element.width = "34%";
 
+                const column1row2Element = document.createElement("td");
+                column1row2Element.id = "column1row1";
+                column1row2Element.width = "33%";
+
                 row1.appendChild(column1row1Element);
                 row1.appendChild(column2row1Element);
                 row1.appendChild(column3row1Element);
+
+                row2.appendChild(column1row2Element);
 
                 const Square = document.createElement("button");
                 Square.innerHTML = "Box";
@@ -760,14 +877,17 @@
                 Line.innerHTML = "Linie";
                 const Circle = document.createElement("button");
                 Circle.innerHTML = "Kreis";
+                const Besonders = document.createElement("button");
+                Besonders.innerHTML = "Besonders";
                 
                 
                 Square.id = "square";
                 Line.id = "line";
                 Circle.id = "circle";
+                Besonders.id = "besonders";
 
                 //für alle festgelegte Eigenschaften:
-                alleFormen = [Square, Line, Circle];
+                alleFormen = [Square, Line, Circle, Besonders];
                 for(var i = 0; i < alleFormen.length; i++) {
                     Form = alleFormen[i]
                     Form.className = "formButtons";
@@ -780,6 +900,7 @@
                 column1row1Element.appendChild(Square);
                 column2row1Element.appendChild(Line);
                 column3row1Element.appendChild(Circle);
+                column1row2Element.appendChild(Besonders);
                 
                 createformenbuttonListener(alleFormen);
                 return
@@ -889,6 +1010,38 @@
                     letzteForm.form = "circle";
                     letzteForm.cords = [xstart, ystart, radius];
                 }
+                //Besonders
+                else if(aktuelleForm == "besonders") {
+                    letzteForm.form = "besonders";
+                    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+                    if(besondereForm.start.length == 2) {
+                        if(entfernung(x, y, besondereForm.start[0], besondereForm.start[1]) < 20) {
+                            x = besondereForm.start[0];
+                            y = besondereForm.start[1];
+                        }
+                        ctx2.moveTo(besondereForm.aktuellePosition[0], besondereForm.aktuellePosition[1]);
+                        ctx2.lineTo(x, y);
+                    }
+                    if(mousedown_can2 == true) {
+
+                        besondereForm.aktuellePosition = [x, y]
+                        besondereForm.positionen.push([x, y]);
+                        
+                        if(besondereForm.start.length != 2) {
+                            besondereForm.start = [x, y];
+                            console.log(besondereForm.start)
+                        } else {
+                            letzteForm.cords = [besondereForm.positionen[besondereForm.positionen.length-2][0], besondereForm.positionen[besondereForm.positionen.length-2][1], besondereForm.aktuellePosition[0], besondereForm.aktuellePosition[1]]
+                            doformenOnMain();
+                            if(x == besondereForm.start[0] && y == besondereForm.start[1]) {
+                                besondereForm.start = [];
+                                besondereForm.aktuellePosition = [];
+                                besondereForm.positionen = [];
+                                savetobackup();
+                            }
+                        }
+                    }
+                }
                 ctx2.stroke();
             }
 
@@ -896,7 +1049,7 @@
                 ctx.beginPath();
                 ctx.strokeStyle = farbe;
                 if(aktuelleForm == "square") {
-                    ctx.rect(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], letzteForm.cords[3])
+                    ctx.rect(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], letzteForm.cords[3]);
                 }
                 else if(aktuelleForm == "line") {
                     ctx.moveTo(letzteForm.cords[0], letzteForm.cords[1]);
@@ -905,7 +1058,14 @@
                 else if(aktuelleForm == "circle") {
                     ctx.arc(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], 0, 2*Math.PI);
                 }
+                else if(aktuelleForm == "besonders") {
+                    ctx.moveTo(letzteForm.cords[0], letzteForm.cords[1]);
+                    ctx.lineTo(letzteForm.cords[2], letzteForm.cords[3]);
+                }
                 ctx.stroke();
+                if(aktuelleForm != "besonders") {
+                    savetobackup();
+                }
             }
 
             function clearCanvas() {
@@ -939,7 +1099,7 @@
                     if(radieren == true && mousedown == true) {
                         doradieren(x, y);
                     }
-                    if(formen == true && mousedown == true) {
+                    if(formen == true && mousedown == true && aktuelleForm != "besonders") {
                         doformen(x, y)
                     }
                 }
@@ -983,6 +1143,9 @@
                     ctx.fill();
                     ctx.globalCompositeOperation = 'source-over';
                 }
+                if(radieren == true || zeichnen == true || formen == true || malennachZahlen == true) {
+                    savetobackup()
+                }
             });
                     
             [...document.querySelectorAll(".js-noMenu")].forEach( el => 
@@ -1006,7 +1169,7 @@
                     if(radieren == true && mousedown_can2 == true) {
                         doradieren(xcan2, ycan2);
                     }
-                    if(formen == true && mousedown_can2 == true) {
+                    if(formen == true && (mousedown_can2 == true || aktuelleForm == "besonders")) {
                         doformen(xcan2, ycan2)
                     }
                 }
@@ -1024,9 +1187,11 @@
                 xcan2 = Math.floor(pos.x);
                 ycan2 = Math.floor(pos.y);
                 mousedown_can2 = true
+                 
                 //zum Malen um die letze Psoition zu finden
                 vorherigesx_can2 = xcan2;
                 vorherigesy_can2 = ycan2;
+                doformen(xcan2, ycan2);
             });
             //canvas2 Listener
             canvas2.addEventListener('mouseup', function(evt) {
@@ -1044,7 +1209,9 @@
                     ctx2.fillStyle = hintergrundfarbe;
                     ctx2.fill();
                 }
-                doformenOnMain();
+                if(aktuelleForm != "besonders") {
+                    doformenOnMain();
+                }
             });
 
             window.addEventListener('mousemove', function(evt){
@@ -1111,8 +1278,18 @@
             }
 
             window.addEventListener('resize', function() {
-                canvas2erstellen();
-                sidebarEinstellungen();
+                setTimeout(canvas2erstellen, 50)
+                setTimeout(sidebarEinstellungen, 50)
+            })
+
+            sidebar.addEventListener('mouseenter', function() {
+                canvas2.style.setProperty('--canvas2-z-index', 0)
+            })
+
+            sidebar.addEventListener('mouseleave', function() {
+                if(formen == true) {
+                    canvas2.style.setProperty('--canvas2-z-index', 3)
+                }
             })
 
 //--------------------------------------------------
@@ -1188,7 +1365,12 @@
                     return false
                 }
             }
-//--------------------------------------------------
+
+            function entfernung(xstart, ystart, x, y) {
+                return Math.sqrt(Math.pow(xstart - x, 2) + Math.pow(ystart - y, 2))
+            }
+
+            //--------------------------------------------------
 //sidebar
             function sidebarEinstellungen() {
                 const sidebar = document.getElementById("sidebar");
@@ -1202,7 +1384,7 @@
             function hintergrundAusklappen(who) {
                 let sidebarContainer2 = document.getElementById("sidebar-container-2");
                 let sidebarButtonbg = document.getElementById("hintergrund_btn");
-                
+                console.log(sidebarButtonbg.getBoundingClientRect())
 
                 if(who == "klick") {
                     ausklappentimer1 = window.setInterval(hintergrundAusklappen, 100);
@@ -1220,8 +1402,8 @@
             function dateiAusklappen(who) {
                 let sidebarContainer3 = document.getElementById("sidebar-container-3");
                 let sidebarButtonDatei = document.getElementById("datei_btn");
-                buttonBCR = sidebarButtonDatei.getBoundingClientRect()
-                sidebarContainer3.style.setProperty('--sidebar-container-3-top', buttonBCR.top)
+                buttonBCR = sidebarButtonDatei.getBoundingClientRect();
+                sidebarContainer3.style.setProperty('--sidebar-container-3-top', buttonBCR.top+"px");
                 if(who == "klick") {
                     ausklappentimer2 = window.setInterval(dateiAusklappen, 100);
                     sidebarContainer3.style.visibility = "visible";
@@ -1238,6 +1420,8 @@
             function bgChanger(farbe) {
                 canvas.style.backgroundColor = farbe;
                 hintergrundfarbe = farbe;
+                savetobackup()
+                return
             }
 //malen nach Zahlen
             function malennachzahlenActivate() {
@@ -1280,7 +1464,7 @@
                     ctx.fillStyle = textFarbe;
                     ctx.fillText(i+1, zahlenCords[i][0], zahlenCords[i][1])
                 }
-                console.log(zahlenCords)
+                savetobackup();
                 return
             }
 
@@ -1318,6 +1502,67 @@
                     ctx.globalCompositeOperation = "source-over";
                 }
             }
+        
+//--------------------------------------------------
+//backups
+            function savetobackup(){
+                backups.src.splice(backupPosition+1, Infinity);
+                backups.bg.splice(backupPosition+1, Infinity);
+
+                backups.src.push(canvas.toDataURL("image/png"));
+                backups.bg.push(hintergrundfarbe);
+
+                backupPosition = backups.src.length-1;
+                console.log(backups.src)
+                return
+            }
+
+            function goback() {
+                clearCanvas();
+                img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0)
+                }
+                backupPosition = backupPosition-1;
+                img.src = backups.src[backupPosition];
+                canvas.style.backgroundColor = backups.bg[backupPosition];
+                return
+            }
+        
+            function goforward() {
+                if(backupPosition != backups.src.length-1) {
+                    clearCanvas();
+                    img = new Image();
+                    img.onload = function() {
+                        ctx.drawImage(img, 0, 0)
+                    }
+                    backupPosition = backupPosition+1;
+                    img.src = backups.src[backupPosition];
+                    canvas.style.backgroundColor = backups.bg[backupPosition];
+                }
+                
+                return
+            }
+//--------------------------------------------------
+//JQuery
+            //Pfeile in der Sidebar
+            $('.sidebar-elements').hover(function() {
+                $(this).prev().css('right', 0);
+                }, function() {
+                $(this).prev().css('right', '4.5%');
+            })
+            $(document).ready(function() {
+                $('.sidebar-elements').on('mousedown', function() {
+                    $(this).prev().css('transition', '0.1s');
+                    $(this).prev().css('right', '-5px');
+                });
+                $('.sidebar-elements').on('mouseup', function() {
+                    $(this).prev().css('right', '0');
+                    $(this).prev().css('transition', '0.5s');
+                });
+            });
+            
+
         </script>
         
         <footer>
