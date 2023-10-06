@@ -96,6 +96,26 @@
                 transform: scale(0.9,0.9);
                 transition: 0.3s;
             }
+            .buttonsUnterCanvas {
+                position: relative;
+                left:60%;
+                background-color: transparent;
+                cursor: pointer;
+                outline: none;
+                border-radius: 6px;
+                border: solid lightgray 1px;
+                color: white;
+                transition: 0.3s;
+            }
+            .buttonsUnterCanvas:hover {
+                background-color: lightgray;
+                color: black;
+                transition: 0.3s;
+            }
+            .buttonsUnterCanvas:active {
+                transform: scale(0.9,0.9);
+                transition: 0.3s;
+            }
             #zeichnenoptions_div {
                 position: absolute;
                 z-index: 100;
@@ -334,6 +354,48 @@
                 right: -10px;
                 transition: 0.1s;
             }
+            #settingsTable {
+                position: absolute;
+                border: solid #666 1px;
+                background-image: linear-gradient(to bottom, rgba(50,50,50,.99), rgba(78, 78, 78, 0.99));
+                color: white;
+                box-shadow: 1px 1px 2px black, 0 0 15px grey, 0 0 2px white;
+            }
+            .settings_th {
+                font-size: 25px;
+                padding-bottom: 10px;
+                text-decoration: underline;
+            }
+            .settings_td {
+                padding-top: 15px;
+                padding-bottom: 15px;
+                padding-left: 6px;
+            }
+            .settings_td:hover {
+                font-weight: bold;
+            }
+            .variable {
+                text-align: right;
+                padding-right: 18px
+            }
+            #bilderTable {
+                position: absolute;
+                border: solid #666 1px;
+                background-image: linear-gradient(to bottom, rgba(50,50,50,.99), rgba(78, 78, 78, 0.99));
+                color: white;
+                box-shadow: 1px 1px 2px black, 0 0 15px grey, 0 0 2px white;
+            }
+            .bilder_th {
+                font-size: 25px;
+                padding-bottom: 10px;
+                text-decoration: underline;
+            }
+            .bilder {
+                width: 120px;
+                height: 60px;
+                background-color: grey;
+                border: none;
+            }
         </style>
     </head>
 
@@ -376,7 +438,7 @@
                     <div class="sidebar-container">
                         <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="hintergrund_btn" onClick="hintergrundAusklappen('klick')" oncontextmenu="hintergrundAusklappen('klick')">Hintergrund</button>
                         <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="malennachzahlen_btn" onClick="malennachzahlenActivate()" oncontextmenu="malennachzahlenActivate()">Malennachzahlen</button>
-                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="datei_btn" onClick="dateiAusklappen('klick')" oncontextmenu="dateiAusklappen('klick')">Datei</button>
+                        <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu" id="ansicht_btn" onClick="ansichtAusklappen('klick')" oncontextmenu="ansichtAusklappen('klick')">Ansicht</button>
                         <label class="sidebar-elements-label">&raquo;</label><button class="sidebar-elements js-noMenu">kommt noch</button>
                     </div>
                     <div id="sidebar-container-2">
@@ -391,7 +453,7 @@
                         <button class="sidebar-elements-container-2 js-noMenu" style="background-color: grey;"    onCLick="bgChanger('grey')"     oncontextmenu="bgChanger('grey')">grey</button>
                     </div>
                     <div id="sidebar-container-3">
-                        <button class="sidebar-elements-container-3">Test</button>
+                        <button class="sidebar-elements-container-3"><span>Gitternetzlinien</span></button>
                     </div>
                 </div> 
                 <main class="content-full">
@@ -408,10 +470,53 @@
                         <div class="pad-all-half" style="display:inline-flex; flex:100%" style="align-items: center; justify-content: center">
                             <canvas id="canvas" width="1200" height="600"></canvas>
                         </div>
+                        <div>
+                            <table id="settingsTable">
+                                <tr class="settings_tr">
+                                    <th class="settings_th" colspan="2"><span>Settings:</span></th>
+                                </tr>
+                                <tr>
+                                    <td class="settings_td"><span>Strichfarbe:</span></td>
+                                    <td class="settings_td variable" id="table_strichfarbe"><span></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="settings_td"><span>Strichdicke:</span></td>
+                                    <td class="settings_td variable" id="table_strichdicke"><span></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="settings_td"><span>Active Form:</span></td>
+                                    <td class="settings_td variable" id="table_activeForm"><span></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="settings_td"><span>Radierdicke:</span></td>
+                                    <td class="settings_td variable" id="table_radierdicke"><span></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <table id="bilderTable">
+                                <tr class="bilder_tr">
+                                    <th class="bilder_th" colspan="2"><span>Bilder</span></th>
+                                </tr>
+                                <tr>
+                                    <td class="bilder_td"><img class="bilder" id="bilder0"></td>
+                                    <td class="bilder_td"><img class="bilder" id="bilder1"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bilder_td"><img class="bilder" id="bilder2"></td>
+                                    <td class="bilder_td"><img class="bilder" id="bilder3"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bilder_td"><img class="bilder" id="bilder4"></td>
+                                    <td class="bilder_td"><img class="bilder" id="bilder5"></td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:50%">
                             <button class="pfeile" id="goback" onClick="goback()"><span>&lArr;</span></button>
                             <button class="pfeile" id="goforward" onClick="goforward()"><span>&rArr;</span></button>
                             <button id="clearcanvas" onClick="clearCanvas()">clear</button>
+                            <button class="buttonsUnterCanvas" onClick="bildschirmFoto()">Bildschirmfoto</button>
                         </div>
                         <div class="pad-all-half" style="display:inline-flex; flex:50%">
                             <label id="currentpos"></label>
@@ -486,9 +591,12 @@
                 aktuellePosition: [],
                 positionen: [],
             };
+            var canscreens = []
+            var hintergrundlist = [];
+
 
 //--------------------------------------------------
-//canvas2 erstellen
+//HTML Elemente erstellen
             function canvas2erstellen() {
                 ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
                 canvas_pos = canvas.getBoundingClientRect();
@@ -502,6 +610,39 @@
             }
             canvas2erstellen();
 
+            function activeSettings() {
+                Tabelle = document.getElementById("settingsTable");
+                canvas_pos = canvas.getBoundingClientRect();
+                breite = $(window).width()
+                tablewidth = breite - (canvas_pos.right+40)
+
+                $(Tabelle).css({top: canvas_pos.top+"px"});
+                $(Tabelle).css({left: canvas_pos.right+20+"px"});
+                $(Tabelle).css({width: tablewidth+"px"});
+                
+                $('#table_strichfarbe span').text(farbe);
+                $('#table_strichdicke').text(strichdicke);
+                $('#table_activeForm').text(aktuelleForm);
+                $('#table_radierdicke').text(radierdicke);
+
+                console.log(canvas_pos.top)
+                return
+            }
+            activeSettings();
+
+            function bilderTable() {
+                Tabelle = document.getElementById("bilderTable");
+                TabelleSettings = document.getElementById("settingsTable")
+                canvas_pos = canvas.getBoundingClientRect();
+                tabelleSettings_pos = TabelleSettings.getBoundingClientRect();
+                breite = $(window).width();
+                tablewidth = breite - (canvas_pos.right+40);
+
+                $(Tabelle).css({top: tabelleSettings_pos.bottom+40+"px"});
+                $(Tabelle).css({left: canvas_pos.right+20+"px"});
+                $(Tabelle).css({width: tablewidth+"px"});
+            }
+            bilderTable();
 //--------------------------------------------------
 //tools aktivieren
 
@@ -963,7 +1104,10 @@
                 xstart = vorherigesx_can2;
                 ystart = vorherigesy_can2;
                 ctx2.beginPath();
+                ctx2.strokeWidth = strichdicke;
+                ctx2.lineWidth = strichdicke;
                 ctx2.strokeStyle = farbe;   
+                ctx2.fillStyle = farbe;
                 if(aktuelleForm == "square") {
                     //Viereck
                     if(x < xstart) {
@@ -1026,6 +1170,12 @@
 
                         besondereForm.aktuellePosition = [x, y]
                         besondereForm.positionen.push([x, y]);
+
+                        ctx.beginPath();
+                        ctx.fillStyle = farbe;
+                        ctx.lineWidth = strichdicke;
+                        ctx.arc(x, y, (strichdicke/2), 0, 2*Math.PI);
+                        ctx.fill()
                         
                         if(besondereForm.start.length != 2) {
                             besondereForm.start = [x, y];
@@ -1048,6 +1198,9 @@
             function doformenOnMain() {
                 ctx.beginPath();
                 ctx.strokeStyle = farbe;
+                ctx.strokeWidth = strichdicke;
+                ctx.lineWidth = strichdicke;
+                ctx.fillStyle = farbe;
                 if(aktuelleForm == "square") {
                     ctx.rect(letzteForm.cords[0], letzteForm.cords[1], letzteForm.cords[2], letzteForm.cords[3]);
                 }
@@ -1230,6 +1383,7 @@
                         altefarbe = farbe;
                         farbe = String(this.id);
                         mainfarbSwitch(altefarbe, this.id);
+                        activeSettings();
                         if(xvonAltenOptions != undefined && yvonAltenOptions != undefined) {
                             deleteZeichnenOptions();
                             createZeichnenOptions(xvonAltenOptions, yvonAltenOptions);
@@ -1245,6 +1399,7 @@
                     number = numberUnedited.replace(",", ".")
                     if(Number.isInteger(Number(number))) {
                         strichdicke = parseInt(number)
+                        activeSettings();
                     }
                 })
                 return
@@ -1257,6 +1412,7 @@
                     number = numberUnedited.replace(",", ".")
                     if(Number.isInteger(Number(number))) {
                         radierdicke = parseInt(number)
+                        activeSettings();
                     }
                 })
                 return
@@ -1271,6 +1427,7 @@
                         alteForm.style.backgroundColor= "#66CDAA";
                         aktuelleForm = this.id;
                         this.style.backgroundColor = "red";
+                        activeSettings();
                     })
                 }
                 
@@ -1278,8 +1435,14 @@
             }
 
             window.addEventListener('resize', function() {
-                setTimeout(canvas2erstellen, 50)
-                setTimeout(sidebarEinstellungen, 50)
+                canvas2erstellen();
+                setTimeout(canvas2erstellen, 50);
+                sidebarEinstellungen();
+                setTimeout(sidebarEinstellungen, 50);
+                activeSettings();
+                setTimeout(activeSettings, 50);
+                bilderTable();
+                setTimeout(bilderTable, 50);
             })
 
             sidebar.addEventListener('mouseenter', function() {
@@ -1292,6 +1455,16 @@
                 }
             })
 
+            window.addEventListener("keydown", function(event) {
+                if(event.keyCode == 90 && event.ctrlKey == true) {
+                    event.preventDefault();
+                    goback();
+                }
+                if(event.keyCode == 89 && event.ctrlKey == true) {
+                    event.preventDefault();
+                    goforward();
+                }
+            })
 //--------------------------------------------------
 //hilfreiche Funktionen
 
@@ -1399,17 +1572,17 @@
                 }
             }
 
-            function dateiAusklappen(who) {
+            function ansichtAusklappen(who) {
                 let sidebarContainer3 = document.getElementById("sidebar-container-3");
-                let sidebarButtonDatei = document.getElementById("datei_btn");
-                buttonBCR = sidebarButtonDatei.getBoundingClientRect();
+                let sidebarButtonAnsicht = document.getElementById("ansicht_btn");
+                buttonBCR = sidebarButtonAnsicht.getBoundingClientRect();
                 sidebarContainer3.style.setProperty('--sidebar-container-3-top', buttonBCR.top+"px");
                 if(who == "klick") {
-                    ausklappentimer2 = window.setInterval(dateiAusklappen, 100);
+                    ausklappentimer2 = window.setInterval(ansichtAusklappen, 100);
                     sidebarContainer3.style.visibility = "visible";
                 }
                 
-                if(posinRect(mausposX, mausposY, sidebarButtonDatei.getBoundingClientRect()) == true || posinRect(mausposX, mausposY, sidebarContainer3.getBoundingClientRect()) == true) {
+                if(posinRect(mausposX, mausposY, sidebarButtonAnsicht.getBoundingClientRect()) == true || posinRect(mausposX, mausposY, sidebarContainer3.getBoundingClientRect()) == true) {
                     return
                 } else {
                     sidebarContainer3.style.visibility = "hidden";
@@ -1543,7 +1716,21 @@
                 
                 return
             }
-//--------------------------------------------------
+
+            function bildschirmFoto() {
+                canscreens.push(backups.src[backups.src.length-1])
+                hintergrundlist.push(backups.bg[backups.bg.length-1])
+                screens = canscreens.reverse();
+                bgslist = hintergrundlist.reverse();
+                var i = 0;
+                [...document.querySelectorAll(".bilder")].forEach(function(element) {
+                    console.log(screens[i])
+                    $(element).attr('src', screens[i]);
+                    $(element).css({backgroundColor: bgslist[i]})
+                    i++;
+                });
+            }
+            //--------------------------------------------------
 //JQuery
             //Pfeile in der Sidebar
             $('.sidebar-elements').hover(function() {
@@ -1562,7 +1749,6 @@
                 });
             });
             
-
         </script>
         
         <footer>
