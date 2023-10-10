@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Webscraper</title>
+    <style>
+        body {
+            background: #999;
+        }
+        #form {
+            width: 100%;
+            height: 100%;
+        }
+        .search-container {
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+        }
+        .suche {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <form method="GET" action="" id="form">
+        {% csrf_token %}
+        <div class="search-container">
+            <input name="searchInput" id="searchInput" class="suche"></input>
+            <button class="suche" onClick="createList()">Suchen</button>
+            <ol>
+                <li></li>
+            </ol>
+        </div>
+    </form>
+    <script>
+        // function createList() {
+        //     for(var i = 0; i < '{{überschriftList}}'.lenght; i++) {
+        //         element = document.createElement("li");
+        //         element.class = "überschriftList-element";
+
+        //         ol = document.getElementById("überschriften-list");
+        //         ol.appendChild(element)
+        //         console.log('{{ überschriftList }}');
+        //     }
+        // }
+    </script>
+</body>
+</html>

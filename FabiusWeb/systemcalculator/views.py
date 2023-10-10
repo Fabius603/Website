@@ -2,6 +2,8 @@ from django.template import loader
 from django.http import HttpResponse
 from random import randrange
 import json
+import requests
+from bs4 import BeautifulSoup
 
 context = {'ergebnis': "", 'verlauf': [], 'feldgröße': [], 'spielerfarben': [], 'strich_color': []}
 def systemcalculator(request):
@@ -59,6 +61,18 @@ def main(request):
     template = loader.get_template('main.html')
     context["ergebnis"] = ""
     return HttpResponse(template.render(request=request))
+
+def webscraper(request):
+    template = loader.get_template('webscraper.html')
+    if request.method == "GET":
+        suchEingabe = request.GET.get('searchInput')
+        print(suchEingabe)
+        if suchEingabe != "":
+            webScraper().main(suchEingabe)
+        return HttpResponse(template.render(context, request=request))
+    else:
+        return HttpResponse(template.render(context, request=request))
+    
 
 
 def generator(länge, klein, groß, num, sym):
@@ -363,3 +377,25 @@ class Systems():
 
         else:
             self.fehler("FEHLER!")
+
+class webScraper():
+    def __init__(self):
+        pass
+    
+    def main(self, suchEingabe):
+        self.suchEingabe = suchEingabe
+        self.URL = f'https://de.wikipedia.org/wiki/{self.suchEingabe}'
+        self.website = requests.get(self.URL)
+        self.results = BeautifulSoup(self.website.content, 'html.parser')
+        self.zähler = 1
+        self.headings()
+
+    def headings(self):
+        überschriften = self.results.find_all('h2')
+        context['überschriftList'] = []
+
+        for überschrift in überschriften:
+            text = überschrift.text.replace("[Bearbeiten | Quelltext bearbeiten]", "")
+            context["überschriftList"].append(text)
+            self.zähler = self.zähler + 1
+        return
