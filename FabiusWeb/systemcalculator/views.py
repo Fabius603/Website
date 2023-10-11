@@ -380,22 +380,71 @@ class Systems():
 
 class webScraper():
     def __init__(self):
-        pass
+        self.zähler = 1
+        self.absatzText = []
+        self.Texte = []
+        self.firsth2 = ""
+        self.firstp = ""
+        self.firstpwithhead = ""
     
     def main(self, suchEingabe):
         self.suchEingabe = suchEingabe
         self.URL = f'https://de.wikipedia.org/wiki/{self.suchEingabe}'
         self.website = requests.get(self.URL)
         self.results = BeautifulSoup(self.website.content, 'html.parser')
-        self.zähler = 1
         self.headings()
 
     def headings(self):
         überschriften = self.results.find_all('h2')
         context['überschriftList'] = []
+        self.firsth2 = self.results.find_all('h2')
+        self.firstpwithhead = self.firsth2[1].find_next_sibling()
+        self.firstp = self.results.find('p')
+        context['Text'] = {}
+
+        while True:
+            if(self.firstpwithhead != self.firstp):
+                if self.firstp is not None:
+                    self.absatzText.append(self.firstp.text)
+                    self.firstp = self.firstp.find_next_sibling()
+                else:
+                    break
+            else:
+                break
+        self.Texte.append(self.replace("".join(self.absatzText)))
 
         for überschrift in überschriften:
             text = überschrift.text.replace("[Bearbeiten | Quelltext bearbeiten]", "")
             context["überschriftList"].append(text)
             self.zähler = self.zähler + 1
+            #zu jeder Überschrift direkt den Text
+            Text = überschrift.find_next_sibling()
+            self.absatzText = []
+            context['Text'] = {}
+            while True:
+                # if(Text.parent["class"] != "mw-parser-output"):
+                #     break
+
+                if(Text.name == "figure"):
+                    Text = Text.find_next_sibling()
+                    continue
+
+                if(Text.name == "p" or Text.name == "figure"):
+                    self.absatzText.append(Text.text)
+                    Text = Text.find_next_sibling()
+                    
+                else: 
+                    break
+
+                self.Texte.append(self.replace("".join(self.absatzText)))
+                context['Text'] = json.dumps(self.Texte)
         return
+
+
+    def replace(self, item):
+        for ele in item:
+            if ele.isdigit():
+                item = item.replace("["+ele+"]", "")
+        item = item.replace("[Bearbeiten | Quelltext bearbeiten]", "")
+        newitem = item.replace("\n\n", "")
+        return newitem
