@@ -4,6 +4,7 @@ from random import randrange
 import json
 import requests
 from bs4 import BeautifulSoup
+import re
 
 context = {'ergebnis': "", 'verlauf': [], 'feldgröße': [], 'spielerfarben': [], 'strich_color': []}
 def systemcalculator(request):
@@ -66,9 +67,9 @@ def webscraper(request):
     template = loader.get_template('webscraper.html')
     if request.method == "GET":
         suchEingabe = request.GET.get('searchInput')
-        print(suchEingabe)
         if suchEingabe != "":
-            webScraper().main(suchEingabe)
+            context["headingsHtml"] = ["Allgemein"]
+            Scraper().run(suchEingabe)
         return HttpResponse(template.render(context, request=request))
     else:
         return HttpResponse(template.render(context, request=request))
@@ -108,7 +109,6 @@ def generator(länge, klein, groß, num, sym):
             if list == 4:
                 pos = randrange(18)
                 PASSWORT = PASSWORT + symbols[pos]
-        print(PASSWORT)
         context["passwort"] = PASSWORT
         return PASSWORT
     except:
@@ -152,7 +152,6 @@ class Settings():
 
         context['spielerfarben'] = []
         farben = []
-        print(p1_color)
         if p1_color == "rot":
             farben.append("red")
         elif p1_color == "blau":
@@ -192,7 +191,6 @@ class Settings():
             farben.append("black")
 
         context['spielerfarben'] = json.dumps(farben)
-        print(context)
 
 class Systems():
     def __init__(self):
@@ -342,7 +340,6 @@ class Systems():
 
     def fehler(self, nummer):
         context['ergebnis'] = nummer
-        print(nummer)
 
     def berechnen(self, von, zu, nummer):
         if von != zu:
@@ -378,73 +375,92 @@ class Systems():
         else:
             self.fehler("FEHLER!")
 
-class webScraper():
+
+class Scraper:
     def __init__(self):
-        self.zähler = 1
-        self.absatzText = []
-        self.Texte = []
-        self.firsth2 = ""
-        self.firstp = ""
-        self.firstpwithhead = ""
-    
-    def main(self, suchEingabe):
-        self.suchEingabe = suchEingabe
-        self.URL = f'https://de.wikipedia.org/wiki/{self.suchEingabe}'
-        self.website = requests.get(self.URL)
-        self.results = BeautifulSoup(self.website.content, 'html.parser')
-        self.headings()
+        self.letzteElement = ""
+        self.h2List = []
 
-    def headings(self):
-        überschriften = self.results.find_all('h2')
-        context['überschriftList'] = []
-        self.firsth2 = self.results.find_all('h2')
-        self.firstpwithhead = self.firsth2[1].find_next_sibling()
-        self.firstp = self.results.find('p')
-        context['Text'] = {}
+    def getData(self):
+        unordered_list = self.results.find("div", {"class": "mw-parser-output"})
+        children = unordered_list.findChildren()    
+        Literatur = unordered_list.find(id="Literatur")
+        Einzelnachweise = unordered_list.find(id="Einzelnachweise")
+        Weblinks = unordered_list.find(id="Weblinks")
+        Siehe_auch = unordered_list.find(id="Siehe_auch")
 
-        while True:
-            if(self.firstpwithhead != self.firstp):
-                if self.firstp is not None:
-                    self.absatzText.append(self.firstp.text)
-                    self.firstp = self.firstp.find_next_sibling()
-                else:
-                    break
-            else:
+        headlines = unordered_list.find_all("h2")
+        self.headlinesDict = {"Allgemein": ""}
+        self.headings = ['Allgemein']
+        for head in headlines:
+            überschriftText = self.replace(head.text)
+            if überschriftText == "Literatur" or überschriftText == "Einzelnachweise" or überschriftText == "Weblinks" or überschriftText == "Siehe auch":
                 break
-        self.Texte.append(self.replace("".join(self.absatzText)))
-
-        for überschrift in überschriften:
-            text = überschrift.text.replace("[Bearbeiten | Quelltext bearbeiten]", "")
-            context["überschriftList"].append(text)
-            self.zähler = self.zähler + 1
-            #zu jeder Überschrift direkt den Text
-            Text = überschrift.find_next_sibling()
-            self.absatzText = []
-            context['Text'] = {}
-            while True:
-                # if(Text.parent["class"] != "mw-parser-output"):
-                #     break
-
-                if(Text.name == "figure"):
-                    Text = Text.find_next_sibling()
-                    continue
-
-                if(Text.name == "p" or Text.name == "figure"):
-                    self.absatzText.append(Text.text)
-                    Text = Text.find_next_sibling()
+            if überschriftText != "Inhaltsverzeichnis":
+                self.headings.append(überschriftText)
+                self.headlinesDict[überschriftText] = ""
+                context["headingsHtml"].append(überschriftText)
+        context["headings"] = json.dumps(self.headings)
+        x = 0
+        hinzufügenZu = "Allgemein"
+        for child in children:
+            x = x + 1
+            if x < 20:
+                print(child)
+            if(self.letzteElement == self.replace(child.name)):
+                continue
+            if child == Literatur or child == Einzelnachweise or child == Weblinks or child == Siehe_auch:
+                break
+            if child.name == "div" or child.name == "style" or child.name == "figure" or child.name == "li" or child.name == "a" or child.name == "figcaption" or child.name == "i":
+                continue
+            
+            if child.name == "h2":
+                hinzufügenZu = self.replace(child.text)
+                self.h2List.append(child)
+                continue
                     
-                else: 
-                    break
+            if child.name == "ul" and child.parent != unordered_list:
+                continue
 
-                self.Texte.append(self.replace("".join(self.absatzText)))
-                context['Text'] = json.dumps(self.Texte)
-        return
+            if child.parent in self.h2List:
+                continue
+            
+            else:
+                if hinzufügenZu == "Inhaltsverzeichnis":
+                    continue
+                else:
+                    self.letzteElement = self.replace(child.text)
+                    self.headlinesDict[hinzufügenZu] = self.headlinesDict[hinzufügenZu] + (self.replace(child.text) + "\n\n")
+        
+        for head in self.headings:
+            self.headlinesDict[head] = self.replace(self.headlinesDict[head])
+        context["scraperText"] = json.dumps(self.headlinesDict)
+        print(self.headlinesDict)
 
 
-    def replace(self, item):
-        for ele in item:
-            if ele.isdigit():
-                item = item.replace("["+ele+"]", "")
-        item = item.replace("[Bearbeiten | Quelltext bearbeiten]", "")
-        newitem = item.replace("\n\n", "")
-        return newitem
+
+
+    def replace(self, text):
+        while True:
+            text = text.replace("[Bearbeiten | Quelltext bearbeiten]", "")
+            text = text.replace("[ | ]", "")
+            text = text.replace("\n", "")
+            number = [int(num) for num in re.findall(r'\d+', text)]
+            for zahl in number:
+                text = text.replace("["+str(zahl)+"]", " ")
+
+            if "[Bearbeiten | Quelltext bearbeiten]" not in text and "[ | ]" not in text and "\n" not in text:
+                break
+
+        return text
+    
+    def run(self, suchEingabe):
+        suche = suchEingabe
+        URL = f'https://de.wikipedia.org/wiki/{suche}'
+        try:
+            website = requests.get(URL)
+            self.results = BeautifulSoup(website.content, 'html.parser')
+        except:
+            print("da ist etwas schiefgelaufen")
+
+        self.getData()

@@ -10,7 +10,7 @@
         .inhalt-all {
             width: 100%;
             height: 100%;
-            background-color: antiquewhite;
+            /* background-color: antiquewhite; */
         }
         #form {
             width: 100%;
@@ -20,26 +20,53 @@
             position: relative;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 30px;
+            margin-bottom: 50px;
+            width: 100%;
+            background-color: aqua;
         }
         .suche {
             display: block;
             margin-left: auto;
             margin-right: auto;
+            height: 25px;
+            width: 70px;
+            margin-top: 0;
+        }
+        #searchInput {
+            transition: 0.5s;
+            height: 20px;
+            width: 150px
+        }
+        #searchInput:hover {
+            transition: 0.5s;
+            transform: scale(2) translateY(5px);          
+        }
+        #searchInput:focus ~ button {
+            transform: scale(2) translateY(100px); 
+            color:blue;
+        }
+        #searchInput:focus {
+            transform: scale(2) translateY(100px); 
+        }
+        #searchButton {
+            transition: 0.5s;
         }
         .headings {
-            background-color: aqua;
+            /* background-color: aqua; */
         }
         .heading-container {
-            background-color: blueviolet;
+            /* background-color: blueviolet; */
             width: 25%;
             display: inline-flex;
         }
         .seiteninhalt-container {
-            background-color: aquamarine;
+            /* background-color: aquamarine; */
             display: inline-flex;
             width: 70%;
-            margin-left: 30px
+            margin-left: 30px;
+        }
+        #seiteninhalt { 
+            width: 100%
         }
     </style>
 </head>
@@ -47,14 +74,14 @@
     <form method="GET" action="" id="form">
         {% csrf_token %}
         <div class="search-container">
-            <input name="searchInput" id="searchInput" class="suche"></input>
-            <button class="suche" onClick="createList()">Suchen</button>
+            <input name="searchInput" id="searchInput" class="suche" autocomplete="false"></input>
+            <button class="suche prevent-default" onClick="createList()" id="searchButton">Suchen</button>
         </div>
     </form>
     <div class="inhalt-all">
         <div class="heading-container">
             <ol>
-            {% for heading in überschriftList %}
+            {% for heading in headingsHtml %}
                 <li><button class="headings" id={{heading}}>{{ heading }}</button></li>
             {% endfor %}
             </ol>
@@ -67,9 +94,18 @@
     <script>
         $("li").click(function() {
             var index = $(this).index();
-            text = JSON.parse('{{ Text|escapejs }}');
-            seiteninhalt = document.getElementById("seiteninhalt")
-            seiteninhalt.innerHTML = text[index+1]
+            textDict = JSON.parse('{{ scraperText|escapejs }}');
+            headingsList = JSON.parse('{{ headings|escapejs }}');
+            seiteninhalt = document.getElementById("seiteninhalt");
+            console.log(headingsList)
+            console.log(headingsList[index])
+            seiteninhalt.innerHTML = textDict[headingsList[index]];
+        })
+
+        $("#searchInput").hover(function() {
+            $("#searchButton").css('transform', 'scale(2) translateY(16px)')
+        }, function() {
+            $("#searchButton").css('transform', 'scale(1) translateY(0)')
         })
     </script>
 </body>
