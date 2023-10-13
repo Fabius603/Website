@@ -381,6 +381,24 @@ class Scraper:
         self.letzteElement = ""
         self.h2List = []
 
+        self.verboteneElemente = [
+            "div",
+            "style",
+            "figure",
+            "li",
+            "a",
+            "figcaption",
+            "i",
+            "b",
+            "table",
+            "k",
+            "tbody",
+            "th",
+            "td",
+            "img",
+            "h2"
+        ]
+
     def getData(self):
         unordered_list = self.results.find("div", {"class": "mw-parser-output"})
         children = unordered_list.findChildren()    
@@ -390,7 +408,7 @@ class Scraper:
         Siehe_auch = unordered_list.find(id="Siehe_auch")
 
         headlines = unordered_list.find_all("h2")
-        self.headlinesDict = {"Allgemein": ""}
+        self.headlinesDict = {"Allgemein": []}
         self.headings = ['Allgemein']
         for head in headlines:
             überschriftText = self.replace(head.text)
@@ -398,25 +416,25 @@ class Scraper:
                 break
             if überschriftText != "Inhaltsverzeichnis":
                 self.headings.append(überschriftText)
-                self.headlinesDict[überschriftText] = ""
+                self.headlinesDict[überschriftText] = []
                 context["headingsHtml"].append(überschriftText)
         context["headings"] = json.dumps(self.headings)
-        x = 0
         hinzufügenZu = "Allgemein"
         for child in children:
-            x = x + 1
-            if x < 20:
-                print(child)
             if(self.letzteElement == self.replace(child.name)):
                 continue
             if child == Literatur or child == Einzelnachweise or child == Weblinks or child == Siehe_auch:
                 break
-            if child.name == "div" or child.name == "style" or child.name == "figure" or child.name == "li" or child.name == "a" or child.name == "figcaption" or child.name == "i":
+            if child.name in self.verboteneElemente:
                 continue
-            
             if child.name == "h2":
                 hinzufügenZu = self.replace(child.text)
                 self.h2List.append(child)
+                continue
+            if child in unordered_list.find_all(class_="mw-headline"):
+                lastText = self.replace(child.text)
+                self.headlinesDict[hinzufügenZu].append(lastText+"467832483248324")
+                print("test")
                 continue
                     
             if child.name == "ul" and child.parent != unordered_list:
@@ -429,15 +447,12 @@ class Scraper:
                 if hinzufügenZu == "Inhaltsverzeichnis":
                     continue
                 else:
-                    self.letzteElement = self.replace(child.text)
-                    self.headlinesDict[hinzufügenZu] = self.headlinesDict[hinzufügenZu] + (self.replace(child.text) + "\n\n")
-        
-        for head in self.headings:
-            self.headlinesDict[head] = self.replace(self.headlinesDict[head])
+                    lastText = self.replace(child.text)
+                    self.letzteElement = lastText
+                    if lastText != "" or lastText != None:
+                        self.headlinesDict[hinzufügenZu].append(lastText)
+
         context["scraperText"] = json.dumps(self.headlinesDict)
-        print(self.headlinesDict)
-
-
 
 
     def replace(self, text):

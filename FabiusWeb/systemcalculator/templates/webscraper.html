@@ -8,21 +8,48 @@
             background: #999;
         }
         .inhalt-all {
+            display: flex;
             width: 100%;
             height: 100%;
+            border-top: solid 1px black;
             /* background-color: antiquewhite; */
         }
         #form {
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+        .search-container-placeholder {
+            position: relative;
+            margin-right: auto;
+            margin-bottom: 50px;
+            width: 100%;
+            height: 50px;
+            z-index: 1;
+            background-color: transparent;
+            overflow: hidden;
         }
         .search-container {
-            position: relative;
+            position: absolute;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 50px;
             width: 100%;
-            background-color: aqua;
+            background-color: transparent;
+            transition: 0.5s;
+            z-index: 30;
+            overflow: hidden;
+        }
+        .search-container-in {
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 50px;
+            width: 100%;
+            background-color: transparent;
+            transition: 0.5s;
+            z-index: 30;
+            overflow: hidden;
         }
         .suche {
             display: block;
@@ -35,21 +62,31 @@
         #searchInput {
             transition: 0.5s;
             height: 20px;
-            width: 150px
-        }
-        #searchInput:hover {
-            transition: 0.5s;
-            transform: scale(2) translateY(5px);          
-        }
-        #searchInput:focus ~ button {
-            transform: scale(2) translateY(100px); 
-            color:blue;
+            width: 150px;
+            border: none;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+            border-bottom: solid 1px black;
+            z-index: 30;
         }
         #searchInput:focus {
-            transform: scale(2) translateY(100px); 
+            outline: 1px solid crimson;
         }
         #searchButton {
             transition: 0.5s;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: none;
+            border-left: solid 1px black;
+            border-right: solid 1px black;
+            z-index: 31;
+            background-color: white;
+        }
+        #searchButton:hover {
+            cursor: pointer;
+        }
+        #searchButton:active {
+            background-color: crimson;
         }
         .headings {
             /* background-color: aqua; */
@@ -61,13 +98,19 @@
         }
         .seiteninhalt-container {
             /* background-color: aquamarine; */
-            display: inline-flex;
+            display: inline-block;
             width: 70%;
             margin-left: 30px;
+            padding-left: 5px;
+            border-left: solid 3px black;
         }
         #seiteninhalt { 
             width: 100%
         }
+        .opacity-02 {
+            opacity: 0.2;          
+        }
+
     </style>
 </head>
 <body>
@@ -77,6 +120,7 @@
             <input name="searchInput" id="searchInput" class="suche" autocomplete="false"></input>
             <button class="suche prevent-default" onClick="createList()" id="searchButton">Suchen</button>
         </div>
+        <div class="search-container-placeholder"></div>
     </form>
     <div class="inhalt-all">
         <div class="heading-container">
@@ -86,26 +130,76 @@
             {% endfor %}
             </ol>
         </div>
-        <div class="seiteninhalt-container">
-            <label id="seiteninhalt"></label>
+        <div class="seiteninhalt-container" id="seiteninhalt-parent">
+            <label class="seiteninhalt">Klicke auf eine Überschrift um dir den Inhalt anzeigen zu lassen!</label>
         </div>
     </div>
 
     <script>
+
         $("li").click(function() {
-            var index = $(this).index();
+            index = $(this).index();
             textDict = JSON.parse('{{ scraperText|escapejs }}');
             headingsList = JSON.parse('{{ headings|escapejs }}');
-            seiteninhalt = document.getElementById("seiteninhalt");
-            console.log(headingsList)
-            console.log(headingsList[index])
-            seiteninhalt.innerHTML = textDict[headingsList[index]];
+            console.log(textDict[headingsList[index]]);
+            text_HTML = "";
+            const parent = document.getElementById("seiteninhalt-parent");
+            const child = document.getElementsByClassName("seiteninhalt");
+            try {
+                parent.innerHTML = "";
+            } catch {
+            }
+
+            for(var i = 0; i < textDict[headingsList[index]].length; i++) {
+                if(textDict[headingsList[index]][i] != "" && textDict[headingsList[index]][i] != undefined) {
+                    const Absatz = document.createElement("p");
+                    Absatz.id = i+"Absatz";
+                    Absatz.innerHTML = textDict[headingsList[index]][i];
+                    if(textDict[headingsList[index]][i].substring([headingsList[index]][i] - 15)) {
+                        Absatz.style.fontWeight = "bold";
+                        Absatz.style.fontSize = "15px";
+                    }
+                    parent.appendChild(Absatz);
+                }
+            }
+
+            // seiteninhalt.innerHTML = textDict[headingsList[index]];
         })
 
         $("#searchInput").hover(function() {
-            $("#searchButton").css('transform', 'scale(2) translateY(16px)')
+            $(".search-container").css('transform', 'scale(2) translateY(16px)')
         }, function() {
-            $("#searchButton").css('transform', 'scale(1) translateY(0)')
+            $(".search-container").css('transform', 'scale(1) translateY(0)')
+        })
+        $("#searchButton").hover(function() {
+            $(".search-container").css('transform', 'scale(2) translateY(16px)')
+        }, function() {
+            $(".search-container").css('transform', 'scale(1) translateY(0)')
+        })
+
+        $("#searchInput").focus(function() {
+            $(".search-container").addClass("search-container-in")
+            $(".search-container").removeClass("search-container")
+            $(".search-container-in").css('transform', 'scale(3) translateY(150px)')
+            $(".inhalt-all").css("opacity", 0.3)
+        })
+        $("#searchButton").focus(function() {
+            $(".search-container").addClass("search-container-in")
+            $(".search-container").removeClass("search-container")
+            $(".search-container-in").css('transform', 'scale(3) translateY(150px)')
+            $(".inhalt-all").css("opacity", 0.3)
+        })
+        $("#searchInput").blur(function() {
+            $(".search-container-in").addClass("search-container")
+            $(".search-container-in").removeClass("search-container-in")
+            $(".search-container").css('transform', 'scale(1) translateY(0)')
+            $(".inhalt-all").css("opacity", 1)
+        })
+        $("#searchButton").blur(function() {
+            $(".search-container-in").addClass("search-container")
+            $(".search-container-in").removeClass("search-container-in")
+            $(".search-container").css('transform', 'scale(1) translateY(0)')
+            $(".inhalt-all").css("opacity", 1)
         })
     </script>
 </body>
