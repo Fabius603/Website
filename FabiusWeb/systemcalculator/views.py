@@ -396,7 +396,7 @@ class Scraper:
             "th",
             "td",
             "img",
-            "h2"
+            "h3",
         ]
 
     def getData(self):
@@ -431,21 +431,23 @@ class Scraper:
                 hinzufügenZu = self.replace(child.text)
                 self.h2List.append(child)
                 continue
-            if child in unordered_list.find_all(class_="mw-headline"):
-                lastText = self.replace(child.text)
-                self.headlinesDict[hinzufügenZu].append(lastText+"467832483248324")
-                print("test")
-                continue
                     
             if child.name == "ul" and child.parent != unordered_list:
                 continue
 
             if child.parent in self.h2List:
                 continue
+                
             
             else:
                 if hinzufügenZu == "Inhaltsverzeichnis":
                     continue
+                
+                if child in unordered_list.find_all("span", class_ = "mw-headline"):
+                    lastText = self.replace(child.text)
+                    self.letzteElement = lastText
+                    self.headlinesDict[hinzufügenZu].append(lastText+"5545234345")
+
                 else:
                     lastText = self.replace(child.text)
                     self.letzteElement = lastText

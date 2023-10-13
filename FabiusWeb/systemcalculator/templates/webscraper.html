@@ -150,15 +150,26 @@
             } catch {
             }
 
-            for(var i = 0; i < textDict[headingsList[index]].length; i++) {
-                if(textDict[headingsList[index]][i] != "" && textDict[headingsList[index]][i] != undefined) {
+            for(var i = -1; i < textDict[headingsList[index]].length; i++) {
+                if(i == -1) {
                     const Absatz = document.createElement("p");
                     Absatz.id = i+"Absatz";
-                    Absatz.innerHTML = textDict[headingsList[index]][i];
-                    if(textDict[headingsList[index]][i].substring([headingsList[index]][i] - 15)) {
+                    Absatz.innerHTML = headingsList[index];
+                    Absatz.style.fontWeight = "bold";
+                    Absatz.style.fontSize = "30px";
+                    parent.appendChild(Absatz);
+                }
+                text = textDict[headingsList[index]][i]
+                if(text != "" && text != undefined && text != "[" && text != "]" && text != " | ") {
+                    const Absatz = document.createElement("p");
+                    Absatz.id = i+"Absatz";
+                    if(textDict[headingsList[index]][i].substr(textDict[headingsList[index]][i].length - 10) == "5545234345") {
                         Absatz.style.fontWeight = "bold";
-                        Absatz.style.fontSize = "15px";
+                        Absatz.style.fontSize = "20px"
+                        textDict[headingsList[index]][i] = textDict[headingsList[index]][i].slice(0, -10)
+                        
                     }
+                    Absatz.innerHTML = textDict[headingsList[index]][i];
                     parent.appendChild(Absatz);
                 }
             }
