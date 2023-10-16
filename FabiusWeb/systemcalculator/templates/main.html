@@ -13,6 +13,164 @@
         <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/vendor/plugins.js' %}"></script>
         <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+
+        <style>
+          .left {
+            grid-area: left;
+            display: inline-block;
+          }
+          .right {
+            grid-area: right;
+            margin-left: 200px;
+            margin-top: 200px;
+          }
+          .bottom {
+            grid-area: bottom;
+            position: absolute;
+            bottom: 0;
+          }
+          .grid-container {
+            display: grid;
+            grid-template-areas:
+              'left right'
+              'bottom bottom';
+              gap: 10px;
+              padding: 10px;
+          }
+          .navigation-button {
+            background-color: grey;
+            border: none;
+            display: block;
+            overflow: hidden;
+            color:black;
+            margin-top: 8vh;
+            margin-bottom: 7vh;
+            margin-left: 5vw;
+            width: 15vw;
+            height: 5vh;
+            transition: all 0.3s;
+            text-align: left;
+            &:before {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 0;
+              height: 100%;
+              background-color: #66CDAA;
+              transition: all 0.3s;
+              z-index: -1;
+            }
+            &:hover {
+              transform: scale(1.4);
+              margin-left: 7.8vw;
+              color: grey;
+              border-radius: 30px;
+              &:before {
+                width: 100%;
+              }
+            }
+            &:active {
+              transform: scale(1.2);
+              margin-left: 6.4vw;
+            }
+          }    
+          .navigation-button span {
+            position: absolute;
+            transition: 0.4s;
+            z-index: 3;
+            float: left;
+            margin-top: 10px;
+            text-shadow: 0px 0px 5px black;
+            color: white;
+          }
+          .test {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: #42967a;
+            transform: rotateZ(25deg);
+            left: 100px;
+            float: right;
+            left: 150px;
+            top: -20px;
+            transition: 0.4s;
+            border: solid 2px black;
+          }
+          .moving-ball {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: 800px;
+            left: 2000px;
+            border-radius: 10px;
+            z-index: -1;
+            animation: ballcolor 10s infinite;
+          }
+          .ball-ring {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            border: solid 1px white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ring 1.5s infinite;
+            z-index: -2;
+          }
+
+          @keyframes ring {
+            0% {
+              width: 10px;
+              height: 10px;
+              opacity: 1;
+            }
+            100% {
+              width: 20px;
+              height: 20px;
+              opacity: 0;
+            }
+          }
+
+          @keyframes ballcolor {
+            0% {
+              background-color: MediumAquamarine;
+            }
+            10% {
+              background-color: Aqua; 
+            }
+            20% {
+              background-color:PaleTurquoise;
+            }
+            30% {
+              background-color: Aquamarine;
+            }
+            40% {
+              background-color: Turquoise;
+            }
+            50% {
+              background-color: MediumTurquoise;
+            }
+            60% {
+              background-color: DarkTurquoise;
+            }
+            70% {
+              background-color: LightSeaGreen;
+            }
+            80% {
+              background-color: CadetBlue;
+            }
+            90% {
+              background-color: DarkCyan;
+            }
+            100% {
+              background-color: Teal;
+            }
+          }
+        </style>
 </head>
 <body class="theme-dark">
     <div class="container-page-nofooter container-page-nonavi">
@@ -45,33 +203,169 @@
                     <span><a href="http://127.0.0.1:700/">home</a>
                 </div>
             </nav>
-            <main class="content-full">
+            <main class="content-full grid-container">
 
-                <section class="container-content" style="height: 800px">
-                    <div class="content-quarter-left-top border-r-protagonist border-b-protagonist">
-                        <div class="flex-center-center">
-                          <a class="biglink-border" href="/systemcalculator/">Zahlensysteme</a>
-                        </div>
-                      </div>
-                      <div class="content-quarter-right-top border-b-protagonist">
-                        <div class="flex-center-center">
-                          <a class="biglink-border" href="/pwgen/">Passwort Generator</a>
-                        </div>  
-                      </div>
-                      <div class="content-quarter-left-bottom border-r-protagonist">
-                        <div class="flex-center-center">
-                          <a class="biglink-border" href="/settings/">Käsekästchen</a>
-                        </div>
-                      </div>
-                      <div class="content-quarter-right-bottom">
-                        <div class="flex-center-center">
-                          <a class="biglink-border" href="/malen/">Malen</a>
-                        </div>
-                      </div>   
-                    </section>
+                <div class="left">
+
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/malen'">
+                      <span>Malen</span>
+                      <div class="test"></div>
+                  </button>
+                  </div>
+
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/settings'">
+                      <span>Käsekästchen</span>
+                      <div class="test"></div>
+                    </button>
+                  </div>
+
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/pwgen'">
+                      <span>Passwort-Generator</span>
+                      <div class="test"></div>
+                    </button>
+                  </div>
+
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/systemcalculator'">
+                      <span>Zahlensystemrechner</span>
+                      <div class="test"></div>
+                    </button>
+                  </div>
+
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/webscraper'">
+                      <span>Webscraper</span>
+                      <div class="test"></div>
+                    </button>
+                  </div>
+
+                </div>
+                
+                <div class="right">
+                  <span>Alle HTML/CSS/JS/Django Projekte auf einer Website</span>
+                </div>
+
+                <div class="bottom">
+                  <span><i>Erstellt von Fabius</i></span>
+                </div>
+                <div id="ball-container">
+                  </div>
+                </div>
+                
 
             </main>
         </div>
     </div>
+    <script>
+      var ballStart = [800, 2000]; // top, left
+      var ballNumber = 0;
+
+      $('.navigation-button').hover(function() {
+        $(this).children('div').css('left', '20px')
+      }, function() {
+        $(this).children('div').css('left', '120px')
+      })
+
+
+      // Ball Movement
+      function moveBall(newTop, newLeft, ballNumber, speed) {
+        console.log(ballNumber)
+        var ball = document.getElementById('ball'+ballNumber);
+        var ballPosition = ball.getBoundingClientRect();
+
+        let oldTop = ballPosition.top;
+        let oldLeft = ballPosition.left;
+        ball.animate(
+          [
+            {
+              top: oldTop+"px",
+              left: oldLeft+"px",
+            }, {
+              top: newTop+"px",
+              left: newLeft+"px",
+            }
+          ], {
+            duration: speed,
+            iterations: 1,
+            fill: 'forwards',
+          }
+        );
+        return
+      }
+
+
+      function whereToMoveLeft(ballNumber, buttonposition) {
+        
+        newTop = buttonposition.top + (buttonposition.height/2) - 10;
+        newLeft = buttonposition.left + 30;
+        moveBall(newTop, newLeft, ballNumber, 10000)
+        const deleteTimeout = setTimeout(deleteBall, 10000, ballNumber)   
+      }
+
+      function whereToMoveUp(ballNumber) {
+        var zufälligerWeg = Math.floor(Math.random() * 5) + 1;
+        var buttons = document.getElementsByClassName("navigation-button");
+        var buttonposition;
+        var speed;
+
+        if(zufälligerWeg == 1) {
+          buttonposition = buttons[0].getBoundingClientRect()
+          speed = 10000;
+        }
+        if(zufälligerWeg == 2) {
+          buttonposition = buttons[1].getBoundingClientRect()
+          speed = 8000;
+        }
+        if(zufälligerWeg == 3) {
+          buttonposition = buttons[2].getBoundingClientRect()
+          speed = 6000;
+        }
+        if(zufälligerWeg == 4) {
+          buttonposition = buttons[3].getBoundingClientRect()
+          speed = 4000;
+        }
+        if(zufälligerWeg == 5) {
+          buttonposition = buttons[4].getBoundingClientRect()
+          speed = 2000;
+        }
+
+        newTop = buttonposition.top + (buttonposition.height/2) + 5;
+        newLeft = ballStart[1]-1200;
+        moveBall(newTop, newLeft, ballNumber, speed);
+        const upTimeout = setTimeout(whereToMoveLeft, speed, ballNumber, buttonposition);
+      }
+
+      function ballMovementStart(ballNumber) {
+        moveBall(ballStart[0], ballStart[1]-1200, ballNumber, 10000);
+        const startTimeout = setTimeout(whereToMoveUp, 10000, ballNumber);
+      }
+
+      function createBalls() {
+        ballNumber = ballNumber + 1;
+        const kreis = document.createElement('div');
+        kreis.className = "moving-ball";
+        kreis.id = "ball"+(ballNumber)
+        const kreiseffekt = document.createElement('div');
+        kreiseffekt.className = "ball-ring";
+        kreiseffekt.id = "balleffekt"+(ballNumber)
+        const div = document.getElementById("ball-container");
+        div.appendChild(kreis);
+        kreis.appendChild(kreiseffekt);
+
+        ballMovementStart(ballNumber);
+      }
+
+      function deleteBall(ballNumber) {
+        const div = document.getElementById("ball-container");
+        const ball = document.getElementById("ball"+ballNumber);
+        const balleffekt = document.getElementById("balleffekt"+ballNumber);
+        div.removeChild(ball);
+      }
+
+      ballFunktionenInterval = setInterval(createBalls, 500);
+    </script>
 </body>
 </html>
