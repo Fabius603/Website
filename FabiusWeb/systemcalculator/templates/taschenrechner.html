@@ -16,48 +16,63 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
   <title>Taschenrechner</title>
   <style>
-    .left               {grid-area: left;}
-    .right              {grid-area: right;}
-    .bottom             {grid-area: bottom;}
-    .t1                 {grid-area: t1;}
-    .t2                 {grid-area: t2;}
-    .t3                 {grid-area: t3;}
-    .t4                 {grid-area: t4;}
-    .t5                 {grid-area: t5;}
-    .t6                 {grid-area: t6;}
-    .t7                 {grid-area: t7;}
-    .t8                 {grid-area: t8;}
-    .t9                 {grid-area: t9;}
-    .t0                 {grid-area: t0;}
-    .ftaste1            {grid-area: ftaste;}
-    .ftaste2            {grid-area: ftaste;}
-    .ftaste3            {grid-area: ftaste;}
-    .ftaste4            {grid-area: ftaste;}
-    .ausgabe            {grid-area: ausgabe;}
-    .clear              {grid-area: clear;}
-    .klammerAuf         {grid-area: klammerAuf;}
-    .komma              {grid-area: komma;}
-    .klammerZu          {grid-area: klammerZu;}
-    .tVorzeichen        {grid-area: tVorzeichen;}
-    .tPunkt             {grid-area: tPunkt;}
-    .zurück             {grid-area: zurück;}
-    .equals             {grid-area: equals;}
-    .rTeilen            {grid-area: rTeilen;}
-    .rMal               {grid-area: rMal;}
-    .rMinus             {grid-area: rMinus};
-    .rPlus              {grid-area: rPlus;}
+    .left               {grid-area: left;           position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 60vh;}
+    .right              {grid-area: right;          position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 60vh;}
+    .bottom             {grid-area: bottom;         position: relative;   width: 100vw;      background-color: rgba(255, 0, 0, 0.199);        height: 100%;}
+    .ausgabe            {grid-area: ausgabe;        position: relative;   width: 100%;       background-color: rgba(0, 255, 255, 0.158);      height: 100%;}
+    .t1                 {grid-area: t1;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t2                 {grid-area: t2;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t3                 {grid-area: t3;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t4                 {grid-area: t4;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t5                 {grid-area: t5;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t6                 {grid-area: t6;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t7                 {grid-area: t7;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t8                 {grid-area: t8;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t9                 {grid-area: t9;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .t0                 {grid-area: t0;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste1            {grid-area: ftaste1;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste2            {grid-area: ftaste2;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste3            {grid-area: ftaste3;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste4            {grid-area: ftaste4;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste5            {grid-area: ftaste5;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste6            {grid-area: ftaste6;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste7            {grid-area: ftaste7;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste8            {grid-area: ftaste8;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste9            {grid-area: ftaste9;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .ftaste10           {grid-area: ftaste10;       position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .clear              {grid-area: clear;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .klammerAuf         {grid-area: klammerAuf;     position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .komma              {grid-area: komma;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .klammerZu          {grid-area: klammerZu;      position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .tVorzeichen        {grid-area: tVorzeichen;    position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .tPunkt             {grid-area: tPunkt;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .zurück             {grid-area: zurück;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .equals             {grid-area: equals;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .rTeilen            {grid-area: rTeilen;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .rMal               {grid-area: rMal;           position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .rMinus             {grid-area: rMinus;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .rPlus              {grid-area: rPlus;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
 
 
     .tr-grid {
       display: grid;
+      gap: 5px;
       grid-template-areas:
-      'left     ausgabe   ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  right' 
-      'left     clear     klammerAuf    komma     klammerZu   zurück    equals   right'
-      'left     ftaste1   t7            t8        t9          rTeilen   equals   right'
-      'left     ftaste2   t4            t5        t6          rMal      equals   right'
-      'left     ftaste3   t1            t2        t3          rMinus    equals   right'
-      'left     ftaste4   tVorzeichen   t0        tPunkt      rPlus     equals   right'
-      'bottom   bottom    bottom        bottom    bottom      bottom    bottom   bottom';
+      'left   left     left     ausgabe   ausgabe    ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  right    right   right' 
+      'left   left     left     clear     ftaste6    klammerAuf    komma     klammerZu   zurück    equals   right    right   right'
+      'left   left     left     ftaste1   ftaste7    t7            t8        t9          rTeilen   equals   right    right   right'
+      'left   left     left     ftaste2   ftaste8    t4            t5        t6          rMal      equals   right    right   right'
+      'left   left     left     ftaste3   ftaste9    t1            t2        t3          rMinus    equals   right    right   right'
+      'left   left     left     ftaste4   ftaste10   tVorzeichen   t0        tPunkt      rPlus     equals   right    right   right'
+      'bottom bottom   bottom   bottom    bottom     bottom        bottom    bottom      bottom    bottom   bottom   bottom  bottom';
+    }
+
+    .tr-knopf {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-weight: bold;
+      font-size: 30px;
     }
 
   </style>
@@ -96,7 +111,58 @@
         <main class="grid-3-main">
 
           <div class="tr-grid">
+            <div class="left">left</div>
 
+            <!-- Testen des Taschenrechners: -->
+            <!-- Reihe 1 -->
+            <div class="ausgabe">ausgabe</div>
+
+            <!-- Reihe 2 -->
+            <div class="clear"><button class="tr-knopf">clear</button></div>
+            <div class="ftaste6"><button class="tr-knopf">ftaste6</button></div>
+            <div class="klammerAuf"><button class="tr-knopf">(</button></div>
+            <div class="komma"><button class="tr-knopf">,</button></div>
+            <div class="klammerZu"><button class="tr-knopf">)</button></div>
+            <div class="zurück"><button class="tr-knopf">zurück</button></div>
+
+            <!-- Reihe 3 -->
+            <div class="ftaste1"><button class="tr-knopf">ftaste1</button></div>
+            <div class="ftaste7"><button class="tr-knopf">ftaste7</button></div>
+            <div class="t7"><button class="tr-knopf" id="7" onclick="eingabeNummer(7)">7</button></div>
+            <div class="t8"><button class="tr-knopf" id="8" onclick="eingabeNummer(8)">8</button></div>
+            <div class="t9"><button class="tr-knopf" id="9" onclick="eingabeNummer(9)">9</button></div>
+            <div class="rTeilen"><button class="tr-knopf">/</button></div>
+
+            <!-- Reihe 4 -->
+            <div class="ftaste2"><button class="tr-knopf">ftaste2</button></div>
+            <div class="ftaste8"><button class="tr-knopf">ftaste8</button></div>
+            <div class="t4"><button class="tr-knopf" id="4" onclick="eingabeNummer(4)">4</button></div>
+            <div class="t5"><button class="tr-knopf" id="5" onclick="eingabeNummer(5)">5</button></div>
+            <div class="t6"><button class="tr-knopf" id="6" onclick="eingabeNummer(6)">6</button></div>
+            <div class="rMal"><button class="tr-knopf">*</button></div>
+
+            <!-- Reihe 5 -->
+            <div class="ftaste3"><button class="tr-knopf">ftaste3</button></div>
+            <div class="ftaste9"><button class="tr-knopf">ftaste9</button></div>
+            <div class="t1"><button class="tr-knopf" id="1" onclick="eingabeNummer(1)">1</button></div>
+            <div class="t2"><button class="tr-knopf" id="2" onclick="eingabeNummer(2)">2</button></div>
+            <div class="t3"><button class="tr-knopf" id="3" onclick="eingabeNummer(3)">3</button></div>
+            <div class="rMinus"><button class="tr-knopf">-</button></div>
+
+            <!-- Reihe 6 -->
+            <div class="ftaste4"><button class="tr-knopf">ftaste4</button></div>
+            <div class="ftaste10"><button class="tr-knopf">ftaste10</button></div>
+            <div class="tVorzeichen"><button class="tr-knopf">+/-</button></div>
+            <div class="t0"><button class="tr-knopf">0</button></div>
+            <div class="tPunkt"><button class="tr-knopf">.</button></div>
+            <div class="rPlus"><button class="tr-knopf">+</button></div>
+
+            <!-- Spalte 6 -->
+            <div class="equals"><button class="tr-knopf">=</button></div>
+            
+
+            <div class="right">right</div>
+            <div class="bottom">bottom</div>
           </div>
 
         </main>
@@ -106,6 +172,20 @@
       $('.nf-mdi-arrow_left_thick').on('click', function() {
         location.href = "http://127.0.0.1:700/";
       })
+
+      var eingabe = []
+
+      function eingabeNummer(nummer) {
+        eingabe.push(nummer)
+        console.log(eingabe)
+      }
+
+      function ausgabe() {
+        for(var i = 0; i < eingabe.length; i++) {
+          
+        }
+      }
+
     </script>
   </body>
 </html>
