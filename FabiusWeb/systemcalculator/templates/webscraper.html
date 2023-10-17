@@ -134,6 +134,10 @@
 
     <script>
 
+        $('.nf-mdi-arrow_left_thick').on('click', function() {
+            location.href = "http://127.0.0.1:700/";
+        })
+
         $("li").click(function() {
             index = $(this).index();
             textDict = JSON.parse('{{ scraperText|escapejs }}');

@@ -14,6 +14,7 @@
         <script src="{% static 'js/vendor/plugins.js' %}"></script>
         <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+        <title>Hauptseite</title>
 
 
         <style>
@@ -22,9 +23,9 @@
             display: inline-block;
           }
           .right {
+            position: absolute;
             grid-area: right;
-            margin-left: 200px;
-            margin-top: 200px;
+            left: 500px;
           }
           .right span {
             border-left: solid 3px black;
@@ -48,6 +49,8 @@
               padding: 10px;
           }
           .navigation-button {
+            box-shadow: 0 0 6px black, 0 0 13px grey;
+            border-radius: 10px;
             background-color: grey;
             border: none;
             display: block;
@@ -111,8 +114,6 @@
             position: absolute;
             width: 10px;
             height: 10px;
-            top: 800px;
-            left: 2000px;
             border-radius: 10px;
             z-index: -1;
             animation: ballcolor 10s infinite;
@@ -128,6 +129,33 @@
             transform: translate(-50%, -50%);
             animation: ring 1.5s infinite;
             z-index: -2;
+          }
+          .button-erklärung {
+            position: absolute;
+            display: inline-block;
+            width: 40vw;
+            left: 20vw;
+            border-left: solid 3px #66CDAA;
+            padding-left: 5px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            background-color: #3c3c3c;
+            transition: 0.3s;
+          }
+          #malen-erklärungen {
+            top: var(--erklärung-button-top0);
+          }
+          #käsekästchen-erklärungen {
+            top: var(--erklärung-button-top1);
+          }
+          #pwgen-erklärungen {
+            top: var(--erklärung-button-top2);
+          }
+          #systemcalc-erklärungen {
+            top: var(--erklärung-button-top3);
+          }
+          #webscraper-erklärungen {
+            top: var(--erklärung-button-top4);
           }
 
           @keyframes ring {
@@ -253,7 +281,21 @@
                 </div>
                 
                 <div class="right">
-                  <span>Alle HTML/CSS/JS/Django Projekte auf einer Website</span>
+                  <div class="button-erklärung" id ="malen-erklärungen">
+                    <p>Zeichne auf einem Canvas mit einem Stift, male verschiedene Formen. Auch ein Malennachzahlen ist möglich. Die gemalten Bilder können dann auch gespeichert werden.</p>
+                  </div>
+                  <div class="button-erklärung" id ="käsekästchen-erklärungen">
+                    <p>Käsekästchen mit einem benutzerdefiniertem Spielfeld. Wenn der Timer abgelaufen ist, Wird an einer zufälligen Stelle ein Strich gesetzt! (2 Spieler)</p>
+                  </div>
+                  <div class="button-erklärung" id ="pwgen-erklärungen">
+                    <p>Baue dein eigenes Passwort. Lasse dir die stärke deines neuen Passworts anzeigen und verändere seine Eigenschaften.</p>
+                  </div>
+                  <div class="button-erklärung" id ="systemcalc-erklärungen">
+                    <p>Lasse deine Zahlen zwischen dem Binär-, Dezimal- und Binärsystem umrechnen.</p>
+                  </div>
+                  <div class="button-erklärung" id ="webscraper-erklärungen">
+                    <p>Durchsuche Wikipedia Seiten und lasse dir nur den Text anzeigen. Du kannst über ein Inhaltsverzeichnis auf der Seite Navigieren.</p>
+                  </div>
                 </div>
 
                 <div class="bottom">
@@ -271,16 +313,49 @@
       var ballStart = [800, 2000]; // top, left
       var ballNumber = 0;
 
+      $('.nf-mdi-arrow_left_thick').on('click', function() {
+        location.href = "http://127.0.0.1:700/";
+      })
+
       $('.navigation-button').hover(function() {
         $(this).children('div').css('left', '20px')
       }, function() {
         $(this).children('div').css('left', '120px')
       })
 
+      $('.button-erklärung').hover(function() {
+        $(this).css('transform', 'scale(1.1)'),
+        $(this).css('textShadow', '1px 1px 3px black, 0 0 15px white')
+      }, function() {
+        $(this).css('transform', 'scale(1)')
+        $(this).css('textShadow', 'none')
+      })
+
+      //Erklärungen Positionieren
+      function erklärungPositionieren() {
+        buttons = document.getElementsByClassName("navigation-button");
+        erklärungen = document.getElementsByClassName("button-erklärung")
+        right = document.getElementsByClassName("right");
+        rightpos = right[0].getBoundingClientRect();
+        for(var i = 0; i < buttons.length; i++) {
+          if(erklärungen[i] != undefined) {
+            buttonpos = buttons[i].getBoundingClientRect();
+            console.log(buttonpos.bottom)
+            labelpos = erklärungen[i].getBoundingClientRect();
+            pos = (buttonpos.top+(buttonpos.height/2))-(rightpos.top+(labelpos.height/2))
+            erklärungen[i].style.setProperty('--erklärung-button-top'+i, pos+"px");
+          }
+        }
+      }
+      erklärungPositionieren();
+
+      window.addEventListener('resize', function() {
+        erklärungPositionieren();
+        setTimeout(erklärungPositionieren, 50);
+      });
 
       // Ball Movement
       function moveBall(newTop, newLeft, ballNumber, speed) {
-        console.log(ballNumber)
         var ball = document.getElementById('ball'+ballNumber);
         var ballPosition = ball.getBoundingClientRect();
 
@@ -305,54 +380,49 @@
       }
 
 
-      function whereToMoveLeft(ballNumber, buttonposition) {
-        
-        newTop = buttonposition.top + (buttonposition.height/2) - 10;
-        newLeft = buttonposition.left + 30;
-        moveBall(newTop, newLeft, ballNumber, 10000)
-        const deleteTimeout = setTimeout(deleteBall, 10000, ballNumber)   
-      }
-
-      function whereToMoveUp(ballNumber) {
+      function ballMovementStart(ballNumber, ball) {
         var zufälligerWeg = Math.floor(Math.random() * 5) + 1;
         var buttons = document.getElementsByClassName("navigation-button");
-        var buttonposition;
-        var speed;
+
 
         if(zufälligerWeg == 1) {
           buttonposition = buttons[0].getBoundingClientRect()
-          speed = 10000;
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
         }
         if(zufälligerWeg == 2) {
           buttonposition = buttons[1].getBoundingClientRect()
-          speed = 8000;
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
         }
         if(zufälligerWeg == 3) {
           buttonposition = buttons[2].getBoundingClientRect()
-          speed = 6000;
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
         }
         if(zufälligerWeg == 4) {
           buttonposition = buttons[3].getBoundingClientRect()
-          speed = 4000;
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
         }
         if(zufälligerWeg == 5) {
           buttonposition = buttons[4].getBoundingClientRect()
-          speed = 2000;
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
         }
 
-        newTop = buttonposition.top + (buttonposition.height/2) + 5;
-        newLeft = ballStart[1]-1200;
-        moveBall(newTop, newLeft, ballNumber, speed);
-        const upTimeout = setTimeout(whereToMoveLeft, speed, ballNumber, buttonposition);
-      }
-
-      function ballMovementStart(ballNumber) {
-        moveBall(ballStart[0], ballStart[1]-1200, ballNumber, 10000);
-        const startTimeout = setTimeout(whereToMoveUp, 10000, ballNumber);
+        newTop = buttonposition.top + (buttonposition.height/2) - 5;
+        newLeft = buttonposition.left + 30;
+        moveBall(newTop, newLeft, ballNumber, 10000);
+        const deleteTimer = setTimeout(deleteBall, 10000, ballNumber)
       }
 
       function createBalls() {
+        if(ballNumber > 60) {
+          ballNumber = 0;
+        }
         ballNumber = ballNumber + 1;
+        console.log(ballNumber);
         const kreis = document.createElement('div');
         kreis.className = "moving-ball";
         kreis.id = "ball"+(ballNumber)
@@ -363,7 +433,7 @@
         div.appendChild(kreis);
         kreis.appendChild(kreiseffekt);
 
-        ballMovementStart(ballNumber);
+        ballMovementStart(ballNumber, kreis);
       }
 
       function deleteBall(ballNumber) {

@@ -14,6 +14,7 @@
         <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/vendor/plugins.js' %}"></script>
         <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 
         <style>
             .rot {
@@ -157,6 +158,9 @@
                 </main>
             </div>
         <script>
+            $('.nf-mdi-arrow_left_thick').on('click', function() {
+                location.href = "http://127.0.0.1:700/";
+            })
         </script>
     </body>
 </html>
