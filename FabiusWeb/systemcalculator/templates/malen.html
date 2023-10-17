@@ -371,6 +371,13 @@
                 padding-bottom: 15px;
                 padding-left: 6px;
             }
+            .settings_td input {
+                width: 60%;
+                text-align: right;
+            }
+            .settings_td input::placeholder {
+                color: white;
+            }
             .settings_td:hover {
                 font-weight: bold;
             }
@@ -481,7 +488,7 @@
                                 </tr>
                                 <tr>
                                     <td class="settings_td"><span>Strichdicke:</span></td>
-                                    <td class="settings_td variable" id="table_strichdicke"><span></span></td>
+                                    <td class="settings_td variable" id="table_strichdicke"><input id="strichdicke-settings" onfocusin="inputInStrichdicke()" onfocusout="inputOutStrichdicke()"></input></td>
                                 </tr>
                                 <tr>
                                     <td class="settings_td"><span>Active Form:</span></td>
@@ -489,7 +496,7 @@
                                 </tr>
                                 <tr>
                                     <td class="settings_td"><span>Radierdicke:</span></td>
-                                    <td class="settings_td variable" id="table_radierdicke"><span></span></td>
+                                    <td class="settings_td variable" id="table_radierdicke"><input id="radierdicke-settings" onfocusin="inputInRadierdicke()" onfocusout="inputOutRadierdicke()"></input></td>
                                 </tr>
                             </table>
                         </div>
@@ -625,9 +632,9 @@
                 $(Tabelle).css({width: tablewidth+"px"});
                 
                 $('#table_strichfarbe span').text(farbe);
-                $('#table_strichdicke').text(strichdicke);
+                $('#table_strichdicke input').attr('placeholder', strichdicke);
                 $('#table_activeForm').text(aktuelleForm);
-                $('#table_radierdicke').text(radierdicke);
+                $('#table_radierdicke input').attr('placeholder', radierdicke);
 
                 return
             }
@@ -1399,7 +1406,7 @@
                 sizeinput.addEventListener('input', function(evt){
                     numberUnedited = sizeinput.value;
                     number = numberUnedited.replace(",", ".")
-                    if(Number.isInteger(Number(number))) {
+                    if(Number.isInteger(Number(number)) && number != '' && number != 0) {
                         strichdicke = parseInt(number)
                         activeSettings();
                     }
@@ -1467,6 +1474,32 @@
                     goforward();
                 }
             })
+
+            function inputInStrichdicke() {
+                $('#strichdicke-settings input').attr('placeholder', '');
+            }
+            
+            function inputOutStrichdicke() {
+                $('#strichdicke-settings').attr('placeholder', strichdicke);
+            }
+
+            function inputInRadierdicke() {
+                $('#radierdicke-settings input').attr('placeholder', '');
+            }
+            
+            function inputOutRadierdicke() {
+                $('#radierdicke-settings').attr('placeholder', radierdicke);
+            }
+            
+            $('#strichdicke-settings').change(function() {
+                console.log($(this).val())
+                numberUnedited = $(this).val()
+                number = numberUnedited.replace(",", ".")
+                if(Number.isInteger(Number(number)) && number != '' && number != 0) {
+                    strichdicke = parseInt(number)
+                }
+            })
+
 //--------------------------------------------------
 //hilfreiche Funktionen
 
