@@ -18,6 +18,11 @@
 
 
         <style>
+          body {
+            animation: bgGradient 30s infinite; 
+            background: linear-gradient(120deg, rgba(60,60,60,1) 43%, rgba(63, 86, 85, 0.397) 47%, rgba(60,60,60,1) 51%);
+            background-size: 700% 700%;
+          }
           .left {
             grid-area: left;
             display: inline-block;
@@ -94,8 +99,9 @@
             z-index: 3;
             float: left;
             margin-top: 10px;
-            text-shadow: 0px 0px 5px black;
+            text-shadow: 0px 0px 3px black, 0px 0px 7px #66CDAA;
             color: white;
+            font-weight: bold;
           }
           .test {
             position: relative;
@@ -157,6 +163,9 @@
           #webscraper-erklärungen {
             top: var(--erklärung-button-top4);
           }
+          #taschenrechner-erklärungen {
+            top: var(--erklärung-button-top5);
+          }
 
           @keyframes ring {
             0% {
@@ -205,6 +214,11 @@
             100% {
               background-color: Teal;
             }
+          }
+          @keyframes bgGradient {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
           }
         </style>
 </head>
@@ -277,24 +291,33 @@
                       <div class="test"></div>
                     </button>
                   </div>
-
+                  
+                  <div>
+                    <button class="navigation-button" onclick="window.location.href='http://127.0.0.1:700/taschenrechner'">
+                      <span>Taschenrechner</span>
+                      <div class="test"></div>
+                    </button>
+                  </div>
                 </div>
                 
                 <div class="right">
                   <div class="button-erklärung" id ="malen-erklärungen">
-                    <p>Zeichne auf einem Canvas mit einem Stift, male verschiedene Formen. Auch ein Malennachzahlen ist möglich. Die gemalten Bilder können dann auch gespeichert werden.</p>
+                    <p><b>Zeichne</b> auf einem Canvas mit einem Stift, male verschiedene <b>Formen</b>. Auch ein <b>Malennachzahlen</b> ist möglich. Die gemalten Bilder können dann auch <b>gespeichert</b> werden.</p>
                   </div>
                   <div class="button-erklärung" id ="käsekästchen-erklärungen">
-                    <p>Käsekästchen mit einem benutzerdefiniertem Spielfeld. Wenn der Timer abgelaufen ist, Wird an einer zufälligen Stelle ein Strich gesetzt! (2 Spieler)</p>
+                    <p>Käsekästchen mit einem <b>benutzerdefiniertem</b> Spielfeld. Wenn der <b>Timer</b> abgelaufen ist, Wird an einer zufälligen Stelle ein Strich gesetzt! <b>(2 Spieler)</b></p>
                   </div>
                   <div class="button-erklärung" id ="pwgen-erklärungen">
-                    <p>Baue dein eigenes Passwort. Lasse dir die stärke deines neuen Passworts anzeigen und verändere seine Eigenschaften.</p>
+                    <p>Baue dein eigenes Passwort. Lasse dir die <b>stärke</b> deines neuen Passworts anzeigen und verändere seine <b>Eigenschaften</b>.</p>
                   </div>
                   <div class="button-erklärung" id ="systemcalc-erklärungen">
-                    <p>Lasse deine Zahlen zwischen dem Binär-, Dezimal- und Binärsystem umrechnen.</p>
+                    <p>Lasse deine Zahlen zwischen dem <b>Binär-, Dezimal- und Binärsystem</b> umrechnen.</p>
                   </div>
                   <div class="button-erklärung" id ="webscraper-erklärungen">
-                    <p>Durchsuche Wikipedia Seiten und lasse dir nur den Text anzeigen. Du kannst über ein Inhaltsverzeichnis auf der Seite Navigieren.</p>
+                    <p>Durchsuche <b>Wikipedia</b> Seiten und lasse dir nur den Text anzeigen. Du kannst über ein <b>Inhaltsverzeichnis</b> auf der Seite Navigieren.</p>
+                  </div>
+                  <div class="button-erklärung" id ="taschenrechner-erklärungen">
+                    <p>Ist in Produktion</p>
                   </div>
                 </div>
 
@@ -381,7 +404,7 @@
 
 
       function ballMovementStart(ballNumber, ball) {
-        var zufälligerWeg = Math.floor(Math.random() * 5) + 1;
+        var zufälligerWeg = Math.floor(Math.random() * 6) + 1;
         var buttons = document.getElementsByClassName("navigation-button");
 
 
@@ -407,6 +430,11 @@
         }
         if(zufälligerWeg == 5) {
           buttonposition = buttons[4].getBoundingClientRect()
+          ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
+          ball.style.left = "900px";
+        }
+        if(zufälligerWeg == 6) {
+          buttonposition = buttons[5].getBoundingClientRect()
           ball.style.top = (buttonposition.top+(buttonposition.height/2)-5)+"px";
           ball.style.left = "900px";
         }
@@ -443,7 +471,7 @@
         div.removeChild(ball);
       }
 
-      ballFunktionenInterval = setInterval(createBalls, 500);
+      ballFunktionenInterval = setInterval(createBalls, 450);
 
     </script>
 </body>

@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="~/" />
+  <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+  <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+  <meta name="theme-color" content="#cecece">
+  <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+  <script src="{% static 'js/vendor/plugins.js' %}"></script>
+  <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  <title>Taschenrechner</title>
+  <style>
+    .left               {grid-area: left;}
+    .right              {grid-area: right;}
+    .bottom             {grid-area: bottom;}
+    .t1                 {grid-area: t1;}
+    .t2                 {grid-area: t2;}
+    .t3                 {grid-area: t3;}
+    .t4                 {grid-area: t4;}
+    .t5                 {grid-area: t5;}
+    .t6                 {grid-area: t6;}
+    .t7                 {grid-area: t7;}
+    .t8                 {grid-area: t8;}
+    .t9                 {grid-area: t9;}
+    .t0                 {grid-area: t0;}
+    .ftaste1            {grid-area: ftaste;}
+    .ftaste2            {grid-area: ftaste;}
+    .ftaste3            {grid-area: ftaste;}
+    .ftaste4            {grid-area: ftaste;}
+    .ausgabe            {grid-area: ausgabe;}
+    .clear              {grid-area: clear;}
+    .klammerAuf         {grid-area: klammerAuf;}
+    .komma              {grid-area: komma;}
+    .klammerZu          {grid-area: klammerZu;}
+    .tVorzeichen        {grid-area: tVorzeichen;}
+    .tPunkt             {grid-area: tPunkt;}
+    .zurück             {grid-area: zurück;}
+    .equals             {grid-area: equals;}
+    .rTeilen            {grid-area: rTeilen;}
+    .rMal               {grid-area: rMal;}
+    .rMinus             {grid-area: rMinus};
+    .rPlus              {grid-area: rPlus;}
+
+
+    .tr-grid {
+      display: grid;
+      grid-template-areas:
+      'left     ausgabe   ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  right' 
+      'left     clear     klammerAuf    komma     klammerZu   zurück    equals   right'
+      'left     ftaste1   t7            t8        t9          rTeilen   equals   right'
+      'left     ftaste2   t4            t5        t6          rMal      equals   right'
+      'left     ftaste3   t1            t2        t3          rMinus    equals   right'
+      'left     ftaste4   tVorzeichen   t0        tPunkt      rPlus     equals   right'
+      'bottom   bottom    bottom        bottom    bottom      bottom    bottom   bottom';
+    }
+
+  </style>
+  </head>
+  <body class="theme-dark">
+    <div class="container-page-nofooter container-page-nonavi">
+      <header class="container-titlebar" id="head">
+        <div>
+          <!-- flex wrapper -->
+          <div>
+            <div>
+              &#8203; <!-- zero-width unicode char to force rendering of the div -->
+            </div>
+            <div>
+              <i class="nf nf-mdi-arrow_left_thick"></i>
+            </div>
+          </div>
+          <div class="pad-sides margin-r-5x">
+            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+          </div>
+          <div>
+            <h1>Taschenrechner</h1>
+          </div>
+          <div>
+            <div id="pageclock"></div>
+            <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+          </div>
+        </div>
+      </header>
+      <div class="container-content">
+        <nav class="breadcrumb">
+          <div>
+            <span><a href="http://127.0.0.1:700/">home</a>
+          </div>
+        </nav>
+        <main class="grid-3-main">
+
+          <div class="tr-grid">
+
+          </div>
+
+        </main>
+      </div>
+    </div>
+    <script>
+      $('.nf-mdi-arrow_left_thick').on('click', function() {
+        location.href = "http://127.0.0.1:700/";
+      })
+    </script>
+  </body>
+</html>

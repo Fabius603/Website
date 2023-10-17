@@ -35,7 +35,10 @@ def pwgen(request):
     else:
         return HttpResponse(template.render(request=request))
 
-    
+def taschenrechner(request):
+    template = loader.get_template('taschenrechner.html')
+    return HttpResponse(template.render(request=request))      
+
 def malen(request):
     template = loader.get_template('malen.html')
     return HttpResponse(template.render(request=request))   
