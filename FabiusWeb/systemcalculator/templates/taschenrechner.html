@@ -74,6 +74,13 @@
       font-weight: bold;
       font-size: 30px;
     }
+    #ausgabeFeld {
+      position: absolute;
+      font-size: 40px;
+      padding-top: 3.3%;
+      padding-left: 2%;
+    }
+    
 
   </style>
   </head>
@@ -115,50 +122,50 @@
 
             <!-- Testen des Taschenrechners: -->
             <!-- Reihe 1 -->
-            <div class="ausgabe">ausgabe</div>
+            <div class="ausgabe"><span id="ausgabeFeld"></span></div>
 
             <!-- Reihe 2 -->
-            <div class="clear"><button class="tr-knopf">clear</button></div>
-            <div class="ftaste6"><button class="tr-knopf">ftaste6</button></div>
-            <div class="klammerAuf"><button class="tr-knopf">(</button></div>
-            <div class="komma"><button class="tr-knopf">,</button></div>
-            <div class="klammerZu"><button class="tr-knopf">)</button></div>
-            <div class="zurück"><button class="tr-knopf">zurück</button></div>
+            <div class="clear">       <button class="tr-knopf" id="clear">clear</button></div>
+            <div class="ftaste6">     <button class="tr-knopf" id="">ftaste6</button></div>
+            <div class="klammerAuf">  <button class="tr-knopf" id="(">(</button></div>
+            <div class="komma">       <button class="tr-knopf" id=",">,</button></div>
+            <div class="klammerZu">   <button class="tr-knopf" id=")">)</button></div>
+            <div class="zurück">      <button class="tr-knopf" id="back">zurück</button></div>
 
             <!-- Reihe 3 -->
-            <div class="ftaste1"><button class="tr-knopf">ftaste1</button></div>
-            <div class="ftaste7"><button class="tr-knopf">ftaste7</button></div>
-            <div class="t7"><button class="tr-knopf" id="7" onclick="eingabeNummer(7)">7</button></div>
-            <div class="t8"><button class="tr-knopf" id="8" onclick="eingabeNummer(8)">8</button></div>
-            <div class="t9"><button class="tr-knopf" id="9" onclick="eingabeNummer(9)">9</button></div>
-            <div class="rTeilen"><button class="tr-knopf">/</button></div>
+            <div class="ftaste1">     <button class="tr-knopf" id="">ftaste1</button></div>
+            <div class="ftaste7">     <button class="tr-knopf" id="">ftaste7</button></div>
+            <div class="t7">          <button class="tr-knopf" id="7">7</button></div>
+            <div class="t8">          <button class="tr-knopf" id="8">8</button></div>
+            <div class="t9">          <button class="tr-knopf" id="9">9</button></div>
+            <div class="rTeilen">     <button class="tr-knopf" id="/">/</button></div>
 
             <!-- Reihe 4 -->
-            <div class="ftaste2"><button class="tr-knopf">ftaste2</button></div>
-            <div class="ftaste8"><button class="tr-knopf">ftaste8</button></div>
-            <div class="t4"><button class="tr-knopf" id="4" onclick="eingabeNummer(4)">4</button></div>
-            <div class="t5"><button class="tr-knopf" id="5" onclick="eingabeNummer(5)">5</button></div>
-            <div class="t6"><button class="tr-knopf" id="6" onclick="eingabeNummer(6)">6</button></div>
-            <div class="rMal"><button class="tr-knopf">*</button></div>
+            <div class="ftaste2">     <button class="tr-knopf" id="">ftaste2</button></div>
+            <div class="ftaste8">     <button class="tr-knopf" id="">ftaste8</button></div>
+            <div class="t4">          <button class="tr-knopf" id="4">4</button></div>
+            <div class="t5">          <button class="tr-knopf" id="5">5</button></div>
+            <div class="t6">          <button class="tr-knopf" id="6">6</button></div>
+            <div class="rMal">        <button class="tr-knopf" id="*">*</button></div>
 
             <!-- Reihe 5 -->
-            <div class="ftaste3"><button class="tr-knopf">ftaste3</button></div>
-            <div class="ftaste9"><button class="tr-knopf">ftaste9</button></div>
-            <div class="t1"><button class="tr-knopf" id="1" onclick="eingabeNummer(1)">1</button></div>
-            <div class="t2"><button class="tr-knopf" id="2" onclick="eingabeNummer(2)">2</button></div>
-            <div class="t3"><button class="tr-knopf" id="3" onclick="eingabeNummer(3)">3</button></div>
-            <div class="rMinus"><button class="tr-knopf">-</button></div>
+            <div class="ftaste3">     <button class="tr-knopf" id="">ftaste3</button></div>
+            <div class="ftaste9">     <button class="tr-knopf" id="">ftaste9</button></div>
+            <div class="t1">          <button class="tr-knopf" id="1">1</button></div>
+            <div class="t2">          <button class="tr-knopf" id="2">2</button></div>
+            <div class="t3">          <button class="tr-knopf" id="3">3</button></div>
+            <div class="rMinus">      <button class="tr-knopf" id="-">-</button></div>
 
             <!-- Reihe 6 -->
-            <div class="ftaste4"><button class="tr-knopf">ftaste4</button></div>
-            <div class="ftaste10"><button class="tr-knopf">ftaste10</button></div>
-            <div class="tVorzeichen"><button class="tr-knopf">+/-</button></div>
-            <div class="t0"><button class="tr-knopf">0</button></div>
-            <div class="tPunkt"><button class="tr-knopf">.</button></div>
-            <div class="rPlus"><button class="tr-knopf">+</button></div>
+            <div class="ftaste4">     <button class="tr-knopf" id="">ftaste4</button></div>
+            <div class="ftaste10">    <button class="tr-knopf" id="">ftaste10</button></div>
+            <div class="tVorzeichen"> <button class="tr-knopf" id="(-)">(-)</button></div>
+            <div class="t0">          <button class="tr-knopf" id="0">0</button></div>
+            <div class="tPunkt">      <button class="tr-knopf" id=".">.</button></div>
+            <div class="rPlus">       <button class="tr-knopf" id="+">+</button></div>
 
             <!-- Spalte 6 -->
-            <div class="equals"><button class="tr-knopf">=</button></div>
+            <div class="equals">      <button class="tr-knopf" id="equals">=</button></div>
             
 
             <div class="right">right</div>
@@ -173,17 +180,146 @@
         location.href = "http://127.0.0.1:700/";
       })
 
-      var eingabe = []
+      var eingabe = [];
+      var berechnung = [];
 
-      function eingabeNummer(nummer) {
-        eingabe.push(nummer)
-        console.log(eingabe)
+      function eingabeZeichen(zeichen) {
+        eingabe.push(zeichen);
+        eingabeToString();
       }
 
-      function ausgabe() {
-        for(var i = 0; i < eingabe.length; i++) {
-          
+      function verteiler(button) {
+        button.toString();
+        if(["0","1","2","3","4","5","6","7","8","9","+","*","-","/","(",")",".",","].indexOf(button) != -1) {
+          eingabeZeichen(button);
         }
+        else if(button == "back") {
+          zurück();
+        }
+        else if(button == "clear") {
+          clear();
+        }
+        else if(button == "equals") {
+          berechnen()
+        }
+      }
+
+
+      $('.tr-knopf').on('click', function() {
+        if(this.id != "" || this.id != undefined) {
+          verteiler(this.id);
+        }
+      })
+
+      function zurück() {
+        eingabe.pop();
+        eingabeToString();
+      }
+      function clear() {
+        eingabe = [];
+        eingabeToString();
+      }
+
+
+      function berechnen() {
+        var ergebnis;
+        var calcarea;
+        var pos1;
+        var pos2;
+        berechnung = eingabe;
+        berechnung.toString();
+
+        while(true) {
+          //erste bzw innerste Klammer wird in calcarea gespeichert:
+          if(berechnung.indexOf("(") != -1) {
+            pos1 = berechnung.indexOf("(");
+            if(berechnung.indexOf(")") != -1) {
+              pos2 = berechnung.indexOf(")");
+            }
+            while(true) {
+              if(berechnung.indexOf("(", pos1+1) != -1 && berechnung.indexOf("(", pos1+1) < pos2) {
+                pos1 = berechnung.indexOf("(", pos1+1);
+              } else {
+                break
+              }
+            }
+            calcarea = berechnung.slice(pos1+1, pos2)
+          } else {
+            calcarea = berechnung;
+          }
+          // Hier würden erstmal Potenzen kommen
+
+          // Punktrechnung
+          while(true) {
+            if(calcarea.indexOf("*") != -1 || calcarea.indexOf("/") != -1) {
+              // zuerst *
+              if((calcarea.indexOf("*") < calcarea.indexOf("/")) || calcarea.indexOf("*") != -1) {
+                // zahl vor *
+                var i = 1;
+                var vonStelle = "";
+                var bisStelle = "";
+                var zahlVor = "";
+                var zahlNach = "";
+                while(true) {
+                  if(["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") - i]) != -1 && ["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") - i]) != undefined) {
+                    console.log(calcarea[calcarea.indexOf("*") - i])
+                    zahlVor = zahlVor + calcarea[calcarea.indexOf("*") - i];
+                    vonStelle = calcarea.indexOf("*") - i;
+                    i+=1;
+                  } else {
+                    zahlVor.split("").reverse().join("");
+                    break
+                  } 
+                  
+                }
+                var i = 1;
+                console.log(calcarea[calcarea.indexOf("*") + i])
+                while(true) {
+                  if(["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") + i]) != -1 && ["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") + i]) != undefined) {
+                    zahlNach = zahlNach + calcarea[calcarea.indexOf("*") + i];
+                    bisStelle = calcarea.indexOf("*") + i;
+                    i+=1;
+                  } else {
+                    break
+                  }
+                }
+                if(zahlVor != undefined || zahlVor != "" || zahlNach != undefined || zahlNach != "") {
+                  ergebnis = parseFloat(zahlVor) * parseFloat(zahlNach);
+                  calcarea.splice(vonStelle, bisStelle)
+                  ergebnis.toString().split("").reverse()
+                  for(var d = 0; d < ergebnis.length; d++) {
+                    calcarea.splice(vonStelle, 0, ergebnis[0])
+                  }
+                  console.log(vonStelle)
+                  console.log(bisStelle)
+                  calcarea[0] = calcarea[0].split("")
+                  console.log(calcarea)
+                  break
+                } else {
+                  break
+                }
+              } 
+              // zuerst /
+              else if((calcarea.indexOf("*") > calcarea.indexOf("/")) || calcarea.indexOf("/") != -1) {
+                console.log("test")
+              } else {
+                break
+              }
+
+          } else {
+            break
+          }
+          }
+          break
+        }
+      }
+
+      function eingabeToString() {
+        var eingabeText = "";
+        for(var i = 0; i < eingabe.length; i++) {
+          eingabeText = eingabeText + eingabe[i];
+        }
+        $('#ausgabeFeld').text(eingabeText);
       }
 
     </script>
