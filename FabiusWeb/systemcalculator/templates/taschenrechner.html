@@ -37,7 +37,7 @@
     .ftaste3            {grid-area: ftaste3;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .ftaste4            {grid-area: ftaste4;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .ftaste5            {grid-area: ftaste5;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste6            {grid-area: ftaste6;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .exponent            {grid-area: exponent;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .ftaste7            {grid-area: ftaste7;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .ftaste8            {grid-area: ftaste8;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .ftaste9            {grid-area: ftaste9;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
@@ -61,7 +61,7 @@
       gap: 5px;
       grid-template-areas:
       'leftTop          leftTop           leftTop           ausgabe   ausgabe    ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  rightTop       rightTop      rightTop' 
-      'leftBottom       leftBottom        leftBottom        clear     ftaste6    klammerAuf    komma     klammerZu   zurück    equals   rightBottom    rightBottom   rightBottom'
+      'leftBottom       leftBottom        leftBottom        clear     exponent    klammerAuf    komma     klammerZu   zurück    equals   rightBottom    rightBottom   rightBottom'
       'leftBottom       leftBottom        leftBottom        ftaste1   ftaste7    t7            t8        t9          rTeilen   equals   rightBottom    rightBottom   rightBottom'
       'leftBottom       leftBottom        leftBottom        ftaste2   ftaste8    t4            t5        t6          rMal      equals   rightBottom    rightBottom   rightBottom'
       'leftBottom       leftBottom        leftBottom        ftaste3   ftaste9    t1            t2        t3          rMinus    equals   rightBottom    rightBottom   rightBottom'
@@ -169,7 +169,7 @@
 
             <!-- Reihe 2 -->
             <div class="clear">       <button class="tr-knopf" id="clear">clear</button></div>
-            <div class="ftaste6">     <button class="tr-knopf" id="">ftaste6</button></div>
+            <div class="exponent">     <button class="tr-knopf" id="exponent">x2</button></div>
             <div class="klammerAuf">  <button class="tr-knopf" id="(">(</button></div>
             <div class="komma">       <button class="tr-knopf" id=",">,</button></div>
             <div class="klammerZu">   <button class="tr-knopf" id=")">)</button></div>
@@ -230,7 +230,7 @@
 
       function eingabeZeichen(zeichen) {
         if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
-          if(lastObjectName(eingabe) == undefined || lastObjectName(eingabe).substr(0, 7) == "zeichen") {
+          if(lastObjectName(eingabe) == undefined || lastObjectName(eingabe).substr(0, 6) != "nummer" ) {
             eingabe["nummer" + posInEingabe] = zeichen;
             posInEingabe += 1;
             eingabeToString();
@@ -245,7 +245,14 @@
           if(lastObjectName(eingabe) != undefined) {
             eingabe["zeichen" + posInEingabe] = zeichen;
             posInEingabe += 1;
-            eingabeToString()
+            eingabeToString();
+          }
+        }
+        if(zeichen == "exponent") {
+          if(lastObjectName(eingabe).substr(0, 6) == "nummer") {
+            eingabe["exponent" + posInEingabe] = "2";
+            posInEingabe += 1;
+            eingabeToString();
           }
         }
       }
@@ -262,7 +269,10 @@
           clear();
         }
         else if(button == "equals") {
-          berechnen()
+          berechnen();
+        }
+        else if(button == "exponent") {
+          eingabeZeichen(button);
         }
       }
 
@@ -436,7 +446,12 @@
         var eingabeText = "";
         var keys = Object.keys(eingabe)
         for(var i = 0; i < keys.length; i++) {
-          eingabeText = eingabeText + eingabe[keys[i]]
+          console.log(keys[i])
+          if(keys[i].substr(0, 8) == "exponent") {
+            eingabeText = eingabeText + "^" + eingabe[keys[i]]
+          } else {
+            eingabeText = eingabeText + eingabe[keys[i]]
+          }
         }
         $('#ausgabeFeld').text(eingabeText);
       }
