@@ -16,10 +16,12 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
   <title>Taschenrechner</title>
   <style>
-    .left               {grid-area: left;           position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 60vh;}
-    .right              {grid-area: right;          position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 60vh;}
-    .bottom             {grid-area: bottom;         position: relative;   width: 100vw;      background-color: rgba(255, 0, 0, 0.199);        height: 100%;}
-    .ausgabe            {grid-area: ausgabe;        position: relative;   width: 100%;       background-color: rgba(0, 255, 255, 0.158);      height: 100%;}
+    .leftTop            {grid-area: leftTop;        position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 8vh;      overflow: hidden;}
+    .leftBottom         {grid-area: leftBottom;     position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 52vh;     overflow: hidden;}
+    .rightTop           {grid-area: rightTop;       position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 8vh;      overflow: hidden;}
+    .rightBottom        {grid-area: rightBottom;    position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 52vh;     overflow: hidden;}
+    .bottom             {grid-area: bottom;         position: relative;   width: 100vw;      background-color: rgba(255, 0, 0, 0.199);        height: 100%;     overflow: hidden;}
+    .ausgabe            {grid-area: ausgabe;        position: relative;   width: 100%;       background-color: rgba(0, 255, 255, 0.158);      height: 100%;     overflow: hidden;}
     .t1                 {grid-area: t1;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .t2                 {grid-area: t2;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
     .t3                 {grid-area: t3;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
@@ -58,13 +60,13 @@
       display: grid;
       gap: 5px;
       grid-template-areas:
-      'left   left     left     ausgabe   ausgabe    ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  right    right   right' 
-      'left   left     left     clear     ftaste6    klammerAuf    komma     klammerZu   zurück    equals   right    right   right'
-      'left   left     left     ftaste1   ftaste7    t7            t8        t9          rTeilen   equals   right    right   right'
-      'left   left     left     ftaste2   ftaste8    t4            t5        t6          rMal      equals   right    right   right'
-      'left   left     left     ftaste3   ftaste9    t1            t2        t3          rMinus    equals   right    right   right'
-      'left   left     left     ftaste4   ftaste10   tVorzeichen   t0        tPunkt      rPlus     equals   right    right   right'
-      'bottom bottom   bottom   bottom    bottom     bottom        bottom    bottom      bottom    bottom   bottom   bottom  bottom';
+      'leftTop          leftTop           leftTop           ausgabe   ausgabe    ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  rightTop       rightTop      rightTop' 
+      'leftBottom       leftBottom        leftBottom        clear     ftaste6    klammerAuf    komma     klammerZu   zurück    equals   rightBottom    rightBottom   rightBottom'
+      'leftBottom       leftBottom        leftBottom        ftaste1   ftaste7    t7            t8        t9          rTeilen   equals   rightBottom    rightBottom   rightBottom'
+      'leftBottom       leftBottom        leftBottom        ftaste2   ftaste8    t4            t5        t6          rMal      equals   rightBottom    rightBottom   rightBottom'
+      'leftBottom       leftBottom        leftBottom        ftaste3   ftaste9    t1            t2        t3          rMinus    equals   rightBottom    rightBottom   rightBottom'
+      'leftBottom       leftBottom        leftBottom        ftaste4   ftaste10   tVorzeichen   t0        tPunkt      rPlus     equals   rightBottom    rightBottom   rightBottom'
+      'bottom           bottom            bottom            bottom    bottom     bottom        bottom    bottom      bottom    bottom   bottom         bottom        bottom';
     }
 
     .tr-knopf {
@@ -72,7 +74,7 @@
       width: 100%;
       height: 100%;
       font-weight: bold;
-      font-size: 30px;
+      font-size: clamp(1.5em, 1.5vw, 2.4em);
     }
     #ausgabeFeld {
       position: absolute;
@@ -80,7 +82,47 @@
       padding-top: 3.3%;
       padding-left: 2%;
     }
-    
+    .leftTop span {
+      position: absolute;
+      margin-top: 3vh;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      font-size: 30px;
+    }
+    .rightTop span {
+      position: absolute;
+      margin-top: 3vh;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      font-size: 30px;
+    }
+    .verlaufTextDiv {
+      width: 100%;
+      height: 6vh;
+      display: block;
+      position: relative;
+    }
+    .rechnungVerlauf {
+      font-size: 20px;
+      color: white;
+      margin-left: 15%;
+      display: block;
+      width: 90%;
+      height: 50%;
+      position: absolute;
+    }
+    .ergebnisVerlauf {
+      font-size: 27px;
+      color: orange;
+      margin-left: 10%;
+      margin-top: 2vh;
+      display: block;
+      width: 100%;
+      height: 50%;
+      position: absolute;
+    }
 
   </style>
   </head>
@@ -118,7 +160,8 @@
         <main class="grid-3-main">
 
           <div class="tr-grid">
-            <div class="left">left</div>
+            <div class="leftTop"><span>Verlauf</span></div>
+            <div class="leftBottom" id="leftBottom"></div>
 
             <!-- Testen des Taschenrechners: -->
             <!-- Reihe 1 -->
@@ -168,7 +211,8 @@
             <div class="equals">      <button class="tr-knopf" id="equals">=</button></div>
             
 
-            <div class="right">right</div>
+            <div class="rightTop"><span></span></div>
+            <div class="rightBottom"><span></span></div>
             <div class="bottom">bottom</div>
           </div>
 
@@ -180,12 +224,30 @@
         location.href = "http://127.0.0.1:700/";
       })
 
-      var eingabe = [];
+      var eingabe = {};
       var berechnung = [];
+      var posInEingabe = 1;
 
       function eingabeZeichen(zeichen) {
-        eingabe.push(zeichen);
-        eingabeToString();
+        if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
+          if(lastObjectName(eingabe) == undefined || lastObjectName(eingabe).substr(0, 7) == "zeichen") {
+            eingabe["nummer" + posInEingabe] = zeichen;
+            posInEingabe += 1;
+            eingabeToString();
+          } else if(lastObjectName(eingabe).substr(0, 6) == "nummer") {
+            value = lastObjectValue(eingabe)
+            value = value + zeichen;
+            eingabe[lastObjectName(eingabe)] = value
+            eingabeToString();
+          }
+        }
+        if(["+","*","-","/","(",")"].indexOf(zeichen) != -1) {
+          if(lastObjectName(eingabe) != undefined) {
+            eingabe["zeichen" + posInEingabe] = zeichen;
+            posInEingabe += 1;
+            eingabeToString()
+          }
+        }
       }
 
       function verteiler(button) {
@@ -212,7 +274,13 @@
       })
 
       function zurück() {
-        eingabe.pop();
+        letzteString = lastObjectValue(eingabe);
+        letzteString = letzteString.slice(0, -1)
+        if(letzteString == "") {
+          delete eingabe[lastObjectName(eingabe)]
+        } else {
+          eingabe[lastObjectName(eingabe)] = letzteString;
+        }
         eingabeToString();
       }
       function clear() {
@@ -222,106 +290,168 @@
 
 
       function berechnen() {
-        var ergebnis;
-        var calcarea;
-        var pos1;
-        var pos2;
-        berechnung = eingabe;
-        berechnung.toString();
+        var alleZeichen = []; 
+        var rechnung = [];
+        for(var i = 1; i < posInEingabe; i++) {
+          if(eingabe["zeichen" + i] != undefined) {
+            alleZeichen.push(eingabe["zeichen" + i])
+          }
+        }
+        for(var i = 1; i < posInEingabe; i++) {
+          if(eingabe["nummer" + i] != undefined) {
+            rechnung.push(eingabe["nummer" + i])
+          }
+          if(eingabe["zeichen" + i] != undefined) {
+            rechnung.push(eingabe["zeichen" + i])
+          }
+        }
 
+        var letzteEingabe = "";
+        for(var i = 0; i < rechnung.length; i++) {
+          console.log(rechnung[i])
+          if(letzteEingabe != "" && rechnung[i] == "(") {
+            if(["+","*","-","/","(",")",".",","].indexOf(letzteEingabe) == -1) {
+              rechnung.splice(i, 0, "*")
+            }
+          }
+          letzteEingabe = rechnung[i];
+        }
+        console.log(rechnung)
+
+        var calcarea = rechnung.slice();
+        var calcareaReverse;
+        var alleZeichenReverse = alleZeichen.reverse()
+        var newcalcarea = [];
+        var klammerpos1;
+        var klammerpos2;
         while(true) {
-          //erste bzw innerste Klammer wird in calcarea gespeichert:
-          if(berechnung.indexOf("(") != -1) {
-            pos1 = berechnung.indexOf("(");
-            if(berechnung.indexOf(")") != -1) {
-              pos2 = berechnung.indexOf(")");
-            }
-            while(true) {
-              if(berechnung.indexOf("(", pos1+1) != -1 && berechnung.indexOf("(", pos1+1) < pos2) {
-                pos1 = berechnung.indexOf("(", pos1+1);
-              } else {
-                break
-              }
-            }
-            calcarea = berechnung.slice(pos1+1, pos2)
-          } else {
-            calcarea = berechnung;
-          }
-          // Hier würden erstmal Potenzen kommen
+          calcareaReverse = calcarea.slice();
+          calcareaReverse = calcareaReverse.reverse();
 
-          // Punktrechnung
-          while(true) {
-            if(calcarea.indexOf("*") != -1 || calcarea.indexOf("/") != -1) {
-              // zuerst *
-              if((calcarea.indexOf("*") < calcarea.indexOf("/")) || calcarea.indexOf("*") != -1) {
-                // zahl vor *
-                var i = 1;
-                var vonStelle = "";
-                var bisStelle = "";
-                var zahlVor = "";
-                var zahlNach = "";
-                while(true) {
-                  if(["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") - i]) != -1 && ["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") - i]) != undefined) {
-                    console.log(calcarea[calcarea.indexOf("*") - i])
-                    zahlVor = zahlVor + calcarea[calcarea.indexOf("*") - i];
-                    vonStelle = calcarea.indexOf("*") - i;
-                    i+=1;
-                  } else {
-                    zahlVor.split("").reverse().join("");
-                    break
-                  } 
-                  
+
+          // Rechnung enthält Klammern
+          // setzt calcarea fest, welche berechnet wird, bis keine "zeichen" mehr vorhanden sind
+          if(calcarea.indexOf("(") != -1) {
+            klammerpos1 = numberReverse(calcareaReverse.indexOf("("), calcarea.length)
+            
+            if(calcarea.indexOf(")") != -1) {
+              klammerpos2 = calcarea.indexOf(")");
+              if(newcalcarea.length == 0) {
+                for(var i = 1; i < (klammerpos2 - klammerpos1); i++) {
+                  newcalcarea.push(calcarea[klammerpos1 + i])
                 }
-                var i = 1;
-                console.log(calcarea[calcarea.indexOf("*") + i])
-                while(true) {
-                  if(["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") + i]) != -1 && ["0","1","2","3","4","5","6","7","8","9"].indexOf(calcarea[calcarea.indexOf("*") + i]) != undefined) {
-                    zahlNach = zahlNach + calcarea[calcarea.indexOf("*") + i];
-                    bisStelle = calcarea.indexOf("*") + i;
-                    i+=1;
-                  } else {
-                    break
-                  }
-                }
-                if(zahlVor != undefined || zahlVor != "" || zahlNach != undefined || zahlNach != "") {
-                  ergebnis = parseFloat(zahlVor) * parseFloat(zahlNach);
-                  calcarea.splice(vonStelle, bisStelle)
-                  ergebnis.toString().split("").reverse()
-                  for(var d = 0; d < ergebnis.length; d++) {
-                    calcarea.splice(vonStelle, 0, ergebnis[0])
-                  }
-                  console.log(vonStelle)
-                  console.log(bisStelle)
-                  calcarea[0] = calcarea[0].split("")
-                  console.log(calcarea)
-                  break
-                } else {
-                  break
-                }
+              }
+              if(newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1) {
+                calcarea.splice(klammerpos1, klammerpos2-klammerpos1+1, newcalcarea[0])
+                newcalcarea = calcarea.slice();
+                continue
               } 
-              // zuerst /
-              else if((calcarea.indexOf("*") > calcarea.indexOf("/")) || calcarea.indexOf("/") != -1) {
-                console.log("test")
-              } else {
-                break
-              }
 
+            } 
           } else {
-            break
+            if(newcalcarea.length == 0) {
+              newcalcarea = calcarea.slice();
+            }
+            if(newcalcarea.length != 0 && newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1) {
+              // Ergebnis wird ausgegeben WICHTIG!!
+              $(".rightTop span").text(newcalcarea[0]);
+              verlauf(rechnung, newcalcarea);
+              break
+            }
           }
+          // Mal kommt vor geteilt oder geteilt wird nicht gerechnet
+          if((newcalcarea.indexOf("*") < newcalcarea.indexOf("/") && newcalcarea.indexOf("*") != -1) || (newcalcarea.indexOf("*") != -1 && newcalcarea.indexOf("/") == -1)) {
+            zahl1pos = newcalcarea.indexOf("*")-1;
+            zahl2pos = newcalcarea.indexOf("*")+1;
+            malergebnis = mal(newcalcarea[zahl1pos], newcalcarea[zahl2pos])
+            newcalcarea.splice(zahl1pos, 3, malergebnis);
+            continue
+          }
+          if((newcalcarea.indexOf("/") < newcalcarea.indexOf("*") && newcalcarea.indexOf("/") != -1) || (newcalcarea.indexOf("/") != -1 && newcalcarea.indexOf("*") == -1)) {
+            zahl1pos = newcalcarea.indexOf("/")-1;
+            zahl2pos = newcalcarea.indexOf("/")+1;
+            geteiltergebnis = teilen(newcalcarea[zahl1pos], newcalcarea[zahl2pos])
+            newcalcarea.splice(zahl1pos, 3, geteiltergebnis);
+            continue
+          }
+          if((newcalcarea.indexOf("+") < newcalcarea.indexOf("-") && newcalcarea.indexOf("+") != -1) || (newcalcarea.indexOf("+") != -1 && newcalcarea.indexOf("-") == -1)) {
+            zahl1pos = newcalcarea.indexOf("+")-1;
+            zahl2pos = newcalcarea.indexOf("+")+1;
+            plusergebnis = plus(newcalcarea[zahl1pos], newcalcarea[zahl2pos])
+            newcalcarea.splice(zahl1pos, 3, plusergebnis);
+            continue
+          }
+          if((newcalcarea.indexOf("-") < newcalcarea.indexOf("+") && newcalcarea.indexOf("-") != -1) || (newcalcarea.indexOf("-") != -1 && newcalcarea.indexOf("+") == -1)) {
+            zahl1pos = newcalcarea.indexOf("-")-1;
+            zahl2pos = newcalcarea.indexOf("-")+1;
+            minusergebnis = minus(newcalcarea[zahl1pos], newcalcarea[zahl2pos])
+            newcalcarea.splice(zahl1pos, 3, minusergebnis);
+            continue
           }
           break
         }
       }
 
+      function mal(numberVor, numberNach) {
+        return (parseFloat(numberVor) * parseFloat(numberNach)).toString()
+      }
+
+      function teilen(numberVor, numberNach) {
+        return (parseFloat(numberVor) / parseFloat(numberNach)).toString()
+      }
+
+      function plus(numberVor, numberNach) {
+        return (parseFloat(numberVor) + parseFloat(numberNach)).toString()
+      }
+
+      function minus(numberVor, numberNach) {
+        return (parseFloat(numberVor) - parseFloat(numberNach)).toString()
+      }
+
+
+      function verlauf(rechnung, ergebnis) {
+        const verlaufDiv = document.createElement("div");
+        verlaufDiv.className = "verlaufTextDiv";
+        const parent = document.getElementById("leftBottom");
+        parent.insertBefore(verlaufDiv, parent.firstChild)
+
+        const verlaufText1 = document.createElement("span");
+        const verlaufText2 = document.createElement("span");
+
+        verlaufText1.className = "rechnungVerlauf";
+        verlaufText2.className = "ergebnisVerlauf";
+
+        var rechnungText = "";
+        for(var i = 0; i < rechnung.length; i++) {
+          rechnungText = rechnungText + rechnung[i];
+        }
+        verlaufText1.innerHTML = rechnungText;
+        verlaufText2.innerHTML = ergebnis[0];
+
+        verlaufDiv.appendChild(verlaufText1)
+        verlaufDiv.appendChild(verlaufText2)
+      }
+
       function eingabeToString() {
         var eingabeText = "";
-        for(var i = 0; i < eingabe.length; i++) {
-          eingabeText = eingabeText + eingabe[i];
+        var keys = Object.keys(eingabe)
+        for(var i = 0; i < keys.length; i++) {
+          eingabeText = eingabeText + eingabe[keys[i]]
         }
         $('#ausgabeFeld').text(eingabeText);
       }
 
+      function lastObjectName(object) {
+        return Object.keys(object)[Object.keys(object).length - 1]
+      }
+
+      function lastObjectValue(object) {
+        return object[Object.keys(object)[Object.keys(object).length - 1]]
+      }
+
+      function numberReverse(pos, length) {
+        return (length-1) - pos
+      }
     </script>
   </body>
 </html>
