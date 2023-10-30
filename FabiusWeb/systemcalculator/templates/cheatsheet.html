@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <meta name="theme-color" content="#cecece">
+    <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/vendor/plugins.js' %}"></script>
+    <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <title>Cheatsheet</title>
+    <style>
+      .container {
+        width: 100vw;
+        display: flex;
+      }
+      .großerBehälterRechts {
+        position: relative;
+        display: inline-flex;
+        width: 40vw;
+        height: 60vh;
+        margin: 2vh 5vw 0 5vw;
+        border-top-right-radius: 100px;
+      }
+      .großerBehälterLinks {
+        position: relative;
+        display: inline-flex;
+        width: 40vw;
+        height: 60vh;
+        margin: 2vh 5vw 0 5vw;
+      }
+      .textfeldermain {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        padding-top: 35%;
+        background-color: rgba(255, 0, 0, 0.068);
+        border: solid rgba(255, 255, 255, 0.63) 2px;
+      }
+      #textfeldermainlinks {
+        border-top-right-radius: 100px;
+      }
+      #textfeldermainrechts {
+        border-top-left-radius: 100px;
+      }
+    </style>
+</head>
+<body class="theme-dark">
+  <div class="container-page-nofooter container-page-nonavi">
+    <header class="container-titlebar" id="head">
+      <div>
+        <!-- flex wrapper -->
+        <div>
+          <div>
+            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+          </div>
+          <div>
+            <i class="nf nf-mdi-arrow_left_thick"></i>
+          </div>
+        </div>
+        <div class="pad-sides margin-r-5x">
+          &#8203; <!-- zero-width unicode char to force rendering of the div -->
+        </div>
+        <div>
+          <h1>Cheatsheet</h1>
+        </div>
+        <div>
+          <div id="pageclock"></div>
+          <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+        </div>
+      </div>
+    </header>
+    <div class="container-content">
+      <nav class="breadcrumb">
+        <div>
+          <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/cheatsheet">cheatsheet</a></span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <div class="großerBehälterRechts">
+            <button class="textfeldermain" id="textfeldermainrechts">CSS</span>
+          </div>
+          <div class="großerBehälterLinks">
+            <button class="textfeldermain" id="textfeldermainlinks">JS</span>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    $('.nf-mdi-arrow_left_thick').on('click', function() {
+      location.href = "http://127.0.0.1:700/";
+    })
+
+    
+  </script>
+</body>

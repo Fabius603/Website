@@ -47,6 +47,10 @@ def interactive(request):
     template = loader.get_template('interactive.html')
     return HttpResponse(template.render(context, request=request))
 
+def cheatsheet(request):
+    template = loader.get_template('cheatsheet.html')
+    return HttpResponse(template.render(request=request))
+
 def settings(request):
     template = loader.get_template('settings.html')
     if request.method == "POST":

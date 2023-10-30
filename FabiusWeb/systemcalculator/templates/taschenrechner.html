@@ -262,7 +262,6 @@
         console.log(eingabe)
         var skip = false;
         if(lastObjectName(eingabe) != undefined && zeichen != "(-)" && lastObjectValue(eingabe).substr(-1) != ")") {
-          console.log("test")
           if(lastObjectName(eingabe).substr(0, 10) == "vorzeichen") {
             value = lastObjectValue(eingabe);
             if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
@@ -334,6 +333,7 @@
 
       function verteiler(button) {
         button.toString();
+        console.log(button)
         if(["0","1","2","3","4","5","6","7","8","9","+","*","-","/","(",")",".",",","(-)"].indexOf(button) != -1) {
           eingabeZeichen(button);
         }
@@ -572,53 +572,69 @@
 
 
 
+      // Tastatur zur Eingabe benutzen
 
-      //bottom Animation
+      document.addEventListener("keypress", tasteGedrückt);
 
-      var belegteBahn = [true, true, true, true, true, true];
-      const bahnen = {
-        "1": [],
-        "2": [],
-        "3": [],
-        "4": [],
-        "5": [],
-        "6": [],
+      function tasteGedrückt(evt) {
+        const belegteTasten = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "(", ")", ".", ","]
+        const gedrückteTaste = String.fromCharCode(evt.charCode);
+        if(belegteTasten.indexOf(gedrückteTaste) != -1) {
+          verteiler(gedrückteTaste);
+        } else if(evt.keyCode == 13) {
+          evt.preventDefault();
+          verteiler("equals")
+        }
       }
 
-      function startMatheAnimation() {
-        // Zufällige frei Bahn wählen:
-        var freieBahn = [];
-        for(var i = 0; i < belegteBahnen; i++) {
-          if(belegteBahn[i] == true) {
-            freieBahn.push(i);
-          }
-        }
-        random = Math.floor(Math.random() * freieBahn.length)
-        gewählteBahn = freieBahn[random];
-        belegteBahn[gewählteBahn] = false;
-      }
 
-      function randomMatheRechnung() {
-        num1 = Math.floor(Math.random() * 1000);
-        num2 = Math.floor(Math.random() * 1000);
-        randomzeichen = Math.floor(Math.random() * 4);
-        if(randomzeichen == 0) {
-          ergebnis = parseFloat(num1) + parseFloat(num2)
-          return num1 + " + " + num2 + " = " + ergebnis
-        }
-        if(randomzeichen == 0) {
-          ergebnis = parseFloat(num1) - parseFloat(num2)
-          return num1 + " - " + num2 + " = " + ergebnis
-        }
-        if(randomzeichen == 0) {
-          ergebnis = parseFloat(num1) * parseFloat(num2)
-          return num1 + " * " + num2 + " = " + ergebnis
-        }
-        if(randomzeichen == 0) {
-          ergebnis = parseFloat(num1) / parseFloat(num2)
-          return num1 + " / " + num2 + " = " + ergebnis
-        }
-      }
+
+      //bottom Animation (vorerst auf Eis gelegt)
+
+      // var belegteBahn = [true, true, true, true, true, true];
+      // const bahnen = {
+      //   "1": [],
+      //   "2": [],
+      //   "3": [],
+      //   "4": [],
+      //   "5": [],
+      //   "6": [],
+      // }
+
+      // function startMatheAnimation() {
+      //   // Zufällige frei Bahn wählen:
+      //   var freieBahn = [];
+      //   for(var i = 0; i < belegteBahnen; i++) {
+      //     if(belegteBahn[i] == true) {
+      //       freieBahn.push(i);
+      //     }
+      //   }
+      //   random = Math.floor(Math.random() * freieBahn.length)
+      //   gewählteBahn = freieBahn[random];
+      //   belegteBahn[gewählteBahn] = false;
+      // }
+
+      // function randomMatheRechnung() {
+      //   num1 = Math.floor(Math.random() * 1000);
+      //   num2 = Math.floor(Math.random() * 1000);
+      //   randomzeichen = Math.floor(Math.random() * 4);
+      //   if(randomzeichen == 0) {
+      //     ergebnis = parseFloat(num1) + parseFloat(num2)
+      //     return num1 + " + " + num2 + " = " + ergebnis
+      //   }
+      //   if(randomzeichen == 0) {
+      //     ergebnis = parseFloat(num1) - parseFloat(num2)
+      //     return num1 + " - " + num2 + " = " + ergebnis
+      //   }
+      //   if(randomzeichen == 0) {
+      //     ergebnis = parseFloat(num1) * parseFloat(num2)
+      //     return num1 + " * " + num2 + " = " + ergebnis
+      //   }
+      //   if(randomzeichen == 0) {
+      //     ergebnis = parseFloat(num1) / parseFloat(num2)
+      //     return num1 + " / " + num2 + " = " + ergebnis
+      //   }
+      // }
 
     </script>
   </body>

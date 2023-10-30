@@ -44,6 +44,8 @@
             grid-area: bottom;
             position: absolute;
             bottom: 0;
+            width: 98%;
+            bottom: 1%
           }
           .grid-container {
             display: grid;
@@ -165,6 +167,11 @@
           }
           #taschenrechner-erklärungen {
             top: var(--erklärung-button-top5);
+          }
+          #cheatsheet {
+            position: absolute;
+            right: 0;
+            bottom: 2%;
           }
 
           @keyframes ring {
@@ -317,12 +324,13 @@
                     <p>Durchsuche <b>Wikipedia</b> Seiten und lasse dir nur den Text anzeigen. Du kannst über ein <b>Inhaltsverzeichnis</b> auf der Seite Navigieren.</p>
                   </div>
                   <div class="button-erklärung" id ="taschenrechner-erklärungen">
-                    <p>Ist in Produktion</p>
+                    <p>Taschenrechner mit allen <b>Grundrechenarten</b>. Lange Rechnungen mit <b>Klammern, Exponenten und Vorzeichen</b> sind möglich. Besitzt noch viele unbelegte Tasten</p>
                   </div>
                 </div>
 
                 <div class="bottom">
                   <span><i>Erstellt von Fabius</i></span>
+                  <button id="cheatsheet"><a href="http://127.0.0.1:700/cheatsheet">Test</a></button>
                 </div>
                 <div id="ball-container">
                   </div>
