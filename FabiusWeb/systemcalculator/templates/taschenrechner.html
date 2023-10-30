@@ -16,49 +16,50 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
   <title>Taschenrechner</title>
   <style>
-    .leftTop            {grid-area: leftTop;        position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 8vh;      overflow: hidden;}
-    .leftBottom         {grid-area: leftBottom;     position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.199);        height: 52vh;     overflow: hidden;}
-    .rightTop           {grid-area: rightTop;       position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 8vh;      overflow: hidden;}
-    .rightBottom        {grid-area: rightBottom;    position: relative;   width: 100%;       background-color: rgba(255, 0, 0, 0.164);        height: 52vh;     overflow: hidden;}
-    .bottom             {grid-area: bottom;         position: relative;   width: 100vw;      background-color: rgba(255, 0, 0, 0.199);        height: 100%;     overflow: hidden;}
-    .ausgabe            {grid-area: ausgabe;        position: relative;   width: 100%;       background-color: rgba(0, 255, 255, 0.158);      height: 100%;     overflow: hidden;}
-    .t1                 {grid-area: t1;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t2                 {grid-area: t2;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t3                 {grid-area: t3;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t4                 {grid-area: t4;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t5                 {grid-area: t5;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t6                 {grid-area: t6;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t7                 {grid-area: t7;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t8                 {grid-area: t8;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t9                 {grid-area: t9;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .t0                 {grid-area: t0;             position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste1            {grid-area: ftaste1;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste2            {grid-area: ftaste2;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste3            {grid-area: ftaste3;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste4            {grid-area: ftaste4;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste5            {grid-area: ftaste5;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .exponent            {grid-area: exponent;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste7            {grid-area: ftaste7;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste8            {grid-area: ftaste8;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste9            {grid-area: ftaste9;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .ftaste10           {grid-area: ftaste10;       position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .clear              {grid-area: clear;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .klammerAuf         {grid-area: klammerAuf;     position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .komma              {grid-area: komma;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .klammerZu          {grid-area: klammerZu;      position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .tVorzeichen        {grid-area: tVorzeichen;    position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .tPunkt             {grid-area: tPunkt;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .zurück             {grid-area: zurück;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .equals             {grid-area: equals;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .rTeilen            {grid-area: rTeilen;        position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .rMal               {grid-area: rMal;           position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .rMinus             {grid-area: rMinus;         position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
-    .rPlus              {grid-area: rPlus;          position: relative;   width: 100%;       background-color: rgba(127, 255, 212, 0.185);    height: 100%;     overflow: hidden;}
+    .leftTop            {grid-area: leftTop;        position: relative;   width: 60%;        height: 8vh;      overflow: hidden;}
+    .leftBottom         {grid-area: leftBottom;     position: relative;   width: 80%;        height: 52vh;     overflow: hidden;}
+    .rightTop           {grid-area: rightTop;       position: relative;   width: 100%;        height: 8vh;      overflow: hidden;}
+    .rightBottom        {grid-area: rightBottom;    position: relative;   width: 100%;        height: 52vh;     overflow: hidden;}
+    .bottom             {grid-area: bottom;         position: relative;   width: 100vw;       height: 100%;     overflow: hidden;}
+    .ausgabe            {grid-area: ausgabe;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t1                 {grid-area: t1;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t2                 {grid-area: t2;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t3                 {grid-area: t3;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t4                 {grid-area: t4;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t5                 {grid-area: t5;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t6                 {grid-area: t6;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t7                 {grid-area: t7;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t8                 {grid-area: t8;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t9                 {grid-area: t9;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .t0                 {grid-area: t0;             position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste1            {grid-area: ftaste1;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste2            {grid-area: ftaste2;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste3            {grid-area: ftaste3;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste4            {grid-area: ftaste4;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste5            {grid-area: ftaste5;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .exponent           {grid-area: exponent;       position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste7            {grid-area: ftaste7;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste8            {grid-area: ftaste8;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste9            {grid-area: ftaste9;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .ftaste10           {grid-area: ftaste10;       position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .clear              {grid-area: clear;          position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .klammerAuf         {grid-area: klammerAuf;     position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .komma              {grid-area: komma;          position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .klammerZu          {grid-area: klammerZu;      position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .tVorzeichen        {grid-area: tVorzeichen;    position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .tPunkt             {grid-area: tPunkt;         position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .zurück             {grid-area: zurück;         position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .equals             {grid-area: equals;         position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .rTeilen            {grid-area: rTeilen;        position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .rMal               {grid-area: rMal;           position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .rMinus             {grid-area: rMinus;         position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
+    .rPlus              {grid-area: rPlus;          position: relative;   width: 100%;        height: 100%;     overflow: hidden;}
 
 
     .tr-grid {
       display: grid;
       gap: 5px;
+      margin-top: 6vh;
       grid-template-areas:
       'leftTop          leftTop           leftTop           ausgabe   ausgabe    ausgabe       ausgabe   ausgabe     ausgabe   ausgabe  rightTop       rightTop      rightTop' 
       'leftBottom       leftBottom        leftBottom        clear     exponent    klammerAuf    komma     klammerZu   zurück    equals   rightBottom    rightBottom   rightBottom'
@@ -75,12 +76,41 @@
       height: 100%;
       font-weight: bold;
       font-size: clamp(1.5em, 1.5vw, 2.4em);
+      border: 2px solid white;
+      border-radius: 10px;
+      background-color: rgb(88, 88, 88);
+      transition: 200;
+      &:hover {
+        transition: 200;
+        font-size: 35px;
+        border: 4px solid #66CDAA;
+      }
+      &:active {
+        font-size: 44px;
+        text-shadow: 0px 0px 8px white;;
+        transition: 200;
+        transform: scale(0.95);
+      }
+    }
+    .ausgabe {
+      border-radius: 10px;
+      border: 2px solid white;
     }
     #ausgabeFeld {
       position: absolute;
       font-size: 40px;
       padding-top: 3.3%;
       padding-left: 2%;
+    }
+    .leftTop {
+      border-bottom: 1px solid white;
+      left: 20%;
+      right: 20%;
+    }
+    .leftBottom {
+      left: 10%;
+      right: 10%;
+      padding-top: 3vh;
     }
     .leftTop span {
       position: absolute;
@@ -168,47 +198,47 @@
             <div class="ausgabe"><span id="ausgabeFeld"></span></div>
 
             <!-- Reihe 2 -->
-            <div class="clear">       <button class="tr-knopf" id="clear">clear</button></div>
-            <div class="exponent">     <button class="tr-knopf" id="exponent">x2</button></div>
-            <div class="klammerAuf">  <button class="tr-knopf" id="(">(</button></div>
-            <div class="komma">       <button class="tr-knopf" id=",">,</button></div>
-            <div class="klammerZu">   <button class="tr-knopf" id=")">)</button></div>
-            <div class="zurück">      <button class="tr-knopf" id="back">zurück</button></div>
+            <div class="clear">             <button class="tr-knopf" id="clear">clear</button></div>
+            <div class="exponent">          <button class="tr-knopf" id="exponent">x2</button></div>
+            <div class="klammerAuf">        <button class="tr-knopf" id="(">(</button></div>
+            <div class="komma">             <button class="tr-knopf" id=",">,</button></div>
+            <div class="klammerZu">         <button class="tr-knopf" id=")">)</button></div>
+            <div class="zurück">            <button class="tr-knopf" id="back">zurück</button></div>
 
-            <!-- Reihe 3 -->
-            <div class="ftaste1">     <button class="tr-knopf" id="">ftaste1</button></div>
-            <div class="ftaste7">     <button class="tr-knopf" id="">ftaste7</button></div>
-            <div class="t7">          <button class="tr-knopf" id="7">7</button></div>
-            <div class="t8">          <button class="tr-knopf" id="8">8</button></div>
-            <div class="t9">          <button class="tr-knopf" id="9">9</button></div>
-            <div class="rTeilen">     <button class="tr-knopf" id="/">/</button></div>
+            <!-- Reihe 3 -->      
+            <div class="ftaste1">           <button class="tr-knopf" id="">ftaste1</button></div>
+            <div class="ftaste7">           <button class="tr-knopf" id="">ftaste7</button></div>
+            <div class="t7">                <button class="tr-knopf" id="7">7</button></div>
+            <div class="t8">                <button class="tr-knopf" id="8">8</button></div>
+            <div class="t9">                <button class="tr-knopf" id="9">9</button></div>
+            <div class="rTeilen">           <button class="tr-knopf" id="/">/</button></div>
 
-            <!-- Reihe 4 -->
-            <div class="ftaste2">     <button class="tr-knopf" id="">ftaste2</button></div>
-            <div class="ftaste8">     <button class="tr-knopf" id="">ftaste8</button></div>
-            <div class="t4">          <button class="tr-knopf" id="4">4</button></div>
-            <div class="t5">          <button class="tr-knopf" id="5">5</button></div>
-            <div class="t6">          <button class="tr-knopf" id="6">6</button></div>
-            <div class="rMal">        <button class="tr-knopf" id="*">*</button></div>
+            <!-- Reihe 4 -->      
+            <div class="ftaste2">           <button class="tr-knopf" id="">ftaste2</button></div>
+            <div class="ftaste8">           <button class="tr-knopf" id="">ftaste8</button></div>
+            <div class="t4">                <button class="tr-knopf" id="4">4</button></div>
+            <div class="t5">                <button class="tr-knopf" id="5">5</button></div>
+            <div class="t6">                <button class="tr-knopf" id="6">6</button></div>
+            <div class="rMal">              <button class="tr-knopf" id="*">*</button></div>
 
-            <!-- Reihe 5 -->
-            <div class="ftaste3">     <button class="tr-knopf" id="">ftaste3</button></div>
-            <div class="ftaste9">     <button class="tr-knopf" id="">ftaste9</button></div>
-            <div class="t1">          <button class="tr-knopf" id="1">1</button></div>
-            <div class="t2">          <button class="tr-knopf" id="2">2</button></div>
-            <div class="t3">          <button class="tr-knopf" id="3">3</button></div>
-            <div class="rMinus">      <button class="tr-knopf" id="-">-</button></div>
+            <!-- Reihe 5 -->      
+            <div class="ftaste3">           <button class="tr-knopf" id="">ftaste3</button></div>
+            <div class="ftaste9">           <button class="tr-knopf" id="">ftaste9</button></div>
+            <div class="t1">                <button class="tr-knopf" id="1">1</button></div>
+            <div class="t2">                <button class="tr-knopf" id="2">2</button></div>
+            <div class="t3">                <button class="tr-knopf" id="3">3</button></div>
+            <div class="rMinus">            <button class="tr-knopf" id="-">-</button></div>
 
-            <!-- Reihe 6 -->
-            <div class="ftaste4">     <button class="tr-knopf" id="">ftaste4</button></div>
-            <div class="ftaste10">    <button class="tr-knopf" id="">ftaste10</button></div>
-            <div class="tVorzeichen"> <button class="tr-knopf" id="(-)">(-)</button></div>
-            <div class="t0">          <button class="tr-knopf" id="0">0</button></div>
-            <div class="tPunkt">      <button class="tr-knopf" id=".">.</button></div>
-            <div class="rPlus">       <button class="tr-knopf" id="+">+</button></div>
+            <!-- Reihe 6 -->      
+            <div class="ftaste4">           <button class="tr-knopf" id="">ftaste4</button></div>
+            <div class="ftaste10">          <button class="tr-knopf" id="">ftaste10</button></div>
+            <div class="tVorzeichen">       <button class="tr-knopf" id="(-)">(-)</button></div>
+            <div class="t0">                <button class="tr-knopf" id="0">0</button></div>
+            <div class="tPunkt">            <button class="tr-knopf" id=".">.</button></div>
+            <div class="rPlus">             <button class="tr-knopf" id="+">+</button></div>
 
-            <!-- Spalte 6 -->
-            <div class="equals">      <button class="tr-knopf" id="equals">=</button></div>
+            <!-- Spalte 6 -->     
+            <div class="equals">            <button class="tr-knopf" id="equals">=</button></div>
             
 
             <div class="rightTop"><span></span></div>
@@ -229,37 +259,82 @@
       var posInEingabe = 1;
 
       function eingabeZeichen(zeichen) {
-        if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
-          if(lastObjectName(eingabe) == undefined || lastObjectName(eingabe).substr(0, 6) != "nummer" ) {
-            eingabe["nummer" + posInEingabe] = zeichen;
-            posInEingabe += 1;
-            eingabeToString();
-          } else if(lastObjectName(eingabe).substr(0, 6) == "nummer") {
-            value = lastObjectValue(eingabe)
-            value = value + zeichen;
-            eingabe[lastObjectName(eingabe)] = value
-            eingabeToString();
-          }
-        }
-        if(["+","*","-","/","(",")"].indexOf(zeichen) != -1) {
-          if(lastObjectName(eingabe) != undefined) {
-            eingabe["zeichen" + posInEingabe] = zeichen;
-            posInEingabe += 1;
-            eingabeToString();
-          }
-        }
-        if(zeichen == "exponent") {
-          if(lastObjectName(eingabe).substr(0, 6) == "nummer") {
-            eingabe["exponent" + posInEingabe] = "2";
-            posInEingabe += 1;
+        console.log(eingabe)
+        var skip = false;
+        if(lastObjectName(eingabe) != undefined && zeichen != "(-)" && lastObjectValue(eingabe).substr(-1) != ")") {
+          console.log("test")
+          if(lastObjectName(eingabe).substr(0, 10) == "vorzeichen") {
+            value = lastObjectValue(eingabe);
+            if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
+              value = value + zeichen;
+              skip = true;
+            } else if(["+","*","-","/","("].indexOf(zeichen) != -1 || zeichen == "exponent") {
+              value = value + ")";
+            } else if(zeichen = ")") {
+              value = value + ")";
+              skip = true;
+            }
+            eingabe[lastObjectName(eingabe)] = value;
             eingabeToString();
           }
         }
+        if(skip == false) {
+          if(["0","1","2","3","4","5","6","7","8","9"].indexOf(zeichen) != -1) {
+            if(lastObjectName(eingabe) == undefined || (lastObjectName(eingabe).substr(0, 6) != "nummer" && lastObjectName(eingabe).substr(0, 8) != "exponent")) {
+              eingabe["nummer" + posInEingabe] = zeichen;
+              posInEingabe += 1;
+              eingabeToString();
+            } else if(lastObjectName(eingabe).substr(0, 6) == "nummer" && lastObjectName(eingabe).substr(0, 8) != "exponent") {
+              value = lastObjectValue(eingabe)
+              value = value + zeichen;
+              eingabe[lastObjectName(eingabe)] = value
+              eingabeToString();
+            }
+          }
+          if(["+","*","-","/","(",")"].indexOf(zeichen) != -1) {
+            if((lastObjectName(eingabe) != undefined && lastObjectName(eingabe).substr(0, 7) != "zeichen") || zeichen == "(" || lastObjectValue(eingabe) == ")") {
+              eingabe["zeichen" + posInEingabe] = zeichen;
+              posInEingabe += 1;
+              eingabeToString();
+            }
+          }
+          if(zeichen == "exponent") {
+            if(lastObjectName(eingabe).substr(0, 6) == "nummer" || lastObjectName(eingabe).substr(0, 8) == "exponent") {
+              eingabe["exponent" + posInEingabe] = "2";
+              posInEingabe += 1;
+              eingabeToString();
+            }
+          }
+          if(zeichen == "(-)") {
+            if(lastObjectName(eingabe) == undefined || (lastObjectName(eingabe).substr(0, 6) != "nummer" && lastObjectName(eingabe).substr(0, 10) != "vorzeichen")) {
+              eingabe["vorzeichen" + posInEingabe] = "(-";
+              posInEingabe += 1;
+              eingabeToString();
+            }
+          }
+          if((zeichen == "." || zeichen == ",") && lastObjectValue(eingabe).indexOf(".") == -1) {
+            console.log("test")
+            if(lastObjectName(eingabe) != undefined && lastObjectName(eingabe).substr(0, 6) == "nummer") {
+              value = lastObjectValue(eingabe)
+              value = value + ".";
+              eingabe[lastObjectName(eingabe)] = value
+              eingabeToString();
+            } else if(lastObjectName(eingabe) != undefined && lastObjectName(eingabe).substr(0, 10) == "vorzeichen") {
+              if(lastObjectValue(eingabe) != "(-" || lastObjectValue(eingabe).substr(-1) != ")") {
+                value = lastObjectValue(eingabe)
+                value = value + ".";
+                eingabe[lastObjectName(eingabe)] = value
+                eingabeToString();
+              }
+            }
+          }
+        }
+        console.log(eingabe)
       }
 
       function verteiler(button) {
         button.toString();
-        if(["0","1","2","3","4","5","6","7","8","9","+","*","-","/","(",")",".",","].indexOf(button) != -1) {
+        if(["0","1","2","3","4","5","6","7","8","9","+","*","-","/","(",")",".",",","(-)"].indexOf(button) != -1) {
           eingabeZeichen(button);
         }
         else if(button == "back") {
@@ -287,7 +362,14 @@
         letzteString = lastObjectValue(eingabe);
         letzteString = letzteString.slice(0, -1)
         if(letzteString == "") {
-          delete eingabe[lastObjectName(eingabe)]
+          delete eingabe[lastObjectName(eingabe)];
+        } else if(lastObjectName(eingabe).substr(0, 10) == "vorzeichen") {
+          lastvalue = lastObjectValue(eingabe);
+          if(lastvalue == "(-") {
+            delete eingabe[lastObjectName(eingabe)];
+          } else {
+            eingabe[lastObjectName(eingabe)] = letzteString;
+          }
         } else {
           eingabe[lastObjectName(eingabe)] = letzteString;
         }
@@ -302,6 +384,11 @@
       function berechnen() {
         var alleZeichen = []; 
         var rechnung = [];
+        if(lastObjectName(eingabe).substr(0, 7) == "zeichen" && lastObjectValue(eingabe) != ")") {
+          console.log("test")
+          delete eingabe[lastObjectName(eingabe)];
+          eingabeToString()
+        }
         for(var i = 1; i < posInEingabe; i++) {
           if(eingabe["zeichen" + i] != undefined) {
             alleZeichen.push(eingabe["zeichen" + i])
@@ -314,11 +401,15 @@
           if(eingabe["zeichen" + i] != undefined) {
             rechnung.push(eingabe["zeichen" + i])
           }
+          if(eingabe["exponent" + i] != undefined) {
+            rechnung.push("^" + eingabe["exponent" + i])
+          }
+          if(eingabe["vorzeichen" + i] != undefined) {
+            rechnung.push(eingabe["vorzeichen" + i].substr(1, eingabe["vorzeichen" + i].length-2))
+          }
         }
-
         var letzteEingabe = "";
         for(var i = 0; i < rechnung.length; i++) {
-          console.log(rechnung[i])
           if(letzteEingabe != "" && rechnung[i] == "(") {
             if(["+","*","-","/","(",")",".",","].indexOf(letzteEingabe) == -1) {
               rechnung.splice(i, 0, "*")
@@ -343,7 +434,6 @@
           // setzt calcarea fest, welche berechnet wird, bis keine "zeichen" mehr vorhanden sind
           if(calcarea.indexOf("(") != -1) {
             klammerpos1 = numberReverse(calcareaReverse.indexOf("("), calcarea.length)
-            
             if(calcarea.indexOf(")") != -1) {
               klammerpos2 = calcarea.indexOf(")");
               if(newcalcarea.length == 0) {
@@ -351,7 +441,7 @@
                   newcalcarea.push(calcarea[klammerpos1 + i])
                 }
               }
-              if(newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1) {
+              if(newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1 && newcalcarea.indexOf("^2") == -1) {
                 calcarea.splice(klammerpos1, klammerpos2-klammerpos1+1, newcalcarea[0])
                 newcalcarea = calcarea.slice();
                 continue
@@ -362,12 +452,21 @@
             if(newcalcarea.length == 0) {
               newcalcarea = calcarea.slice();
             }
-            if(newcalcarea.length != 0 && newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1) {
+            if(newcalcarea.length != 0 && newcalcarea.indexOf("+") == -1 && newcalcarea.indexOf("-") == -1 && newcalcarea.indexOf("*") == -1 && newcalcarea.indexOf("/") == -1 && newcalcarea.indexOf("^2") == -1) {
               // Ergebnis wird ausgegeben WICHTIG!!
-              $(".rightTop span").text(newcalcarea[0]);
+              $(".rightTop span").text(Math.round(parseFloat(newcalcarea[0]) * 1000) / 1000);
               verlauf(rechnung, newcalcarea);
               break
             }
+          }
+
+          if(newcalcarea.indexOf("^2") != -1) {
+            console.log("in der Funtion")
+            zeichenpos = newcalcarea.indexOf("^2");
+            exponentergebnis = power(newcalcarea[zeichenpos-1], newcalcarea[zeichenpos].substr(1, 1));
+            newcalcarea.splice(zeichenpos-1, 2, exponentergebnis);
+            console.log(newcalcarea)
+            continue
           }
           // Mal kommt vor geteilt oder geteilt wird nicht gerechnet
           if((newcalcarea.indexOf("*") < newcalcarea.indexOf("/") && newcalcarea.indexOf("*") != -1) || (newcalcarea.indexOf("*") != -1 && newcalcarea.indexOf("/") == -1)) {
@@ -401,7 +500,9 @@
           break
         }
       }
-
+      function power(nummer, exponent) {
+        return (parseFloat(nummer) ** parseFloat(exponent)).toString()
+      }
       function mal(numberVor, numberNach) {
         return (parseFloat(numberVor) * parseFloat(numberNach)).toString()
       }
@@ -436,7 +537,7 @@
           rechnungText = rechnungText + rechnung[i];
         }
         verlaufText1.innerHTML = rechnungText;
-        verlaufText2.innerHTML = ergebnis[0];
+        verlaufText2.innerHTML = "= " + Math.round(parseFloat(ergebnis[0]) * 1000) / 1000;
 
         verlaufDiv.appendChild(verlaufText1)
         verlaufDiv.appendChild(verlaufText2)
@@ -446,9 +547,10 @@
         var eingabeText = "";
         var keys = Object.keys(eingabe)
         for(var i = 0; i < keys.length; i++) {
-          console.log(keys[i])
           if(keys[i].substr(0, 8) == "exponent") {
             eingabeText = eingabeText + "^" + eingabe[keys[i]]
+          } else if(keys[i].substr(0, 10) == "vorzeichen") {
+            eingabeText = eingabeText + eingabe[keys[i]];
           } else {
             eingabeText = eingabeText + eingabe[keys[i]]
           }
@@ -467,6 +569,57 @@
       function numberReverse(pos, length) {
         return (length-1) - pos
       }
+
+
+
+
+      //bottom Animation
+
+      var belegteBahn = [true, true, true, true, true, true];
+      const bahnen = {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+      }
+
+      function startMatheAnimation() {
+        // Zufällige frei Bahn wählen:
+        var freieBahn = [];
+        for(var i = 0; i < belegteBahnen; i++) {
+          if(belegteBahn[i] == true) {
+            freieBahn.push(i);
+          }
+        }
+        random = Math.floor(Math.random() * freieBahn.length)
+        gewählteBahn = freieBahn[random];
+        belegteBahn[gewählteBahn] = false;
+      }
+
+      function randomMatheRechnung() {
+        num1 = Math.floor(Math.random() * 1000);
+        num2 = Math.floor(Math.random() * 1000);
+        randomzeichen = Math.floor(Math.random() * 4);
+        if(randomzeichen == 0) {
+          ergebnis = parseFloat(num1) + parseFloat(num2)
+          return num1 + " + " + num2 + " = " + ergebnis
+        }
+        if(randomzeichen == 0) {
+          ergebnis = parseFloat(num1) - parseFloat(num2)
+          return num1 + " - " + num2 + " = " + ergebnis
+        }
+        if(randomzeichen == 0) {
+          ergebnis = parseFloat(num1) * parseFloat(num2)
+          return num1 + " * " + num2 + " = " + ergebnis
+        }
+        if(randomzeichen == 0) {
+          ergebnis = parseFloat(num1) / parseFloat(num2)
+          return num1 + " / " + num2 + " = " + ergebnis
+        }
+      }
+
     </script>
   </body>
 </html>
