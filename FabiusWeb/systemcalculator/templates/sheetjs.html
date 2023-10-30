@@ -18,6 +18,8 @@
     <style>
       .vorhang {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100vw;
         height: 100vh;
         background-color: black;
@@ -26,13 +28,24 @@
       .nav-ul {
         position: fixed;
         width: 14vw;
+        height: 100vh;
         background-color: #979797;
       }
       .nav-li {
         display: block;
         color: #000;
-        padding: 8px 16px;
       }
+      .nav-li button {
+        background-color: grey;
+        padding: 10px;
+        border: none;
+        width: 100%;
+        text-align: left;
+        &:hover {
+          background-color: rgb(85, 85, 85);
+        }
+      }
+      
     </style>
 </head>
 <body class="theme-dark">
@@ -68,14 +81,14 @@
       </nav>
       <nav>
         <ul class="nav-ul">
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
-            <li class="nav-li"></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><button>test</button></li>
         </ul>
       </nav>
       <main>

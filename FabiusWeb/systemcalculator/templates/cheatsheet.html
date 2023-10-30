@@ -133,16 +133,16 @@
           {top: 100+"vh"}, 
           {top: 0}
         ], {
-          duration: 400,
+          duration: 200,
           iterations: 1,
           fill: "forwards",
         }
       );
       console.log(this.innerHTML.substr(0, 3))
       if(this.innerHTML.substr(0, 3) == "CSS") {
-        setTimeout(relocateWindow, 400, "CSS");
+        setTimeout(relocateWindow, 190, "CSS");
       } else if(this.innerHTML.substr(0, 2) == "JS"){
-        setTimeout(relocateWindow, 400, "JS");
+        setTimeout(relocateWindow, 190, "JS");
       }
     })
     function relocateWindow(where) {
