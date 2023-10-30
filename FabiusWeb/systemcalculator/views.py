@@ -51,6 +51,14 @@ def cheatsheet(request):
     template = loader.get_template('cheatsheet.html')
     return HttpResponse(template.render(request=request))
 
+def sheetcss(request):
+    template = loader.get_template('sheetcss.html')
+    return HttpResponse(template.render(request=request))
+
+def sheetjs(request):
+    template = loader.get_template('sheetjs.html')
+    return HttpResponse(template.render(request=request))
+
 def settings(request):
     template = loader.get_template('settings.html')
     if request.method == "POST":

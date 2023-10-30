@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <meta name="theme-color" content="#cecece">
+    <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/vendor/plugins.js' %}"></script>
+    <script src="{% static 'js/vendor/js.cookie.js' %}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <title>Java Script</title>
+    <style>
+      .vorhang {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        z-index: 999;
+      }
+      .nav-ul {
+        position: fixed;
+        width: 14vw;
+        background-color: #979797;
+      }
+      .nav-li {
+        display: block;
+        color: #000;
+        padding: 8px 16px;
+      }
+    </style>
+</head>
+<body class="theme-dark">
+  <div class="container-page-nofooter container-page-nonavi">
+    <header class="container-titlebar" id="head">
+      <div>
+        <!-- flex wrapper -->
+        <div>
+          <div>
+            &#8203; <!-- zero-width unicode char to force rendering of the div -->
+          </div>
+          <div>
+            <i class="nf nf-mdi-arrow_left_thick"></i>
+          </div>
+        </div>
+        <div class="pad-sides margin-r-5x">
+          &#8203; <!-- zero-width unicode char to force rendering of the div -->
+        </div>
+        <div>
+          <h1>Java Script</h1>
+        </div>
+        <div>
+          <div id="pageclock"></div>
+          <img src="{% static 'img/OK_Logo_white.png' %}" class="logo">
+        </div>
+      </div>
+    </header>
+    <div class="container-content">
+      <nav class="breadcrumb">
+        <div>
+          <span><a href="http://127.0.0.1:700/">home</a><a href="http://127.0.0.1:700/cheatsheet/">cheatsheet</a><a href="http://127.0.0.1:700/cheatsheet/sheetcss/">javascript</a></span>
+        </div>
+      </nav>
+      <nav>
+        <ul class="nav-ul">
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+            <li class="nav-li"></li>
+        </ul>
+      </nav>
+      <main>
+        <div id="vorhang_container"></div>
+      </main>
+    </div>
+  </div>
+  <script>
+    $('.nf-mdi-arrow_left_thick').on('click', function() {
+      location.href = "http://127.0.0.1:700/";
+    })
+    
+
+    function seiteStarten() {
+      const black = document.createElement("div");
+      black.className = "vorhang";
+      const container = document.getElementById("vorhang_container");
+      container.appendChild(black);
+
+      black.animate(
+        [
+          {top: 0, opacity:1}, 
+          {top: 0, opacity:0}
+        ], {
+          duration: 400,
+          iterations: 1,
+          fill: "forwards",
+        }
+      );
+      setTimeout(deleteObjekt, 400, container, black);
+    }
+    seiteStarten()
+
+    function deleteObjekt(parent, child) {
+      parent.removeChild(child)
+    }
+
+  </script>
+</body>
