@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="~/" />
+    <base href="" />
     <link rel="stylesheet" href="{% static 'css/icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/flextables_uc.css' %}">
@@ -16,6 +16,73 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
     <title>Java Script</title>
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      .page-grid {
+        display: grid;
+        gap: 20px;
+        padding-left: 10px;
+        grid-template-areas: 
+        'head1        head1'
+        'subhead1_1   content1_1'
+        'subhead1_2   content1_2'
+        'subhead1_3   content1_3'
+        'subhead1_4   content1_4'
+        'subhead1_5   content1_5'
+        'subhead1_6   content1_6'
+        'subhead1_7   content1_7'
+
+        'head2        head2'
+        'subhead2_1   content2_1'
+        'subhead2_2   content2_2'
+        'subhead2_3   content2_3'
+        
+        'head3        head3'
+        'subhead3_1   content3_1'
+        'subhead3_2   content3_2'
+        'subhead3_3   content3_3'
+
+        'head4        head4'
+        'subhead4_1   content4_1'
+        'subhead4_2   content4_2'
+        'subhead4_3   content4_3';
+      }
+      .head1            {grid-area: head1;       position: relative;    width: 85vw;     height: 70px;    font-size: 45px;    text-align: center;   margin-top: 14px;}
+      .head2            {grid-area: head2;       position: relative;    width: 85vw;     height: 70px;    font-size: 45px;    text-align: center;   margin-top: 14px;}
+      .head3            {grid-area: head3;       position: relative;    width: 85vw;     height: 70px;    font-size: 45px;    text-align: center;   margin-top: 14px;}
+      .head4            {grid-area: head4;       position: relative;    width: 85vw;     height: 70px;    font-size: 45px;    text-align: center;   margin-top: 14px;}
+      
+      .subhead1_1       {grid-area: subhead1_1;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content1_1       {grid-area: content1_1;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_2       {grid-area: subhead1_2;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_2       {grid-area: content1_2;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_3       {grid-area: subhead1_3;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_3       {grid-area: content1_3;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_4       {grid-area: subhead1_4;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_4       {grid-area: content1_4;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_5       {grid-area: subhead1_5;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_5       {grid-area: content1_5;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_6       {grid-area: subhead1_6;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_6       {grid-area: content1_6;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead1_7       {grid-area: subhead1_7;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}             
+      .content1_7       {grid-area: content1_7;  position: relative;    width: 70vw;      height: auto;}          
+      
+      .subhead2_1       {grid-area: subhead2_1;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content2_1       {grid-area: content2_1;  position: relative;    width: 70vw;      height: auto;}          
+      .content2_2       {grid-area: content2_2;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}           
+      .content2_2       {grid-area: content2_2;  position: relative;    width: 70vw;      height: auto;}          
+      
+      .subhead3_1       {grid-area: subhead3_1;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content3_1       {grid-area: content3_1;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead3_2       {grid-area: subhead3_2;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content3_2       {grid-area: content3_2;  position: relative;    width: 70vw;      height: auto;}          
+      
+      .subhead4_1       {grid-area: subhead4_1;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content4_1       {grid-area: content4_1;  position: relative;    width: 70vw;      height: auto;}          
+      .subhead4_2       {grid-area: subhead4_2;  position: relative;    width: 15vw;      height: auto;   font-size: 23px;}          
+      .content4_2       {grid-area: content4_2;  position: relative;    width: 70vw;      height: auto;}          
+      
       .vorhang {
         position: absolute;
         top: 0;
@@ -30,6 +97,8 @@
         width: 14vw;
         height: 100vh;
         background-color: #979797;
+        overflow:hidden;
+        overflow-y: scroll;
       }
       .nav-li {
         display: block;
@@ -41,11 +110,65 @@
         border: none;
         width: 100%;
         text-align: left;
+        color: white;
         &:hover {
           background-color: rgb(85, 85, 85);
         }
       }
-      
+      .nav-li h3 {
+        background-color: rgb(163, 57, 57);
+        color: white;
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+      }
+      .page-content {
+        position: relative;
+        display: inline-flex;
+        left: 13vw;
+        width: 85vw;
+        height: auto;
+        overflow-x: hidden;
+      }
+      .erklärung {
+        outline: solid 1px red;
+        outline-offset: 4px;
+        width: 60%;
+      }
+      table {
+        margin-top: 30px;
+      }
+      .table-head {
+        text-align: left;
+      }
+      .table-spalten1 {
+        padding-top: 5px;
+        width: 30vw;
+      }
+      .table-spalten2 {
+        padding-top: 5px;
+      }
+      .darkblue {
+        color: rgb(149, 149, 255);
+      }
+      .lightblue {
+        color: lightblue;
+      }
+      .orange {
+        color: rgb(247, 191, 87);
+      }
+      .yellow {
+        color:rgb(250, 250, 162);
+      }
+      .lightgreen {
+        color: rgb(136, 255, 136);
+      }
+      .purple {
+        color: rgb(255, 74, 255);
+      }
+      .red {
+        color: rgb(255, 85, 85);
+      }
     </style>
 </head>
 <body class="theme-dark">
@@ -81,18 +204,219 @@
       </nav>
       <nav>
         <ul class="nav-ul">
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
-          <li class="nav-li"><button>test</button></li>
+          <li class="nav-li"><h3>Strings</h3></li>
+          <li class="nav-li"><button class="navbutton">slice()</button></li>
+          <li class="nav-li"><button class="navbutton">substring()</button></li>
+          <li class="nav-li"><button class="navbutton">substr()</button></li>
+          <li class="nav-li"><button class="navbutton">replace()</button></li>
+          <li class="nav-li"><button class="navbutton">toUpperCase()</button></li>
+          <li class="nav-li"><button class="navbutton">toLowerCase()</button></li>
+          <li class="nav-li"><button class="navbutton">concat()</button></li>
+          <li class="nav-li"><button class="navbutton">trim()</button></li>
+          <li class="nav-li"><button class="navbutton">trimStart()</button></li>
+          <li class="nav-li"><button class="navbutton">trimEnd()</button></li>
+          <li class="nav-li"><button class="navbutton">padStart()</button></li>
+          <li class="nav-li"><button class="navbutton">padEnd()</button></li>
+          <li class="nav-li"><button class="navbutton">charAt()</button></li>
+          <li class="nav-li"><button class="navbutton">charCodeAt()</button></li>
+          <li class="nav-li"><button class="navbutton">split()</button></li>
+          <li class="nav-li"><h3>Arrays</h3></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton">test</button></li>
         </ul>
       </nav>
       <main>
-        <div id="vorhang_container"></div>
+        <div class="page-content">
+          <div class="page-grid">
+            <div class="head1"><span><a href="#concat">Strings</a></span></div>
+            <div class="subhead1_1">slice(a, b)</div>
+            <div class="content1_1">
+              <p class="erklärung">Schneidet den Bereich von a nach b aus einem String heraus. Wenn nur ein Wert gegeben ist, wird der String ab dieser Position genommen.</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Postbote"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">slice</span><span class="purple">(</span><span class="lightgreen">3</span>, <span class="lightgreen">7</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"tbot"</span> | <span class="orange">"</span><span class="red">Pos</span><span class="orange">tbot</span><span class="red">e</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">slice</span><span class="purple">(</span><span class="lightgreen">2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"stbote"</span> | <span class="orange">"</span><span class="red">Po</span><span class="orange">stbote"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">slice</span><span class="purple">(</span><span class="lightgreen">-7</span>, <span class="lightgreen">-3</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"tbot"</span> | <span class="orange">"</span><span class="red">Pos</span><span class="orange">tbot</span><span class="red">e</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">slice</span><span class="purple">(</span><span class="lightgreen">-2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"stbote"</span> | <span class="orange">"</span><span class="orange">Postbo</span><span class="red">te</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">slice</span><span class="purple">(</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">""</span> | <span class="orange">"</span><span class="red">Postbote</span><span class="orange">"</span></td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_2">substring(a, b)</div>
+            <div class="content1_2">
+              <p class="erklärung">Schneidet den Bereich von Position a nach Position b aus einem String heraus. Wenn nur ein Wert gegeben ist, wird der String ab dieser Position genommen.</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Postbote"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substring</span><span class="purple">(</span><span class="lightgreen">2</span>, <span class="lightgreen">4</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"st"</span> | <span class="orange">"</span><span class="red">Po</span><span class="orange">st</span><span class="red">bote</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substring</span><span class="purple">(</span><span class="lightgreen">2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"stbote"</span> | <span class="orange">"</span><span class="red">Po</span><span class="orange">stbote"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substring</span><span class="purple">(</span><span class="lightgreen">-7</span>, <span class="lightgreen">-3</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">""</span> | <span class="orange">"</span><span class="red">Postbote</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substring</span><span class="purple">(</span><span class="lightgreen">-2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Postbote"</span> | <span class="orange">"Postbote"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substring</span><span class="purple">(</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Postbote"</span> | <span class="orange">"Postbote"</span></td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_3">substr(a, b)</div>
+            <div class="content1_3">
+              <p class="erklärung">Startet an der Position a und gibt eine Anzahl an b Zeichen wieder. Ist a negativ, zählt er von hinten aber nicht rüchwärts.</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Postbote"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substr</span><span class="purple">(</span><span class="lightgreen">2</span>, <span class="lightgreen">4</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"stbo"</span> | <span class="orange">"</span><span class="red">Po</span><span class="orange">stbo</span><span class="red">te</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substr</span><span class="purple">(</span><span class="lightgreen">2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"stbote"</span> | <span class="orange">"</span><span class="red">Po</span><span class="orange">stbote"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substr</span><span class="purple">(</span><span class="lightgreen">-5</span>, <span class="lightgreen">4</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"tbot"</span> | <span class="orange">"</span><span class="red">Pos</span><span class="orange">tbot</span><span class="red">e</span><span class="orange">"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substr</span><span class="purple">(</span><span class="lightgreen">-2</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"te"</span> | <span class="orange">"</span><span class="red">Postbo</span><span class="orange">te"</span></td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">substr</span><span class="purple">(</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Postbote"</span> | <span class="orange">"Postbote"</span></td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_4">replace(a, b)</div>
+            <div class="content1_4">
+              <p class="erklärung">String wird nach Wert a durchsucht. Der erste gefundene Wert wird duch Wert b ersetzt.</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Herr Bart hat einen Bart"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">replace</span><span class="purple">(</span><span class="orange">"Bart"</span>, <span class="orange">"Müller"</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Herr <u>Müller</u> hat einen Bart"</span> | ein Wort ausgetauscht</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">replace</span><span class="purple">(</span><span class="orange">"Wort"</span>, <span class="orange">"Müller"</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Herr Bart hat einen Bart"</span> | kein Wort ausgetauscht</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">replace</span><span class="purple">(</span><span class="red">/Bart/</span><span class="darkblue">g</span>, <span class="orange">"Müller"</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"Herr Müller hat einen Müller"</span> | jedes Wort wurde ausgetauscht</td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_5">toUpperCase()</div>
+            <div class="content1_5">
+              <p class="erklärung">Jeder Buchstabe wird zu einem Großbuchstaben</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Ich Bin Klein"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">toUpperCase</span><span class="purple">(</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"ICH BIN KLEIN"</span> | Buchstaben sind alle Großbuchstaben</td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_6">toLowerCase()</div>
+            <div class="content1_6">
+              <p class="erklärung">Jeder Buchstabe wird zu einem Kleinbuchstaben</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text</span> = <span class="orange">"Ich Bin Klein"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">toLowerCase</span><span class="purple">(</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"ich bin klein"</span> | Buchstaben sind alle Kleinbuchstaben</td>
+                </tr>
+              </table>
+            </div>
+            <div class="subhead1_7" id="concat">concat()</div>
+            <div class="content1_7">
+              <p class="erklärung">Zwei oder mehr Strings werden miteinander Verbunden. Die Strings in den Klammern werden der Reihe nach aneinander gereiht.</p>
+              <table>
+                <tr class="table-rows">
+                  <th class="table-head">Eingabe:</th>
+                  <th class="table-head">Ausgabe:</th>
+                </tr> 
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text1</span> = <span class="orange">"String1"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text2</span> = <span class="orange">"String2"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten"><span class="darkblue">var</span> <span class="lightblue">text3</span> = <span class="orange">"String3"</span>;</td>
+                </tr>
+                <tr>
+                  <td class="table-spalten1"><span class="lightblue">text</span> = <span class="lightblue">text</span>.<span class="yellow">concat</span><span class="purple">(</span><span class="lightblue">text1</span><span class="purple">)</span></td>
+                  <td class="table-spalten2"><span class="lightblue">text</span> = <span class="orange">"ich bin klein"</span> | Buchstaben sind alle Kleinbuchstaben</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="vorhang_container"><span>234</span></div>
       </main>
     </div>
   </div>
@@ -101,6 +425,14 @@
       location.href = "http://127.0.0.1:700/";
     })
     
+
+    function testing() {
+      var text = "Herr Bart hat einen Bartss";
+      text = text.toLowerCase();
+      console.log(text)
+    } 
+    testing()
+
 
     function seiteStarten() {
       const black = document.createElement("div");
