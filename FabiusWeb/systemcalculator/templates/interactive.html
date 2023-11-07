@@ -109,10 +109,10 @@
             var xyfeldgröße = JSON.parse('{{ feldgröße|escapejs }}');
             let xgröße = Number(xyfeldgröße[0]);
             let ygröße = Number(xyfeldgröße[1]);
-            if(xgröße * ygröße > 500) {
-                xgröße = 10;
-                ygröße = 10;
-            }
+            // if(xgröße * ygröße > 500) {
+            //     xgröße = 10;
+            //     ygröße = 10;
+            // }
             var Feldgröße = [xgröße,ygröße];
             var canvas = document.getElementById("canvas");
             var context = canvas.getContext("2d");
@@ -136,7 +136,7 @@
             var strichfarbe = JSON.parse('{{ strich_color|escapejs }}');
             var doAnim=true;
             var counter = 15;
-            var autoplaceing = "passive";
+            var autoplacing = "passive";
 
             $('.nf-mdi-arrow_left_thick').on('click', function() {
                 window.location.href = "http://127.0.0.1:700/settings";
@@ -156,8 +156,8 @@
 
             //automatisches Platzieren von Strichen
             function autoplace() {
-                autoplaceing = "active";
-                while(autoplaceing == "active") {
+                autoplacing = "active";
+                while(autoplacing == "active") {
                     x = Math.random()*Feldgröße[0];
                     y = Math.random()*Feldgröße[1];
                     zufallszahl = Math.random()*4;
@@ -317,7 +317,7 @@
                         kästcheninfos[i][a][2] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][0] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
-                        autoplaceing = "passive";
+                        autoplacing = "passive";
                     }
                 }
                 if(feldinfo[1] == 1) {
@@ -327,7 +327,7 @@
                         kästcheninfos[i][a][3] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][1] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
-                        autoplaceing = "passive";
+                        autoplacing = "passive";
                     }
                 }
                 if(feldinfo[2] == 1) {
@@ -337,7 +337,7 @@
                         kästcheninfos[i][a][0] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][2] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
-                        autoplaceing = "passive";
+                        autoplacing = "passive";
                     }
                 }
                 if(feldinfo[3] == 1) {
@@ -347,7 +347,7 @@
                         kästcheninfos[i][a][1] = false
                         kästcheninfos[lastiunda[0]][lastiunda[1]][3] = false
                         points(kästcheninfos[lastiunda[0]][lastiunda[1]]);
-                        autoplaceing = "passive";
+                        autoplacing = "passive";
                     }
                 }
                 nea = 1
