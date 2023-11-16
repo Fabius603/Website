@@ -19,6 +19,7 @@
       html {
         scroll-behavior: smooth;
       }
+      
       .page-grid {
         display: grid;
         gap: 20px;
@@ -205,35 +206,42 @@
       <nav>
         <ul class="nav-ul">
           <li class="nav-li"><h3>Strings</h3></li>
-          <li class="nav-li"><button class="navbutton">slice()</button></li>
-          <li class="nav-li"><button class="navbutton">substring()</button></li>
-          <li class="nav-li"><button class="navbutton">substr()</button></li>
-          <li class="nav-li"><button class="navbutton">replace()</button></li>
-          <li class="nav-li"><button class="navbutton">toUpperCase()</button></li>
-          <li class="nav-li"><button class="navbutton">toLowerCase()</button></li>
-          <li class="nav-li"><button class="navbutton">concat()</button></li>
-          <li class="nav-li"><button class="navbutton">trim()</button></li>
-          <li class="nav-li"><button class="navbutton">trimStart()</button></li>
-          <li class="nav-li"><button class="navbutton">trimEnd()</button></li>
-          <li class="nav-li"><button class="navbutton">padStart()</button></li>
-          <li class="nav-li"><button class="navbutton">padEnd()</button></li>
-          <li class="nav-li"><button class="navbutton">charAt()</button></li>
-          <li class="nav-li"><button class="navbutton">charCodeAt()</button></li>
-          <li class="nav-li"><button class="navbutton">split()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">slice()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('substring')">substring()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('substr')">substr()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('replace')">replace()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('toUpperCase')">toUpperCase()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('toLowerCase')">toLowerCase()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('concat')">concat()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('trim')">trim()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('trimStart')">trimStart()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('trimEnd')">trimEnd()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('padStart')">padStart()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('padEnd')">padEnd()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('charAT')">charAt()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('charCodeAt')">charCodeAt()</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('split')">split()</button></li>
           <li class="nav-li"><h3>Arrays</h3></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
-          <li class="nav-li"><button class="navbutton">test</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">test</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">test</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">test</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">test</button></li>
+          <li class="nav-li"><button class="navbutton" onclick="moveTo('slice')">test</button></li>
+
+
+          <li class="nav-li"><button class="navbutton">Platzhalter</button></li>
+          <li class="nav-li"><button class="navbutton">Platzhalter</button></li>
+
+
+
+
         </ul>
       </nav>
       <main>
         <div class="page-content">
           <div class="page-grid">
             <div class="head1"><span>Strings</span></div>
-            <div class="subhead1_1">slice(a, b)</div>
+            <div class="subhead1_1" id="slice">slice(a, b)</div>
             <div class="content1_1">
               <p class="erklärung">Schneidet den Bereich von a nach b aus einem String heraus. Wenn nur ein Wert gegeben ist, wird der String ab dieser Position genommen.</p>
               <table>
@@ -266,7 +274,7 @@
                 </tr>
               </table>
             </div>
-            <div class="subhead1_2">substring(a, b)</div>
+            <div class="subhead1_2" id="substring">substring(a, b)</div>
             <div class="content1_2">
               <p class="erklärung">Schneidet den Bereich von Position a nach Position b aus einem String heraus. Wenn nur ein Wert gegeben ist, wird der String ab dieser Position genommen.</p>
               <table>
@@ -299,7 +307,7 @@
                 </tr>
               </table>
             </div>
-            <div class="subhead1_3">substr(a, b)</div>
+            <div class="subhead1_3" id="substr">substr(a, b)</div>
             <div class="content1_3">
               <p class="erklärung">Startet an der Position a und gibt eine Anzahl an b Zeichen wieder. Ist a negativ, zählt er von hinten aber nicht rüchwärts.</p>
               <table>
@@ -332,7 +340,7 @@
                 </tr>
               </table>
             </div>
-            <div class="subhead1_4">replace(a, b)</div>
+            <div class="subhead1_4" id="replace">replace(a, b)</div>
             <div class="content1_4">
               <p class="erklärung">String wird nach Wert a durchsucht. Der erste gefundene Wert wird duch Wert b ersetzt.</p>
               <table>
@@ -357,7 +365,7 @@
                 </tr>
               </table>
             </div>
-            <div class="subhead1_5">toUpperCase()</div>
+            <div class="subhead1_5" id="toUpperCase">toUpperCase()</div>
             <div class="content1_5">
               <p class="erklärung">Jeder Buchstabe wird zu einem Großbuchstaben</p>
               <table>
@@ -374,7 +382,7 @@
                 </tr>
               </table>
             </div>
-            <div class="subhead1_6">toLowerCase()</div>
+            <div class="subhead1_6" id="toLowerCase">toLowerCase()</div>
             <div class="content1_6">
               <p class="erklärung">Jeder Buchstabe wird zu einem Kleinbuchstaben</p>
               <table>
@@ -433,6 +441,9 @@
     } 
     testing()
 
+    // function moveTo(id) {
+    //   window.location.href = "#"+id;
+    // }
 
     function seiteStarten() {
       const black = document.createElement("div");
