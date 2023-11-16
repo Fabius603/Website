@@ -170,9 +170,27 @@
           }
           #cheatsheet {
             position: absolute;
-            right: 0;
+            text-align: left;
+            right: -270px;
             bottom: 2%;
+            background: transparent;
+            border: solid 1px white;
+            border-left: none;
+            border-right: none;
+            transition: 300;
+            color: white;
+            width: 400px;
+            &:hover {
+              transform: scale(1.05);
+              color: white !important;
+              transition: 300;
+              right: 0;
+            }
           }
+          a:hover{
+            color: white !important;
+          }
+
 
           @keyframes ring {
             0% {
@@ -330,7 +348,7 @@
 
                 <div class="bottom">
                   <span><i>Erstellt von Fabius</i></span>
-                  <button id="cheatsheet"><a href="http://127.0.0.1:700/cheatsheet">Test</a></button>
+                  <button id="cheatsheet"><a href="http://127.0.0.1:700/cheatsheet"><span>Cheatsheet's</span></a></button>
                 </div>
                 <div id="ball-container">
                   </div>
@@ -382,7 +400,13 @@
 
       window.addEventListener('resize', function() {
         erklärungPositionieren();
+        setTimeout(erklärungPositionieren, 25);
         setTimeout(erklärungPositionieren, 50);
+        setTimeout(erklärungPositionieren, 100);
+        setTimeout(erklärungPositionieren, 200);
+        setTimeout(erklärungPositionieren, 300);
+        setTimeout(erklärungPositionieren, 400);
+        setTimeout(erklärungPositionieren, 500);
       });
 
       // Ball Movement
