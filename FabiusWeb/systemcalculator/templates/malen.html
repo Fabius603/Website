@@ -1492,7 +1492,6 @@
             }
             
             $('#strichdicke-settings').change(function() {
-                console.log($(this).val())
                 numberUnedited = $(this).val()
                 number = numberUnedited.replace(",", ".")
                 if(Number.isInteger(Number(number)) && number != '' && number != 0) {
@@ -1716,8 +1715,12 @@
                 backups.src.splice(backupPosition+1, Infinity);
                 backups.bg.splice(backupPosition+1, Infinity);
 
-                backups.src.push(canvas.toDataURL("image/png"));
-                backups.bg.push(hintergrundfarbe);
+                if(canvas.toDataURL("image/png") != undefined) {
+                    backups.src.push(canvas.toDataURL("image/png"));
+                }
+                if(hintergrundfarbe != undefined) {
+                    backups.bg.push(hintergrundfarbe);
+                }
 
                 backupPosition = backups.src.length-1;
                 return
@@ -1751,21 +1754,30 @@
             }
 
             function bildschirmFoto() {
-                canscreens.push(backups.src[backups.src.length-1])
-                hintergrundlist.push(backups.bg[backups.bg.length-1])
+                if(backups.src[backups.src.length-1] != undefined) {
+                    canscreens.push(backups.src[backups.src.length-1])
+                }
+                if(backups.bg[backups.bg.length-1] != undefined) {
+                    hintergrundlist.push(backups.bg[backups.bg.length-1])
+                }
                 screens = canscreens;
                 bgslist = hintergrundlist;
-                console.log(bgslist)
+                screensReversed = listReverse(screens)
+                bgslistReversed = listReverse(bgslist)
                 var i = 0;
                 [...document.querySelectorAll(".bilder")].forEach(function(element) {
-                    console.log(i)
-                    if(bgslist.reverse()[i] != undefined) {
-                        $(element).attr('src', screens.reverse()[i]);
-                        $(element).css({backgroundColor: bgslist.reverse()[i]})
+                    if(bgslistReversed[i] != undefined) {
+                        $(element).attr('src', screensReversed[i]);
+                        $(element).css({backgroundColor: bgslistReversed[i]})
                     }
                     
                     i++;
                 });
+            }
+
+            function listReverse(list) {
+                listReversed = list.reverse()
+                return listReversed
             }
             
             //--------------------------------------------------
